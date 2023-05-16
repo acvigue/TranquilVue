@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import table from '../plugins/table'
 import webcenter from '../plugins/webcenter'
@@ -53,6 +53,83 @@ export default defineStore('files', () => {
   const loaderActive = ref(false)
   const loaderMessage = ref('')
 
+  const getPlaylist = function (playlist_id: string): Playlist {
+    return playlists.value.find((playlist) => playlist.id === playlist_id)!
+  }
+
+  const getTrack = function (track_id: string): Track {
+    return tracks.value.find((track) => track.id === track_id)!
+  }
+
+  const downloadTrack = async function (track: Track) {
+    loaderMessage.value = `Downloading ${track.name}`
+    loaderActive.value = true
+
+    const trackData = (await webcenter.post(`/tracks/${track.track_id}/download`)).data
+
+    const formData = new FormData()
+    const trackDataBlob = new Blob([trackData], { type: 'text/plain' })
+    formData.append('file', trackDataBlob, `sd/${track.id}.thr`)
+
+    loaderMessage.value = `Sending track ${track.name}`
+
+    await table.post(`/uploadtofileman`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    tracks.value.push(track)
+    try {
+      await saveManifest()
+    } catch (e) {
+      console.error(e)
+      loaderActive.value = false
+      await table.get(`/deleteFile/sd/${track.id}.thr`)
+    }
+  }
+
+  const downloadPlaylist = async function (playlist: Playlist) {
+    loaderMessage.value = 'Fetching playlist'
+    loaderActive.value = true
+
+    const playlistData = (await webcenter.get(`playlists/${playlist.playlist_id}.json`)).data.resp
+
+    for (const item of playlistData) {
+      if (item.type == 'track') {
+        //Check if track is not already downloaded.
+        if (tracks.value.find((track) => track.id === item.id) == undefined) {
+          console.log(`${item.name} is not downloaded..`)
+          await downloadTrack(item as Track)
+        } else {
+          console.log(`${item.name} is already downloaded!`)
+        }
+      } else if (item.type == 'playlist') {
+        const playlistFileLines = item.tracks.map((a: { id: string }) => a.id + '.thr')
+        const playlistFileContent = playlistFileLines.join('\n')
+
+        const formData = new FormData()
+        const blob = new Blob([playlistFileContent], { type: 'text/plain' })
+        formData.append('file', blob, `sd/${item.id}.seq`)
+
+        await table.post('/uploadtofileman', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        playlists.value.push(item)
+        try {
+          await saveManifest()
+        } catch (e) {
+          loaderActive.value = false
+          console.error(e)
+          await table.get(`/deleteFile/sd/${item.id}.seq`)
+        }
+      }
+    }
+  }
+
   const refreshFiles = async function () {
     loaderMessage.value = 'Refreshing files'
     loaderActive.value = true
@@ -71,177 +148,35 @@ export default defineStore('files', () => {
     loaderActive.value = false
   }
 
-  const downloadTrack = async function (track: Track) {
-    loaderMessage.value = `Fetching track ${track.name}`
+  const saveManifest = async function () {
+    loaderMessage.value = 'Saving manifest'
     loaderActive.value = true
 
-    const trackData = (await webcenter.post(`/tracks/${track.track_id}/download`)).data
+    const manifest = {
+      tracks: toRaw(tracks.value),
+      playlists: toRaw(playlists.value)
+    }
+
+    const content = JSON.stringify(manifest)
 
     const formData = new FormData()
-    const trackDataBlob = new Blob([trackData], { type: 'text/plain' })
-    formData.append('file', trackDataBlob, `sd/${track.id}.thr`)
+    const manifestBlob = new Blob([content], { type: 'text/plain' })
+    formData.append('file', manifestBlob, 'sd/manifest.json')
+    await table.post('/uploadtofileman', formData)
 
-    loaderMessage.value = `Sending track ${track.name} to table`
-
-    await table.post(`/uploadtofileman`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-
-    tracks.value.push(track)
-    try {
-      await saveManifest()
-      return true
-    } catch (e) {
-      console.error(e)
-      loaderActive.value = false
-      await table.get(`/deleteFile/sd/${track.id}.thr`)
-    }
+    loaderActive.value = false
   }
 
-  return { loaderActive, loaderMessage, tracks, playlists, refreshFiles, downloadTrack }
-})
-/*
-export const useFilesStore = defineStore('files', {
-  state: () => ({
-    semaphore: false,
-    tracks: undefined,
-    playlists: undefined
-  }),
-
-  actions: {
-    async refreshFiles() {
-      Loading.show({ message: 'Refreshing files', group: 'files' })
-      const main = useMainStore()
-      this.semaphore = true
-      const response = await axios.get(`${main.tableBaseURL}/files/sd/manifest.json`)
-      this.tracks = response.data.tracks
-      this.playlists = response.data.playlists
-      this.semaphore = false
-      Loading.hide('files')
-    },
-    async addTrack(track) {
-      Loading.show({ message: `Fetching track ${track.name}`, group: 'files' })
-      this.semaphore = true
-      const main = useMainStore()
-
-      const ptData = (
-        await axios.post(
-          'https://webcenter.sisyphus-industries.com/tracks/' + track.track_id + '/download',
-          `pi_id=${main.secure.sisbotID}&mac_address=${main.secure.sisbotMAC}`,
-          { headers: { Authorization: main.secure.webcenterToken } }
-        )
-      ).data
-
-      var formData = new FormData()
-      var blob = new Blob([ptData], { type: 'text/plain' })
-      formData.append('file', blob, `sd/${track.id}.thr`)
-      Loading.show({
-        message: `Sending track ${track.name} to table`,
-        group: 'files'
-      })
-      await axios.post(`${main.tableBaseURL}/uploadtofileman`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-
-      this.tracks.push(track)
-      try {
-        await this.saveManifest()
-        return true
-      } catch (e) {
-        console.error(e)
-        this.semaphore = false
-        await axios.get(`${main.tableBaseURL}/deleteFile/sd/${track.id}.thr`)
-      }
-    },
-    async addPlaylist(playlist) {
-      const main = useMainStore()
-      this.semaphore = true
-      Loading.show({
-        message: `Fetching playlist`,
-        group: 'files'
-      })
-      const playlistData = (
-        await axios.get(
-          `https://webcenter.sisyphus-industries.com/playlists/${playlist.playlist_id}.json`,
-          { headers: { Authorization: main.secure.webcenterToken } }
-        )
-      ).data.resp
-
-      for (const item of playlistData) {
-        if (item.type == 'track') {
-          //Check if track is not already downloaded.
-          if (this.tracks.find((trackobj) => trackobj.id === item.id) == undefined) {
-            console.log(`${item.name} is not downloaded..`)
-            await this.addTrack(item)
-          } else {
-            console.log(`${item.name} is downloaded..`)
-          }
-        } else if (item.type == 'playlist') {
-          var itm = item
-          delete item.sorted_tracks
-
-          let playlistFileLines = itm.tracks.map((a) => a.id + '.thr')
-
-          let playlistFileContent = playlistFileLines.join('\n')
-
-          var formData = new FormData()
-          var blob = new Blob([playlistFileContent], { type: 'text/plain' })
-          formData.append('file', blob, `sd/${itm.id}.seq`)
-
-          await axios.post(`${main.tableBaseURL}/uploadtofileman`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-
-          this.playlists.push(itm)
-          try {
-            await this.saveManifest()
-            return true
-          } catch (e) {
-            Loading.hide('files')
-            console.error(e)
-            this.semaphore = false
-            await axios.get(`${main.tableBaseURL}/deleteFile/sd/${itm.id}.seq`)
-          }
-        }
-      }
-    },
-    async saveManifest() {
-      Loading.show({ message: 'Saving manifest', group: 'files' })
-      this.semaphore = true
-      const main = useMainStore()
-
-      const manifest = {
-        tracks: toRaw(this.tracks),
-        playlists: toRaw(this.playlists)
-      }
-
-      let content = JSON.stringify(manifest)
-
-      var formData = new FormData()
-      var blob = new Blob([content], { type: 'text/plain' })
-      formData.append('file', blob, `sd/manifest.json`)
-      await axios.post(`${main.tableBaseURL}/uploadtofileman`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-
-      this.semaphore = false
-      Loading.hide('files')
-      return true
-    },
-    getPlaylist(id) {
-      return (this.playlists ?? []).find((trackobj) => trackobj.id === id)
-    },
-    getTrack(id) {
-      return (this.tracks ?? []).find((trackobj) => trackobj.id === id)
-    }
+  return {
+    loaderActive,
+    loaderMessage,
+    tracks,
+    playlists,
+    refreshFiles,
+    downloadTrack,
+    downloadPlaylist,
+    getTrack,
+    getPlaylist,
+    saveManifest
   }
 })
-*/

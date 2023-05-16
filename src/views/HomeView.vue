@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import useTableStatus from '../stores/tableStatus'
-import useFilesStore from '../stores/files';
+import useFilesStore from '../stores/files'
 const tableStatus = useTableStatus()
-const files = useFilesStore();
+const files = useFilesStore()
 
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import { useToast } from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
 
-const toast = useToast();
-toast.info("test");
+const toast = useToast()
+toast.info('test')
 
-files.refreshFiles();
+files.refreshFiles()
 </script>
 
 <template>

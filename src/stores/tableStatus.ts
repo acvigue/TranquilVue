@@ -198,8 +198,8 @@ export default defineStore('tableStatus', () => {
 
   _sse.addEventListener('status', _parseStatusEvent)
 
-  table.get("/status").then((resp) => {
-    _updateRaw(resp.data);
+  table.get('/status').then((resp) => {
+    _updateRaw(resp.data)
   })
 
   return {

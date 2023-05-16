@@ -41,5 +41,5 @@ import { HomeIcon, AdjustmentsVerticalIcon, CloudIcon, FolderIcon } from '@heroi
 import { RouterLink } from 'vue-router'
 import useFilesStore from '../stores/files'
 
-const files = useFilesStore();
+const files = useFilesStore()
 </script>

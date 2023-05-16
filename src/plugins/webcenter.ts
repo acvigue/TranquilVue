@@ -26,9 +26,9 @@ http.interceptors.request.use(
     }
 
     // Add sisbot ID parameters to track download requests
-    if(axios.getUri(config).includes('download')) {
-      const sisbotID = window.localStorage.getItem("sis_sisbot_id") ?? ""
-      const sisbotMAC = window.localStorage.getItem("sis_sisbot_mac") ?? ""
+    if (axios.getUri(config).includes('download')) {
+      const sisbotID = window.localStorage.getItem('sis_sisbot_id') ?? ''
+      const sisbotMAC = window.localStorage.getItem('sis_sisbot_mac') ?? ''
       config.data = `pi_id=${sisbotID}&mac_address=${sisbotMAC}`
     }
 
