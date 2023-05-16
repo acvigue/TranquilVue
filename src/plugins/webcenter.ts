@@ -24,8 +24,16 @@ http.interceptors.request.use(
     if (axios.getUri(config).includes('auth_user')) {
       return config
     }
-    // Do something before request is sent
-    let token = window.localStorage.getItem('sis_wc_jwt') //do not store token on localstorage!!!
+
+    // Add sisbot ID parameters to track download requests
+    if(axios.getUri(config).includes('download')) {
+      const sisbotID = window.localStorage.getItem("sis_sisbot_id") ?? ""
+      const sisbotMAC = window.localStorage.getItem("sis_sisbot_mac") ?? ""
+      config.data = `pi_id=${sisbotID}&mac_address=${sisbotMAC}`
+    }
+
+    //Authorize all requests
+    let token = window.localStorage.getItem('sis_wc_jwt')
     if (token === null || isJWTExpired(token)) {
       const credentialsRequest = await table.get('/webCenterGet')
 
@@ -39,9 +47,8 @@ http.interceptors.request.use(
       token = returnedToken
 
       window.localStorage.setItem('sis_sisbot_id', credentialsRequest.data.webcenter.sisbot_id)
+      window.localStorage.setItem('sis_sisbot_mac', credentialsRequest.data.webcenter.sisbot_mac)
     }
-
-    console.log(token)
 
     config.headers['Authorization'] = token
     return config

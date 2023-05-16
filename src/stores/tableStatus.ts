@@ -1,16 +1,28 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import table from '../plugins/table';
+import table from '../plugins/table'
 
-export default  defineStore('tableStatus', () => {
+export default defineStore('tableStatus', () => {
   const status = computed(() => {
-    if((raw.value.pause == 0 && raw.value.Qd == 0) || (raw.value.file != "" && raw.value.Qd > 0)) {
+    if ((raw.value.pause == 0 && raw.value.Qd == 0) || (raw.value.file != '' && raw.value.Qd > 0)) {
       return 'idle'
     }
-    if(raw.value.pause == 1 && raw.value.file != "") {
+    if (raw.value.pause == 1 && raw.value.file != '') {
       return 'playing'
     }
     return 'paused'
+  })
+
+  const currentTrackID = computed(() => {
+    return (raw.value.file ?? '').replace('sd/', '').replace('/', '').replace('.thr', '')
+  })
+
+  const currentPlaylistID = computed(() => {
+    return (raw.value.playlistName ?? '').replace('sd/', '').replace('/', '').replace('.seq', '')
+  })
+
+  const isPlaylist = computed(() => {
+    return (raw.value.playlist ?? false) == true
   })
 
   const raw = ref({
@@ -40,218 +52,172 @@ export default  defineStore('tableStatus', () => {
     shuffleMode: false,
     repeatMode: false,
     lux: -1,
-    pause: 0,
-  });
+    pause: 0
+  })
 
-  return {status, raw}
-});
-
-/*
-
-  state: () => ({
-    status: '',
-    raw: {
-      Qd: 0,
-      playlist: false,
-      file: '',
-      rpm: 0,
-      playlistName: '',
-      autoDim: 0,
-      primaryRedVal: 0,
-      primaryGreenVal: 0,
-      primaryBlueVal: 0,
-      secRedVal: 0,
-      secGreenVal: 0,
-      secBlueVal: 0,
-      ledBrightness: 0,
-      ledOn: 0,
-      effectID: 0,
-      effectSpeed: 0,
-      espV: '',
-      filePos: 0,
-      fileLen: 0,
-      playlistIdx: 0,
-      XYZ: [0, 0, 0],
-      tod: '',
-      wifiIP: '',
-      shuffleMode: false,
-      repeatMode: false,
-      lux: -1
-    },
-    robotSettings: {},
-    tableBaseURL: process.env.DEV ? 'http://sandytable.local' : '',
-    secure: {
-      webcenterUsername: '',
-      webcenterPassword: '',
-      sisbotID: '',
-      sisbotMAC: '',
-      webcenterToken: ''
-    },
-    effectArray: ['Static Color', 'Rainbow', 'Motion Tracked']
-  }),
-
-  getters: {
-    isPlaylist(state) {
-      return (state.raw.playlist ?? false) == true
-    },
-    queuedMoves(state) {
-      return state.raw.Qd ?? 0
-    },
-    trackID(state) {
-      return (state.raw.file ?? '').replace('sd/', '').replaceAll('/', '').replace('.thr', '')
-    },
-    playlistID(state) {
-      return (state.raw.playlistName ?? '')
-        .replace('sd/', '')
-        .replaceAll('/', '')
-        .replace('.seq', '')
-    }
-  },
-
-  actions: {
-    pause() {
-      axios.get(`${this.tableBaseURL}/exec/pause`)
-    },
-    resume() {
-      axios.get(`${this.tableBaseURL}/exec/resume`)
-    },
-    play(file) {
-      axios.get(`${this.tableBaseURL}/playFile/${file}`)
-    },
-    stop() {
-      axios.get(`${this.tableBaseURL}/exec/stop`)
-    },
-    reset() {
-      axios.get(`${this.tableBaseURL}/reset`)
-    },
-    exec(cmd) {
-      axios.get(`${this.tableBaseURL}/exec/${cmd}`)
-    },
-    delete(file) {
-      axios.get(`${this.tableBaseURL}/deleteFile/${file}`)
-    },
-    setNewStatus(newStatus) {
-      this.raw = newStatus
-
-      if (newStatus.pause == 0 && newStatus.file != '' && newStatus.Qd != 0) {
-        this.status = 'playing'
-      } else if (newStatus.pause == 1 && newStatus.file != '') {
-        this.status = 'paused'
-      } else {
-        this.status = 'idle'
-      }
-    },
-
-    async setBrightness(number) {
-      if (this.raw.ledBrightness != number) {
-        this.raw.ledBrightness = number
-        await this._updateLedConfig()
-      }
-    },
-
-    async setLedOn(enabled) {
-      let int = enabled == true ? 1 : 0
-      if (this.raw.ledOn != int) {
-        this.raw.ledOn = int
-        await this._updateLedConfig()
-      }
-    },
-
-    async setAutoDim(enabled) {
-      if (this.raw.autoDim != enabled) {
-        this.raw.autoDim = enabled
-        await this._updateLedConfig()
-      }
-    },
-
-    async setPrimaryColor(red, green, blue) {
-      if (
-        this.raw.primaryRedVal != red ||
-        this.raw.primaryGreenVal != green ||
-        this.raw.primaryBlueVal != blue
-      ) {
-        this.raw.primaryRedVal = red
-        this.raw.primaryGreenVal = green
-        this.raw.primaryBlueVal = blue
-        await this._updateLedConfig()
-      }
-    },
-
-    async setSecondaryColor(red, green, blue) {
-      if (
-        this.raw.secRedVal != red ||
-        this.raw.secGreenVal != green ||
-        this.raw.secBlueVal != blue
-      ) {
-        this.raw.secRedVal = red
-        this.raw.secGreenVal = green
-        this.raw.secBlueVal = blue
-        await this._updateLedConfig()
-      }
-    },
-
-    async setEffect(id) {
-      if (this.raw.effectID != id) {
-        this.raw.effectID = id
-        await this._updateLedConfig()
-      }
-    },
-
-    async setSpeed(number) {
-      if (this.raw.effectSpeed != number) {
-        this.raw.effectSpeed = number
-        await this._updateLedConfig()
-      }
-    },
-
-    fetchInitialStatus() {
-      axios.get(this.tableBaseURL + '/status').then((resp) => {
-        this.setNewStatus(resp.data)
-      })
-      axios.get(this.tableBaseURL + '/getsettings').then((resp) => {
-        this.robotSettings = resp.data
-      })
-    },
-
-    async loginToWebCenter() {
-      const wc = await axios.get(`${this.tableBaseURL}/webCenterGet`)
-      this.secure.webcenterUsername = wc.data.webcenter.email
-      this.secure.webcenterPassword = wc.data.webcenter.password
-      this.secure.sisbotID = wc.data.webcenter.sisbot_id
-      this.secure.sisbotMAC = wc.data.webcenter.sisbot_mac
-
-      const request = await axios.post('https://webcenter.sisyphus-industries.com/auth_user', {
-        email: this.secure.webcenterUsername,
-        password: this.secure.webcenterPassword
-      })
-
-      this.secure.webcenterToken = request.data.resp[0].auth_token
-
-      return true
-    },
-
-    async _updateLedConfig() {
-      const config = {
-        ledOn: this.raw.ledOn,
-        ledBrightness: this.raw.ledBrightness,
-        primaryRedVal: this.raw.primaryRedVal,
-        primaryGreenVal: this.raw.primaryGreenVal,
-        primaryBlueVal: this.raw.primaryBlueVal,
-        secRedVal: this.raw.secRedVal,
-        secGreenVal: this.raw.secGreenVal,
-        secBlueVal: this.raw.secBlueVal,
-        effectID: this.raw.effectID,
-        effectSpeed: this.raw.effectSpeed,
-        autoDim: this.raw.autoDim
-      }
-
-      await axios.post(`${this.tableBaseURL}/setled`, JSON.stringify(config), {
-        headers: {
-          'Content-Type': 'text/plain'
-        }
-      })
+  const setPausedState = async function (pausedState: boolean) {
+    if (pausedState == true) {
+      await table.get(`/exec/pause`)
+    } else {
+      await table.get(`/exec/resume`)
     }
   }
-})
 
-*/
+  const stopMotion = async function () {
+    await table.get(`/exec/stop`)
+  }
+
+  const resetTable = async function () {
+    await table.get(`/reset`)
+  }
+
+  const executeCommand = async function (command: string) {
+    await table.get(`/exec/${command}`)
+  }
+
+  const setLightBrightness = async function (newBrightness: number) {
+    if (raw.value.ledBrightness != newBrightness) {
+      raw.value.ledBrightness = newBrightness
+      await _updateLedConfig()
+    }
+  }
+
+  const setLightEnabled = async function (enabled: boolean) {
+    const int = enabled == true ? 1 : 0
+    if (raw.value.ledOn != int) {
+      raw.value.ledOn = int
+      await _updateLedConfig()
+    }
+  }
+
+  const setLightAutoDim = async function (autoDimEnabled: boolean) {
+    const int = autoDimEnabled == true ? 1 : 0
+    if (raw.value.autoDim != int) {
+      raw.value.autoDim = int
+      await _updateLedConfig()
+    }
+  }
+
+  const setLightPrimaryColor = async function (red: number, green: number, blue: number) {
+    if (
+      raw.value.primaryRedVal != red ||
+      raw.value.primaryGreenVal != green ||
+      raw.value.primaryBlueVal != blue
+    ) {
+      raw.value.primaryRedVal = red
+      raw.value.primaryGreenVal = green
+      raw.value.primaryBlueVal = blue
+      await _updateLedConfig()
+    }
+  }
+
+  const setLightSecondaryColor = async function (red: number, green: number, blue: number) {
+    if (
+      raw.value.secRedVal != red ||
+      raw.value.secGreenVal != green ||
+      raw.value.secBlueVal != blue
+    ) {
+      raw.value.secRedVal = red
+      raw.value.secGreenVal = green
+      raw.value.secBlueVal = blue
+      await _updateLedConfig()
+    }
+  }
+
+  const setLightEffect = async function (newEffectID: number) {
+    if (raw.value.effectID != newEffectID) {
+      raw.value.effectID = newEffectID
+      await _updateLedConfig()
+    }
+  }
+
+  const setLightSpeed = async function (newSpeed: number) {
+    if (raw.value.effectSpeed != newSpeed) {
+      raw.value.effectSpeed = newSpeed
+      await _updateLedConfig()
+    }
+  }
+
+  const _updateLedConfig = async function () {
+    const config = {
+      ledOn: raw.value.ledOn,
+      ledBrightness: raw.value.ledBrightness,
+      primaryRedVal: raw.value.primaryRedVal,
+      primaryGreenVal: raw.value.primaryGreenVal,
+      primaryBlueVal: raw.value.primaryBlueVal,
+      secRedVal: raw.value.secRedVal,
+      secGreenVal: raw.value.secGreenVal,
+      secBlueVal: raw.value.secBlueVal,
+      effectID: raw.value.effectID,
+      effectSpeed: raw.value.effectSpeed,
+      autoDim: raw.value.autoDim
+    }
+
+    await table.post('/setled', JSON.stringify(config))
+  }
+
+  const _updateRaw = function (data: any) {
+    raw.value.Qd = data.Qd ?? 0
+    raw.value.playlist = data.playlist ?? false
+    raw.value.file = data.file ?? ''
+    raw.value.rpm = data.rpm ?? 0
+    raw.value.playlistName = data.playlistName ?? ''
+    raw.value.autoDim = data.autoDim ?? 0
+    raw.value.primaryRedVal = data.primaryRedVal ?? 0
+    raw.value.primaryGreenVal = data.primaryGreenVal ?? 0
+    raw.value.primaryBlueVal = data.primaryBlueVal ?? 0
+    raw.value.secRedVal = data.secRedVal ?? 0
+    raw.value.secGreenVal = data.secGreenVal ?? 0
+    raw.value.secBlueVal = data.secBlueVal ?? 0
+    raw.value.ledBrightness = data.ledBrightness ?? 0
+    raw.value.ledOn = data.ledOn ?? 0
+    raw.value.effectID = data.effectID ?? 0
+    raw.value.effectSpeed = data.effectSpeed ?? 0
+    raw.value.espV = data.espV ?? ''
+    raw.value.filePos = data.filePos ?? 0
+    raw.value.fileLen = data.fileLen ?? 0
+    raw.value.playlistIdx = data.playlistIdx ?? 0
+    raw.value.XYZ = data.XYZ ?? [0, 0, 0]
+    raw.value.tod = data.tod ?? ''
+    raw.value.wifiIP = data.wifiIP ?? ''
+    raw.value.shuffleMode = data.shuffleMode ?? false
+    raw.value.repeatMode = data.repeatMode ?? false
+    raw.value.lux = data.lux ?? -1
+    raw.value.pause = data.pause ?? 0
+  }
+
+  const _sse = new EventSource(import.meta.env.PROD ? '/events' : 'http://sandytable.local/events')
+
+  const _parseStatusEvent = (evt: Event) => {
+    const messageEvent = evt as MessageEvent
+    const data: any = JSON.parse(messageEvent.data)
+    console.log(data)
+
+    _updateRaw(data)
+  }
+
+  _sse.addEventListener('status', _parseStatusEvent)
+
+  table.get("/status").then((resp) => {
+    _updateRaw(resp.data);
+  })
+
+  return {
+    status,
+    raw,
+    currentTrackID,
+    currentPlaylistID,
+    isPlaylist,
+    setPausedState,
+    stopMotion,
+    resetTable,
+    executeCommand,
+    setLightBrightness,
+    setLightAutoDim,
+    setLightEffect,
+    setLightEnabled,
+    setLightPrimaryColor,
+    setLightSecondaryColor,
+    setLightSpeed
+  }
+})
