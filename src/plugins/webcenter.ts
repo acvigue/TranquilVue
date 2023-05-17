@@ -28,19 +28,24 @@ http.interceptors.request.use(
     //Authorize all requests
     let token = window.localStorage.getItem('sis_wc_jwt')
     if (token === null || isJWTExpired(token)) {
-      const credentialsRequest = await table.get('/webCenterGet')
+      try {
+        const credentialsRequest = await table.get('/webCenterGet')
+        
+        const authRequest = await http.post('/auth_user', {
+          email: credentialsRequest.data.webcenter.email,
+          password: credentialsRequest.data.webcenter.password
+        })
 
-      const authRequest = await http.post('/auth_user', {
-        email: credentialsRequest.data.webcenter.email,
-        password: credentialsRequest.data.webcenter.password
-      })
+        const returnedToken: string = authRequest.data.resp[0].auth_token
+        window.localStorage.setItem('sis_wc_jwt', returnedToken)
 
-      const returnedToken: string = authRequest.data.resp[0].auth_token
-      window.localStorage.setItem('sis_wc_jwt', returnedToken)
-
-      window.localStorage.setItem('sis_sisbot_id', credentialsRequest.data.webcenter.sisbot_id)
-      window.localStorage.setItem('sis_sisbot_mac', credentialsRequest.data.webcenter.sisbot_mac)
-      token = returnedToken
+        window.localStorage.setItem('sis_sisbot_id', credentialsRequest.data.webcenter.sisbot_id)
+        window.localStorage.setItem('sis_sisbot_mac', credentialsRequest.data.webcenter.sisbot_mac)
+        token = returnedToken
+      } catch(e) {
+        console.log("Couldn't authenticate to webcenter!");
+        token = ''
+      }
     }
 
     config.headers['Authorization'] = token

@@ -13,8 +13,8 @@ export default defineStore('tableStatus', () => {
     return 'paused'
   })
 
-  const loaderActive = ref(false);
-  const loaderMessage = ref("");
+  const loaderActive = ref(false)
+  const loaderMessage = ref('')
 
   const currentTrackID = computed(() => {
     return (raw.value.file ?? '').replace('sd/', '').replace('/', '').replace('.thr', '')
@@ -36,14 +36,15 @@ export default defineStore('tableStatus', () => {
   })
 
   const gradientColorStopsProgress = computed(() => {
-    const progressDeg = parseFloat(((raw.value.filePos / raw.value.fileLen) * 360).toFixed(2));
+    const progressDeg = parseFloat(((raw.value.filePos / raw.value.fileLen) * 360).toFixed(2))
 
     const primaryColor = `rgb(${raw.value.primaryRedVal},${raw.value.primaryGreenVal},${raw.value.primaryBlueVal})`
     const secondaryColor = `rgb(${raw.value.secRedVal},${raw.value.secGreenVal},${raw.value.secBlueVal})`
 
-    return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${progressDeg}deg, rgb(31,41,55) ${progressDeg + 0.001}deg);`
+    return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${progressDeg}deg, rgb(31,41,55) ${
+      progressDeg + 0.001
+    }deg);`
   })
-
 
   const raw = ref({
     Qd: 0,
@@ -80,13 +81,13 @@ export default defineStore('tableStatus', () => {
   }
 
   const playFile = async function (fileName: string) {
-    loaderActive.value = true;
-    await table.get(`/playFile/${fileName}`);
-    loaderActive.value = false;
+    loaderActive.value = true
+    await table.get(`/playFile/${fileName}`)
+    loaderActive.value = false
   }
 
   const stopMotion = async function () {
-    executeCommand('stop');
+    executeCommand('stop')
   }
 
   const resetTable = async function () {
@@ -106,9 +107,9 @@ export default defineStore('tableStatus', () => {
   }
 
   const executeCommand = async function (command: string) {
-    loaderActive.value = true;
+    loaderActive.value = true
     await table.get(`/exec/${command}`)
-    loaderActive.value = false;
+    loaderActive.value = false
   }
 
   const setLightBrightness = async function (newBrightness: number) {
@@ -175,7 +176,7 @@ export default defineStore('tableStatus', () => {
   }
 
   const _updateLedConfig = async function () {
-    loaderActive.value = true;
+    loaderActive.value = true
     const config = {
       ledOn: raw.value.ledOn,
       ledBrightness: raw.value.ledBrightness,
@@ -191,7 +192,7 @@ export default defineStore('tableStatus', () => {
     }
 
     await table.post('/setled', JSON.stringify(config))
-    loaderActive.value = false;
+    loaderActive.value = false
   }
 
   const _updateRaw = function (data: any) {

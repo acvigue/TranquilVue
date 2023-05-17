@@ -17,7 +17,7 @@
         <FolderIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
       </router-link>
       <router-link
-        to="/community"
+        to="/"
         :class="{ 'pointer-events-none': files.tracks.length == 0 }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
@@ -25,7 +25,7 @@
         <CloudIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
       </router-link>
       <router-link
-        to="/settings"
+        to="/"
         :class="{ 'pointer-events-none': files.tracks.length == 0 }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"

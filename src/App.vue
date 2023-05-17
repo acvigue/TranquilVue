@@ -8,16 +8,24 @@ import useTableStatusStore from './stores/tableStatus'
 const files = useFilesStore()
 const tableStatus = useTableStatusStore()
 
-files.refreshFiles();
+files.refreshFiles()
 
 import FullScreenLoader from './components/FullScreenLoader.vue'
 </script>
 
 <template>
-  <RouterView class="h-screen pb-14" />
+  <RouterView v-slot="{ Component, route }" class="h-screen pb-14">
+    <Transition name="fade" mode="out-in">
+      <component :is="Component" :key="route.path" />
+    </Transition>
+  </RouterView>
+
   <AppFooter />
 
   <!-- Loader messages -->
   <FullScreenLoader :active="files.loaderActive" :message="files.loaderMessage"></FullScreenLoader>
-  <FullScreenLoader :active="tableStatus.loaderActive" :message="tableStatus.loaderMessage"></FullScreenLoader>
+  <FullScreenLoader
+    :active="tableStatus.loaderActive"
+    :message="tableStatus.loaderMessage"
+  ></FullScreenLoader>
 </template>
