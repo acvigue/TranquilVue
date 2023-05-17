@@ -29,7 +29,7 @@ http.interceptors.request.use(
     let token = window.localStorage.getItem('sis_wc_jwt')
     if (token === null || isJWTExpired(token)) {
       try {
-        const credentialsRequest = await table.get('/webCenterGet')
+        const credentialsRequest = await table.get('/settings/webcenter')
 
         const authRequest = await http.post('/auth_user', {
           email: credentialsRequest.data.webcenter.email,

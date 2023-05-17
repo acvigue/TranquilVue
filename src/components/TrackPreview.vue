@@ -36,16 +36,20 @@ onMounted(async () => {
 const toast = useToast()
 
 async function getTrackData() {
+  /*
   const trackDataResponse = await webcenter
     .get(`/tracks/${props.track.track_id}/download`)
     .catch((e) => {
       toast.error('Track preview generation failed :(')
       return { data: '' }
     })
+  */
+
+  const trackDataResponse = { data: `# reduced track\n0 0\n471.2227 1` }
 
   const trackDataRaw = trackDataResponse.data
   const uninterpData: [number, number][] = []
-  for (const track of trackDataRaw.split('\n') as string) {
+  for (const track of (trackDataRaw as string).split('\n')) {
     if (track.charAt(0) === '#') {
       continue
     }

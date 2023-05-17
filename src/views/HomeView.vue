@@ -169,7 +169,7 @@ const upNextTracks = computed(() => {
     files
       .getPlaylist(tableStatus.currentPlaylistID)
       ?.db_tracks?.slice(tableStatus.raw.playlistIdx)
-      .map((v, i) => {
+      .map((v) => {
         return files.getTrackByDBID(v)
       }) ?? []
   )
