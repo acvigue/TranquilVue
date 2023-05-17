@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 import table from '../plugins/table'
 import webcenter from '../plugins/webcenter'
 
-interface Track {
-  id: string
-  track_id: string
+export interface Track {
+  id: string //uuid
+  track_id: string //db id
   type: string
   name: string
   original_file_type: string
@@ -29,7 +29,7 @@ interface Track {
   is_approved: boolean
 }
 
-interface Playlist {
+export interface Playlist {
   id: string
   playlist_id: string
   type: string
@@ -53,12 +53,16 @@ export default defineStore('files', () => {
   const loaderActive = ref(false)
   const loaderMessage = ref('')
 
-  const getPlaylist = function (playlist_id: string): Playlist {
-    return playlists.value.find((playlist) => playlist.id === playlist_id)!
+  const getPlaylist = function (playlist_uuid: string): Playlist {
+    return playlists.value.find((playlist) => playlist.id === playlist_uuid)!
   }
 
-  const getTrack = function (track_id: string): Track {
-    return tracks.value.find((track) => track.id === track_id)!
+  const getTrack = function (track_uuid: string): Track {
+    return tracks.value.find((track) => track.id === track_uuid)!
+  }
+
+  const getTrackByDBID = function (track_dbid: string): Track {
+    return tracks.value.find((track) => track.track_id === track_dbid)!
   }
 
   const downloadTrack = async function (track: Track) {
@@ -176,6 +180,7 @@ export default defineStore('files', () => {
     downloadTrack,
     downloadPlaylist,
     getTrack,
+    getTrackByDBID,
     getPlaylist,
     saveManifest
   }

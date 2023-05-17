@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="active"
-    class="absolute w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 z-50 flex flex-col justify-center items-center"
+    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 z-50 flex flex-col justify-center items-center overflow-hidden"
   >
     <svg
       aria-hidden="true"

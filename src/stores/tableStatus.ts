@@ -4,14 +4,17 @@ import table from '../plugins/table'
 
 export default defineStore('tableStatus', () => {
   const status = computed(() => {
-    if ((raw.value.pause == 0 && raw.value.Qd == 0) || (raw.value.file != '' && raw.value.Qd > 0)) {
-      return 'idle'
-    }
-    if (raw.value.pause == 1 && raw.value.file != '') {
+    if (raw.value.pause == 0 && raw.value.file != '') {
       return 'playing'
+    }
+    if ((raw.value.pause == 0 && raw.value.Qd == 0) || (raw.value.file != '' && raw.value.Qd < 3)) {
+      return 'idle'
     }
     return 'paused'
   })
+
+  const loaderActive = ref(false);
+  const loaderMessage = ref("");
 
   const currentTrackID = computed(() => {
     return (raw.value.file ?? '').replace('sd/', '').replace('/', '').replace('.thr', '')
@@ -24,6 +27,23 @@ export default defineStore('tableStatus', () => {
   const isPlaylist = computed(() => {
     return (raw.value.playlist ?? false) == true
   })
+
+  const gradientColorStops = computed(() => {
+    const primaryColor = `rgb(${raw.value.primaryRedVal},${raw.value.primaryGreenVal},${raw.value.primaryBlueVal})`
+    const secondaryColor = `rgb(${raw.value.secRedVal},${raw.value.secGreenVal},${raw.value.secBlueVal})`
+
+    return `background: conic-gradient(${primaryColor}, ${secondaryColor}, ${primaryColor});`
+  })
+
+  const gradientColorStopsProgress = computed(() => {
+    const progressDeg = parseFloat(((raw.value.filePos / raw.value.fileLen) * 360).toFixed(2));
+
+    const primaryColor = `rgb(${raw.value.primaryRedVal},${raw.value.primaryGreenVal},${raw.value.primaryBlueVal})`
+    const secondaryColor = `rgb(${raw.value.secRedVal},${raw.value.secGreenVal},${raw.value.secBlueVal})`
+
+    return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${progressDeg}deg, rgb(31,41,55) ${progressDeg + 0.001}deg);`
+  })
+
 
   const raw = ref({
     Qd: 0,
@@ -56,23 +76,39 @@ export default defineStore('tableStatus', () => {
   })
 
   const setPausedState = async function (pausedState: boolean) {
-    if (pausedState == true) {
-      await table.get(`/exec/pause`)
-    } else {
-      await table.get(`/exec/resume`)
-    }
+    executeCommand(pausedState ? 'pause' : 'resume')
+  }
+
+  const playFile = async function (fileName: string) {
+    loaderActive.value = true;
+    await table.get(`/playFile/${fileName}`);
+    loaderActive.value = false;
   }
 
   const stopMotion = async function () {
-    await table.get(`/exec/stop`)
+    executeCommand('stop');
   }
 
   const resetTable = async function () {
     await table.get(`/reset`)
   }
 
+  const skipTrack = async function (dir: number) {
+    executeCommand(`seq_${dir > 0 ? 'next' : 'prev'}`)
+  }
+
+  const setShuffle = async function (state: boolean) {
+    executeCommand(`seq_shuffle_${state ? 'on' : 'off'}`)
+  }
+
+  const setRepeat = async function (state: boolean) {
+    executeCommand(`seq_repeat_${state ? 'on' : 'off'}`)
+  }
+
   const executeCommand = async function (command: string) {
+    loaderActive.value = true;
     await table.get(`/exec/${command}`)
+    loaderActive.value = false;
   }
 
   const setLightBrightness = async function (newBrightness: number) {
@@ -139,6 +175,7 @@ export default defineStore('tableStatus', () => {
   }
 
   const _updateLedConfig = async function () {
+    loaderActive.value = true;
     const config = {
       ledOn: raw.value.ledOn,
       ledBrightness: raw.value.ledBrightness,
@@ -154,6 +191,7 @@ export default defineStore('tableStatus', () => {
     }
 
     await table.post('/setled', JSON.stringify(config))
+    loaderActive.value = false;
   }
 
   const _updateRaw = function (data: any) {
@@ -191,7 +229,6 @@ export default defineStore('tableStatus', () => {
   const _parseStatusEvent = (evt: Event) => {
     const messageEvent = evt as MessageEvent
     const data: any = JSON.parse(messageEvent.data)
-    console.log(data)
 
     _updateRaw(data)
   }
@@ -218,6 +255,14 @@ export default defineStore('tableStatus', () => {
     setLightEnabled,
     setLightPrimaryColor,
     setLightSecondaryColor,
-    setLightSpeed
+    setLightSpeed,
+    gradientColorStops,
+    gradientColorStopsProgress,
+    playFile,
+    loaderActive,
+    loaderMessage,
+    skipTrack,
+    setShuffle,
+    setRepeat
   }
 })

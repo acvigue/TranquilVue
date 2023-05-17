@@ -25,13 +25,6 @@ http.interceptors.request.use(
       return config
     }
 
-    // Add sisbot ID parameters to track download requests
-    if (axios.getUri(config).includes('download')) {
-      const sisbotID = window.localStorage.getItem('sis_sisbot_id') ?? ''
-      const sisbotMAC = window.localStorage.getItem('sis_sisbot_mac') ?? ''
-      config.data = `pi_id=${sisbotID}&mac_address=${sisbotMAC}`
-    }
-
     //Authorize all requests
     let token = window.localStorage.getItem('sis_wc_jwt')
     if (token === null || isJWTExpired(token)) {
@@ -44,13 +37,22 @@ http.interceptors.request.use(
 
       const returnedToken: string = authRequest.data.resp[0].auth_token
       window.localStorage.setItem('sis_wc_jwt', returnedToken)
-      token = returnedToken
 
       window.localStorage.setItem('sis_sisbot_id', credentialsRequest.data.webcenter.sisbot_id)
       window.localStorage.setItem('sis_sisbot_mac', credentialsRequest.data.webcenter.sisbot_mac)
+      token = returnedToken
     }
 
     config.headers['Authorization'] = token
+
+    // Add sisbot ID parameters to track download requests
+    if (axios.getUri(config).includes('download')) {
+      const sisbotID = window.localStorage.getItem('sis_sisbot_id') ?? ''
+      let sisbotMAC = window.localStorage.getItem('sis_sisbot_mac') ?? ''
+      sisbotMAC = sisbotMAC.match(/.{2}/g)?.join(':') ?? ''
+      config.url += `?pi_id=${sisbotID}&mac_address=${sisbotMAC}&class=wcdownload`
+    }
+
     return config
   },
   function (error) {
