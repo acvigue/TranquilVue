@@ -8,15 +8,15 @@
         <div
           v-for="track of files.tracks"
           :key="track.id"
-          class="flex flex-col items-center p-4 rounded bg-gray-700 max-w-44 gap-4"
+          class="flex flex-col items-center p-4 rounded-xl bg-gray-700 max-w-44 gap-4 hover:scale-105 hover:bg-gray-600 transition transform-gpu duration-300"
         >
           <TrackPreview
             :track="track"
-            class="h-[33vw] w-[33vw] rounded-full border-gray-600 border-[3px]"
+            class="h-44 w-44 rounded-full border-gray-600 border-[3px]"
             lineColor="#ffffff"
             :showBall="false"
           />
-          <span class="w-full text-left pl-2 line-clamp-1 text-ellipsis overflow-hidden">
+          <span class="w-full text-center text-md font-medium pl-2 line-clamp-1 text-ellipsis overflow-hidden">
             {{ track.name }}</span
           >
         </div>
