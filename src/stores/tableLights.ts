@@ -84,7 +84,7 @@ export default defineStore('tableLights', () => {
       autoDim: autoDimEnabled.value ? 1 : 0
     }
 
-    await table.post('/ledset', JSON.stringify(config))
+    await table.post('/settings/led', JSON.stringify(config))
     loaderActive.value = false
   }
 
@@ -98,7 +98,7 @@ export default defineStore('tableLights', () => {
     autoDimEnabled.value = data.autoDim == 1
   }
 
-  table.get('/ledget').then((resp) => {
+  table.get('/settings/led').then((resp) => {
     _update(resp.data)
   })
 

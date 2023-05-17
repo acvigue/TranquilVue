@@ -71,17 +71,9 @@ export default defineStore('files', () => {
 
     const trackData = (await webcenter.post(`/tracks/${track.track_id}/download`)).data
 
-    const formData = new FormData()
-    const trackDataBlob = new Blob([trackData], { type: 'text/plain' })
-    formData.append('file', trackDataBlob, `sd/${track.id}.thr`)
-
     loaderMessage.value = `Sending track ${track.name}`
 
-    await table.post(`/uploadtofileman`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    await _uploadFile(`${track.id}.thr`, trackData)
 
     tracks.value.push(track)
     try {
@@ -89,7 +81,7 @@ export default defineStore('files', () => {
     } catch (e) {
       console.error(e)
       loaderActive.value = false
-      await table.get(`/deleteFile/sd/${track.id}.thr`)
+      await table.get(`/fs/delete/sd/${track.id}.thr`)
     }
   }
 
@@ -112,15 +104,7 @@ export default defineStore('files', () => {
         const playlistFileLines = item.tracks.map((a: { id: string }) => a.id + '.thr')
         const playlistFileContent = playlistFileLines.join('\n')
 
-        const formData = new FormData()
-        const blob = new Blob([playlistFileContent], { type: 'text/plain' })
-        formData.append('file', blob, `sd/${item.id}.seq`)
-
-        await table.post('/uploadtofileman', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+        await _uploadFile(`${item.id}.seq`, playlistFileContent)
 
         playlists.value.push(item)
         try {
@@ -132,6 +116,13 @@ export default defineStore('files', () => {
         }
       }
     }
+  }
+
+  const _uploadFile = async function (fileName: string, content: any) {
+    const formData = new FormData()
+    const manifestBlob = new Blob([content], { type: 'text/plain' })
+    formData.append('file', manifestBlob, `sd/${fileName}`)
+    await table.post('/fs/upload', formData)
   }
 
   const refreshFiles = async function () {
@@ -163,10 +154,7 @@ export default defineStore('files', () => {
 
     const content = JSON.stringify(manifest)
 
-    const formData = new FormData()
-    const manifestBlob = new Blob([content], { type: 'text/plain' })
-    formData.append('file', manifestBlob, 'sd/manifest.json')
-    await table.post('/uploadtofileman', formData)
+    await _uploadFile('manifest.json', content)
 
     loaderActive.value = false
   }

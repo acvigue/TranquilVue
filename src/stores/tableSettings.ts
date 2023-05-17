@@ -9,7 +9,7 @@ export default defineStore('tableSettings', () => {
   const tableRadius = ref(0)
 
   const getTableSettings = async function () {
-    const resp = await table.get('/getsettings')
+    const resp = await table.get('/settings/robot')
     tableScheduler.value = resp.data.cmdSched
     tableConfig.value = resp.data.robotConfig
     tableName.value = resp.data.name
