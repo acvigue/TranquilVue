@@ -45,7 +45,7 @@ export default defineStore('tableLights', () => {
   }
 
   const setPrimaryColor = async function (color: [number, number, number]) {
-    if (JSON.stringify(color) != JSON.stringify(primaryColor.value)) {
+    if (primaryColor.value[0] != color[0] || primaryColor.value[1] != color[1] || primaryColor.value[2] != color[2]) {
       primaryColor.value[0] = color[0]
       primaryColor.value[1] = color[1]
       primaryColor.value[2] = color[2]
@@ -54,10 +54,10 @@ export default defineStore('tableLights', () => {
   }
 
   const setSecondaryColor = async function (color: [number, number, number]) {
-    if (JSON.stringify(color) != JSON.stringify(primaryColor.value)) {
-      primaryColor.value[0] = color[0]
-      primaryColor.value[1] = color[1]
-      primaryColor.value[2] = color[2]
+    if (secondaryColor.value[0] != color[0] || secondaryColor.value[1] != color[1] || secondaryColor.value[2] != color[2]) {
+      secondaryColor.value[0] = color[0]
+      secondaryColor.value[1] = color[1]
+      secondaryColor.value[2] = color[2]
       await _updateLedConfig()
     }
   }
