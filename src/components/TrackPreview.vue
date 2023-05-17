@@ -11,7 +11,7 @@
 import { ref, type Ref, onMounted, watch } from 'vue'
 import { type Track } from '../stores/files'
 import webcenter from '../plugins/webcenter'
-import * as d3 from 'd3';
+import * as d3 from 'd3'
 
 interface TrackPreviewProps {
   lineColor: string
@@ -35,6 +35,7 @@ onMounted(async () => {
 async function getTrackData() {
   const trackDataResponse = await webcenter.get(`/tracks/${props.track.track_id}/download`)
   const trackDataRaw = trackDataResponse.data
+  const uninterpData: [number, number][] = []
   for (const track of trackDataRaw.split('\n') as string) {
     if (track.charAt(0) === '#') {
       continue
@@ -42,12 +43,30 @@ async function getTrackData() {
     const trackVerts = track.split(' ')
     const theta = parseFloat(trackVerts[0])
     const rho = parseFloat(trackVerts[1])
-    trackData.push([theta, rho])
+    uninterpData.push([theta, rho])
+  }
+
+  trackData.push(uninterpData[0])
+  var last_point = uninterpData[0]
+  for (const point of uninterpData) {
+    var diff = Math.abs(last_point[0] - point[0])
+    if (diff > 0.1) {
+      var steps = Math.ceil(diff / 0.1)
+      for (var i = 1; i < steps - 1; i++) {
+        const newCoord: [number, number] = [
+        last_point[0] + ((point[0] - last_point[0]) * i) / steps,
+        last_point[1] + ((point[1] - last_point[1]) * i) / steps
+        ]
+        trackData.push(newCoord)
+      }
+    }
+    trackData.push(point)
+    last_point = point
   }
 }
 
 async function render() {
-  if (!context.value || !props.track.id) {
+  if (!context.value || props.track == undefined) {
     return
   }
 
@@ -60,10 +79,10 @@ async function render() {
   context.value.strokeStyle = props.lineColor
   context.value.lineWidth = 2
 
-  let dim = Math.min(canvasElement.value?.width ?? 0, canvasElement.value?.height ?? 0);
+  let dim = Math.min(canvasElement.value?.width ?? 0, canvasElement.value?.height ?? 0)
 
   context.value.resetTransform()
-  context.value.clearRect(0, 0, dim, dim);
+  context.value.clearRect(0, 0, dim, dim)
   context.value.beginPath()
 
   let lineRadial = d3
@@ -81,59 +100,4 @@ async function render() {
 watch(props, async () => {
   await render()
 })
-
-/*
-watch(props.trackProgress, (nv, ov) => {
-    render();
-})
-
-watch(props.showBall, (nv, ov) => {
-    render();
-})
-*/
-/*
-let r = 200;
-
-// Event Listeners
-
-const dim = Math.min(innerHeight, innerWidth);
-
-// Implementation
-function init() {
-  particles = [];
-
-  canvas.width = dim;
-  canvas.height = dim;
-
-  c.fillStyle = '#555';
-  c.fillRect(0, 0, canvas.width, canvas.height);
-  c.strokeStyle = `#bbb`;
-  c.lineWidth = 2;
-
-  let lines = thr.split('\n');
-
-  c.beginPath();
-  let data = [];
-  for (const [i, line] of lines.entries()) {
-    const theta = line.split(' ')[0];
-    const rho = line.split(' ')[1];
-    if (i < 2500) {
-      data.push([theta, rho]);
-    }
-  }
-
-  c.stroke();
-
-  let lineRadial = d3
-    .lineRadial()
-    .angle((d) => d[0])
-    .radius((d) => d[1] * (dim / 2))
-    //.curve(d3.curveBasis)
-    .context(c);
-
-  c.translate(dim / 2, dim / 2);
-  lineRadial(data);
-  c.stroke();
-}
-*/
 </script>
