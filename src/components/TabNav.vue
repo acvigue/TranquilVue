@@ -6,11 +6,14 @@
         :key="index"
         class="w-full flex justify-center relative"
       >
-        <button class="w-full bg-opacity-0 z-50 text-md font-medium" @click.stop="updateValue(index)">
+        <button
+          class="w-full bg-opacity-0 z-50 text-md font-medium"
+          @click.stop="updateValue(index)"
+        >
           {{ tabName }}
         </button>
         <div
-          :class='{"hidden": modelValue != index}'
+          :class="{ hidden: modelValue != index }"
           class="elSwitch bg-blue-600 shadow text-white flex items-center justify-center w-full rounded-full h-8 transition-all absolute mt-[-4px]"
         ></div>
       </div>

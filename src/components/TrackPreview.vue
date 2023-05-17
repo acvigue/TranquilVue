@@ -12,7 +12,7 @@ import { ref, type Ref, onMounted, watch } from 'vue'
 import { type Track } from '../stores/files'
 import webcenter from '../plugins/webcenter'
 import * as d3 from 'd3'
-import { useToast } from 'vue-toast-notification';
+import { useToast } from 'vue-toast-notification'
 
 interface TrackPreviewProps {
   lineColor: string
@@ -36,11 +36,13 @@ onMounted(async () => {
 const toast = useToast()
 
 async function getTrackData() {
-  const trackDataResponse = await webcenter.get(`/tracks/${props.track.track_id}/download`).catch((e) => {
-    toast.error("Track preview generation failed :(")
-    return {data: ""}
-  })
-  
+  const trackDataResponse = await webcenter
+    .get(`/tracks/${props.track.track_id}/download`)
+    .catch((e) => {
+      toast.error('Track preview generation failed :(')
+      return { data: '' }
+    })
+
   const trackDataRaw = trackDataResponse.data
   const uninterpData: [number, number][] = []
   for (const track of trackDataRaw.split('\n') as string) {

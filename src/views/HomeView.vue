@@ -7,7 +7,7 @@
     <template v-if="tableStatus.status === 'idle'">
       <div class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center">
         <span class="mb-2 text-lg font-semibold">Play Something</span>
-        <div :style="tableStatus.gradientColorStops" class="p-[4px] rounded-full">
+        <div :style="gradientColorStops" class="p-[4px] rounded-full">
           <TrackPreview
             class="w-64 h-64 rounded-full bg-gray-800"
             lineColor="#ffffff"
@@ -41,7 +41,7 @@
             v-if="tableStatus.isPlaylist"
             class="w-8 hover:text-white cursor-pointer"
           ></BackwardIcon>
-          <div :style="tableStatus.gradientColorStopsProgress" class="p-[4px] rounded-full">
+          <div :style="gradientColorStopsProgress" class="p-[4px] rounded-full">
             <TrackPreview
               class="w-64 h-64 rounded-full bg-gray-800"
               lineColor="#ffffff"
@@ -109,15 +109,19 @@
 import useTableStatusStore from '../stores/tableStatus'
 import useTableSettingsStore from '../stores/tableSettings'
 import useFilesStore from '../stores/files'
-import TrackPreview from '@/components/TrackPreview.vue'
+import useTableLightsStore from '../stores/tableLights'
+
+import TrackPreview from '../components/TrackPreview.vue'
+import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/24/outline'
+
 import { useToast } from 'vue-toast-notification'
 import { computed, ref } from 'vue'
-import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/24/outline'
 
 import 'vue-toast-notification/dist/theme-sugar.css'
 
 const tableStatus = useTableStatusStore()
 const tableSettings = useTableSettingsStore()
+const tableLights = useTableLightsStore()
 const files = useFilesStore()
 
 const toast = useToast()
@@ -173,6 +177,25 @@ const upNextTracks = computed(() => {
 
 const currentTrack = computed(() => {
   return files.getTrack(tableStatus.currentTrackID)
+})
+
+const gradientColorStops = computed(() => {
+  const primaryColor = `rgb(${tableLights.primaryColor.join(',')})`
+  const secondaryColor = `rgb(${tableLights.secondaryColor.join(',')})`
+
+  return `background: conic-gradient(${primaryColor}, ${secondaryColor}, ${primaryColor});`
+})
+
+const gradientColorStopsProgress = computed(() => {
+  const progress = tableStatus.raw.filePos / tableStatus.raw.fileLen // 0.00 -> 1.00
+  const progressDeg = parseFloat((progress * 360).toFixed(2))
+
+  const primaryColor = `rgb(${tableLights.primaryColor.join(',')})`
+  const secondaryColor = `rgb(${tableLights.secondaryColor.join(',')})`
+
+  return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${progressDeg}deg, rgb(31,41,55) ${
+    progressDeg + 0.001
+  }deg);`
 })
 
 setInterval(() => {

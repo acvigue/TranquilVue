@@ -30,7 +30,7 @@ http.interceptors.request.use(
     if (token === null || isJWTExpired(token)) {
       try {
         const credentialsRequest = await table.get('/webCenterGet')
-        
+
         const authRequest = await http.post('/auth_user', {
           email: credentialsRequest.data.webcenter.email,
           password: credentialsRequest.data.webcenter.password
@@ -42,8 +42,8 @@ http.interceptors.request.use(
         window.localStorage.setItem('sis_sisbot_id', credentialsRequest.data.webcenter.sisbot_id)
         window.localStorage.setItem('sis_sisbot_mac', credentialsRequest.data.webcenter.sisbot_mac)
         token = returnedToken
-      } catch(e) {
-        console.log("Couldn't authenticate to webcenter!");
+      } catch (e) {
+        console.log("Couldn't authenticate to webcenter!")
         token = ''
       }
     }
