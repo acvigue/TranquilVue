@@ -16,13 +16,15 @@
           >
             <div
               class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
-              @click="playRandom()"
+              @click="router.push('/library')"
             >
               <div
-                class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:from-gray-700"
+                class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
               ></div>
               <div class="relative">
-                <PlayIcon class="w-10 h-10"></PlayIcon>
+                <PlayIcon
+                  class="w-10 h-10 group-hover:scale-105 transition transform-gpu duration-300"
+                ></PlayIcon>
               </div>
             </div>
           </TrackPreview>
@@ -47,16 +49,22 @@
               lineColor="#ffffff"
               :track="currentTrack"
             >
-              <div class="relative w-full h-full rounded-full flex justify-center items-center">
+              <div
+                class="relative w-full h-full rounded-full flex justify-center items-center group cursor-pointer"
+                @click="togglePauseState()"
+              >
                 <div
-                  class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50"
+                  class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
                 ></div>
-                <div class="relative" @click="togglePauseState()">
+                <div class="relative">
                   <PlayIcon
                     v-if="tableStatus.raw.pause === 1"
-                    class="cursor-pointer w-14 hover:text-white"
+                    class="w-14 group-hover:scale-105 transition transform-gpu duration-300"
                   ></PlayIcon>
-                  <PauseIcon v-else class="cursor-pointer w-14 hover:text-white"></PauseIcon>
+                  <PauseIcon
+                    v-else
+                    class="w-14 group-hover:scale-105 transition transform-gpu duration-300"
+                  ></PauseIcon>
                 </div>
               </div>
             </TrackPreview>
@@ -116,6 +124,7 @@ import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/2
 
 import { useToast } from 'vue-toast-notification'
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -123,6 +132,7 @@ const tableStatus = useTableStatusStore()
 const tableSettings = useTableSettingsStore()
 const tableLights = useTableLightsStore()
 const files = useFilesStore()
+const router = useRouter()
 
 const toast = useToast()
 const randomTrackIndex = ref(0)
@@ -193,9 +203,9 @@ const gradientColorStopsProgress = computed(() => {
   const primaryColor = `rgb(${tableLights.primaryColor.join(',')})`
   const secondaryColor = `rgb(${tableLights.secondaryColor.join(',')})`
 
-  return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${progressDeg}deg, rgb(31,41,55) ${
-    progressDeg + 0.001
-  }deg);`
+  return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${
+    progressDeg / 2
+  }deg, ${primaryColor} ${progressDeg}deg, rgb(31,41,55) ${progressDeg + 0.001}deg);`
 })
 
 setInterval(() => {

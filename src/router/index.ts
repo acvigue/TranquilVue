@@ -11,14 +11,14 @@ const router = createRouter({
     },
     {
       path: '/library',
-      name: 'Library',
+      name: 'library',
       component: () => import('../views/LibraryView.vue')
     },
     {
       path: '/settings',
-      name: 'Settings',
+      name: 'settings',
       component: () => import('../views/SettingsView.vue')
-    }
+    },
   ]
 })
 

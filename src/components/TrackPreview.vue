@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, onMounted, watch } from 'vue'
+import { ref, type Ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { type Track } from '../stores/files'
 import webcenter from '../plugins/webcenter'
 import * as d3 from 'd3'
@@ -33,19 +33,31 @@ onMounted(async () => {
   await render()
 })
 
+onBeforeUnmount(async () => {
+  if (!context.value || !canvasElement.value) {
+    return
+  }
+
+  let dim = Math.min(canvasElement.value?.width ?? 0, canvasElement.value?.height ?? 0)
+
+  context.value.resetTransform()
+  context.value.clearRect(0, 0, dim, dim)
+  context.value.beginPath()
+
+  canvasElement.value.width = 0
+  canvasElement.value.height = 0
+  canvasElement.value.remove()
+})
+
 const toast = useToast()
 
 async function getTrackData() {
-  /*
   const trackDataResponse = await webcenter
-    .get(`/tracks/${props.track.track_id}/download`)
+    .get(`https://pub-e8798b9535f4404eab873ac43bcd4aef.r2.dev/${props.track.track_id}.thr`)
     .catch((e) => {
       toast.error('Track preview generation failed :(')
       return { data: '' }
     })
-  */
-
-  const trackDataResponse = { data: `# reduced track\n0 0\n471.2227 1` }
 
   const trackDataRaw = trackDataResponse.data
   const uninterpData: [number, number][] = []

@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import AppFooter from './components/AppFooter.vue'
 
 import useFilesStore from './stores/files'
 import useTableStatusStore from './stores/tableStatus'
+
+import { ModalsContainer } from 'vue-final-modal'
+import 'vue-final-modal/style.css'
+
+import AppFooter from './components/AppFooter.vue'
+import FullScreenLoader from './components/FullScreenLoader.vue'
 
 const files = useFilesStore()
 const tableStatus = useTableStatusStore()
 
 files.refreshFiles()
-
-import FullScreenLoader from './components/FullScreenLoader.vue'
 </script>
 
 <template>
@@ -28,4 +31,6 @@ import FullScreenLoader from './components/FullScreenLoader.vue'
     :active="tableStatus.loaderActive"
     :message="tableStatus.loaderMessage"
   ></FullScreenLoader>
+
+  <ModalsContainer />
 </template>
