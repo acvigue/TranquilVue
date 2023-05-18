@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <canvas class="absolute w-full h-full" ref="canvasElement" width="800" height="800"></canvas>
+    <canvas class="absolute w-full h-full" ref="canvasElement" width="400" height="400"></canvas>
     <div class="absolute w-full h-full z-10">
       <slot></slot>
     </div>
@@ -102,7 +102,7 @@ async function render() {
   }
 
   context.value.strokeStyle = props.lineColor
-  context.value.lineWidth = 2
+  context.value.lineWidth = 1
 
   let dim = Math.min(canvasElement.value?.width ?? 0, canvasElement.value?.height ?? 0)
 
