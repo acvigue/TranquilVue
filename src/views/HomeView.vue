@@ -1,8 +1,7 @@
 <template>
-  <div class="mx-[5vw] flex flex-col gap-4 justify-between items-center pt-5">
-    <span class="font-semibold text-2xl text-center">{{
-      tableSettings.tableName === '' ? 'Oasis Control' : tableSettings.tableName
-    }}</span>
+  <div class="mx-[5vw] flex flex-col gap-4 justify-evenly items-center pt-5">
+    
+    <LogoWhite class="font-semibold text-2xl text-center fill-white h-20"/>
 
     <template v-if="tableStatus.status === 'idle'">
       <div class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center">
@@ -115,12 +114,13 @@
 
 <script setup lang="ts">
 import useTableStatusStore from '../stores/tableStatus'
-import useTableSettingsStore from '../stores/tableSettings'
+
 import useFilesStore from '../stores/files'
 import useTableLightsStore from '../stores/tableLights'
 
 import TrackPreview from '../components/TrackPreview.vue'
 import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/24/outline'
+import LogoWhite from '../assets/logo-white.svg';
 
 import { useToast } from 'vue-toast-notification'
 import { computed, ref } from 'vue'
@@ -129,18 +129,12 @@ import { useRouter } from 'vue-router'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
 const tableStatus = useTableStatusStore()
-const tableSettings = useTableSettingsStore()
 const tableLights = useTableLightsStore()
 const files = useFilesStore()
 const router = useRouter()
 
 const toast = useToast()
 const randomTrackIndex = ref(0)
-
-const playRandom = async function () {
-  const randomTrack = files.tracks[randomTrackIndex.value]
-  await tableStatus.playFile(`/sd/${randomTrack.id}.thr`)
-}
 
 const togglePauseState = async () => {
   try {

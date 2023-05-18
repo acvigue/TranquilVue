@@ -14,11 +14,11 @@
         </button>
         <div
           :class="{ 'opacity-0': modelValue != index }"
-          class="elSwitch bg-blue-600 duration-300 shadow text-white flex items-center justify-center w-full rounded-full h-8 transition-all absolute mt-[-4px]"
+          class="bg-blue-600 duration-300 shadow text-white flex items-center justify-center w-full rounded-full h-8 transition-all absolute mt-[-4px]"
         ></div>
         <div
           :class="{ 'opacity-0': modelValue == index }"
-          class="elSwitch group-hover:bg-gray-600 bg-gray-700 duration-300 shadow text-white flex items-center justify-center w-full rounded-full h-8 transition transform-gpu absolute mt-[-4px]"
+          class="group-hover:bg-gray-600 bg-gray-700 duration-300 shadow text-white flex items-center justify-center w-full rounded-full h-8 transition transform-gpu absolute mt-[-4px]"
         ></div>
       </div>
     </div>

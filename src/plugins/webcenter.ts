@@ -21,7 +21,7 @@ const http = axios.create({
 http.interceptors.request.use(
   async function (config) {
     //We don't want to intercept on the auth call, this will create a loop!
-    if (axios.getUri(config).includes('auth_user') || axios.getUri(config).includes('r2.dev')) {
+    if (axios.getUri(config).includes('auth_user') || axios.getUri(config).includes('vigue.me')) {
       return config
     }
 

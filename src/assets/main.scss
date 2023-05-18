@@ -16,3 +16,16 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+
+.fade-y-enter-from {
+  transform: translateY(2000px);
+}
+
+.fade-y-leave-to {
+  transform: translateY(2000px);
+}
+
+.fade-y-enter-active,
+.fade-y-leave-active {
+  transition: opacity 0.3s, transform 0.5s;
+}

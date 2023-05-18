@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { HomeIcon, AdjustmentsVerticalIcon, CloudIcon, FolderIcon } from '@heroicons/vue/24/solid'
+import { HomeIcon, AdjustmentsVerticalIcon, CloudIcon, FolderIcon } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
 import useFilesStore from '../stores/files'
 

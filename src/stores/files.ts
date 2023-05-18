@@ -85,6 +85,15 @@ export default defineStore('files', () => {
     }
   }
 
+  const deleteFile = async function (path: string) {
+    loaderMessage.value = `Removing`
+    loaderActive.value = true
+
+    await table.get(`/fs/delete/sd/${path}`)
+
+    loaderActive.value = false
+  }
+
   const downloadPlaylist = async function (playlist: Playlist) {
     loaderMessage.value = 'Fetching playlist'
     loaderActive.value = true
@@ -112,7 +121,7 @@ export default defineStore('files', () => {
         } catch (e) {
           loaderActive.value = false
           console.error(e)
-          await table.get(`/deleteFile/sd/${item.id}.seq`)
+          await table.get(`/fs/delete/sd/${item.id}.seq`)
         }
       }
     }
@@ -170,6 +179,7 @@ export default defineStore('files', () => {
     getTrack,
     getTrackByDBID,
     getPlaylist,
-    saveManifest
+    saveManifest,
+    deleteFile
   }
 })

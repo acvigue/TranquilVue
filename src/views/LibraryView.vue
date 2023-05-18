@@ -8,7 +8,7 @@
         <ScrollGrid
           :length="files.tracks.length"
           :pageProvider="trackScrollPageProvider"
-          :pageSize="Math.min(files.tracks.length, 5)"
+          :pageSize="Math.min(files.tracks.length, 2)"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
         >
           <template v-slot:default="{ item, style }: { item: Track, style: StyleValue }">
@@ -20,7 +20,7 @@
               <TrackPreview
                 :track="item"
                 :key="item.id"
-                class="h-44 w-44 rounded-full border-gray-500 border-[3px] group-hover:scale-105 transition transform-gpu duration-300"
+                class="h-44 w-44 rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
                 lineColor="#ffffff"
                 :showBall="false"
               />
@@ -50,7 +50,7 @@
         <ScrollGrid
           :length="files.playlists.length"
           :pageProvider="playlistScrollPageProvider"
-          :pageSize="Math.min(files.playlists.length, 5)"
+          :pageSize="Math.min(files.playlists.length, 2)"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
         >
           <template v-slot:default="{ item, style }: { item: Playlist, style: StyleValue }">
@@ -62,7 +62,7 @@
               <TrackPreview
                 :track="files.getTrackByDBID(item.db_tracks?.[item.featured_track] ?? '466')"
                 :key="item.id"
-                class="h-44 w-44 rounded-full border-gray-500 border-[3px] group-hover:scale-105 transition transform-gpu duration-300"
+                class="h-44 w-44 rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
                 lineColor="#ffffff"
                 :showBall="false"
               />
@@ -121,7 +121,7 @@ const showTrackModal = async function (track: Track) {
     component: TrackModal,
     attrs: {
       track: track,
-      onConfirm() {
+      onClose() {
         close()
       }
     }
@@ -134,7 +134,7 @@ const showPlaylistModal = async function (playlist: Playlist) {
     component: PlaylistModal,
     attrs: {
       playlist: playlist,
-      onConfirm() {
+      onClose() {
         close()
       }
     }

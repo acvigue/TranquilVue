@@ -52,7 +52,7 @@ export default defineStore('tableStatus', () => {
 
   const playFile = async function (fileName: string) {
     loaderActive.value = true
-    await table.get(`/playFile/${fileName}`)
+    await table.get(`/playFile/sd/${fileName}`)
     loaderActive.value = false
   }
 
