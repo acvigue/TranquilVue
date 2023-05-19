@@ -1,6 +1,9 @@
 <template>
   <div class="relative">
-    <div :class="{ hidden: isLoaded }" class="absolute w-full h-full flex justify-center items-center">
+    <div
+      :class="{ hidden: isLoaded }"
+      class="absolute w-full h-full flex justify-center items-center"
+    >
       <svg
         aria-hidden="true"
         class="inline w-10 h-10 text-gray-600 animate-spin fill-gray-300"
@@ -35,8 +38,7 @@
 import { ref, type Ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { type Track } from '../stores/files'
 import webcenter from '../plugins/webcenter'
-import * as d3 from 'd3'
-import { useToast } from 'vue-toast-notification'
+import { lineRadial, curveBasis } from 'd3'
 
 interface TrackPreviewProps {
   lineColor: string
@@ -74,15 +76,12 @@ onBeforeUnmount(async () => {
   canvasElement.value.remove()
 })
 
-const toast = useToast()
+async function getTrackData(): Promise<boolean> {
+  const trackDataResponse = await webcenter.get(`/track/${props.track.track_id}/download`)
 
-async function getTrackData() {
-  const trackDataResponse = await webcenter
-    .get(`https://sis-webcenter-tracks.vigue.me/${props.track.track_id}.thr`)
-    .catch(() => {
-      toast.error('Track preview generation failed :(')
-      return { data: '' }
-    })
+  if (trackDataResponse.data === null) {
+    return false
+  }
 
   const trackDataRaw = trackDataResponse.data
   const uninterpData: [number, number][] = []
@@ -113,6 +112,8 @@ async function getTrackData() {
     trackData.push(point)
     last_point = point
   }
+
+  return true
 }
 
 async function render() {
@@ -122,7 +123,10 @@ async function render() {
 
   if (trackID != props.track.id) {
     trackData = []
-    await getTrackData()
+    const gotTrackData = await getTrackData()
+    if (!gotTrackData) {
+      return
+    }
     trackID = props.track.id
   }
 
@@ -135,15 +139,14 @@ async function render() {
   context.value.clearRect(0, 0, dim, dim)
   context.value.beginPath()
 
-  let lineRadial = d3
-    .lineRadial()
+  let drawFunc = lineRadial()
     .angle((d) => d[0])
     .radius((d) => d[1] * (dim / 2))
-    .curve(d3.curveBasis)
+    .curve(curveBasis)
     .context(context.value)
 
   context.value.translate(dim / 2, dim / 2)
-  lineRadial(trackData)
+  drawFunc(trackData)
   context.value.stroke()
 
   isLoaded.value = true

@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../views/LibraryView.vue')
     },
     {
+      path: '/webcenter',
+      name: 'webcenter',
+      component: () => import('../views/WebcenterView.vue')
+    },
+    {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue')

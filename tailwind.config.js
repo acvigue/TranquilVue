@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import FormKitVariants from '@formkit/themes/tailwindcss'
+import Typography from '@tailwindcss/typography'
 
 export default {
   content: [
@@ -16,6 +18,6 @@ export default {
       })
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [Typography, FormKitVariants],
 }
 

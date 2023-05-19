@@ -1,6 +1,17 @@
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 import table from './table'
 import { Buffer } from 'buffer'
+import { useModal } from 'vue-final-modal'
+import { useToast } from 'vue-toast-notification'
+
+import WebcenterLoginModal from '../components/WebcenterLoginModal.vue'
+declare global {
+  interface Window {
+    authInProgress: boolean
+  }
+}
+
+const toast = useToast()
 
 function isJWTExpired(jwt: string): boolean {
   try {
@@ -15,48 +26,71 @@ function isJWTExpired(jwt: string): boolean {
 }
 
 const http = axios.create({
-  baseURL: 'https://webcenter.sisyphus-industries.com'
+  baseURL: 'https://sis.vigue.me'
 })
 
 http.interceptors.request.use(
   async function (config) {
-    //We don't want to intercept on the auth call, this will create a loop!
-    if (axios.getUri(config).includes('auth_user') || axios.getUri(config).includes('vigue.me')) {
+    //ignore interceptor for these paths
+    if (
+      axios.getUri(config).includes('getRefreshToken') ||
+      axios.getUri(config).includes('getAccessToken')
+    ) {
       return config
     }
 
+    //hack to pause all requests while in login -> auth flow
+    await waitForAuthorization()
+
     //Authorize all requests
-    let token = window.localStorage.getItem('sis_wc_jwt')
-    if (token === null || isJWTExpired(token)) {
-      try {
-        const credentialsRequest = await table.get('/settings/webcenter')
+    let accessToken = window.localStorage.getItem('accessToken')
+    if (accessToken === null || isJWTExpired(accessToken)) {
+      let refreshToken = window.localStorage.getItem('refreshToken')
+      if (refreshToken === null) {
+        window.authInProgress = true
+        let webcenterCredentials
+        try {
+          webcenterCredentials = await table.get('/settings/webcenter')
+        } catch (e) {
+          toast.error(`Couldn't connect to table backend!`)
+          throw new axios.Cancel()
+        }
 
-        const authRequest = await http.post('/auth_user', {
-          email: credentialsRequest.data.webcenter.email,
-          password: credentialsRequest.data.webcenter.password
-        })
+        refreshToken = webcenterCredentials.data.webcenter.token
 
-        const returnedToken: string = authRequest.data.resp[0].auth_token
-        window.localStorage.setItem('sis_wc_jwt', returnedToken)
+        if (!refreshToken || refreshToken == null) {
+          await showLoginModal()
+          refreshToken = window.localStorage.getItem('refreshToken')
 
-        window.localStorage.setItem('sis_sisbot_id', credentialsRequest.data.webcenter.sisbot_id)
-        window.localStorage.setItem('sis_sisbot_mac', credentialsRequest.data.webcenter.sisbot_mac)
-        token = returnedToken
-      } catch (e) {
-        console.log("Couldn't authenticate to webcenter!")
-        token = ''
+          try {
+            webcenterCredentials = await table.post('/settings/webcenter', {
+              token: refreshToken
+            })
+          } catch (e) {
+            toast.error(`Couldn't save login data`)
+          }
+        } else {
+          window.localStorage.setItem('refreshToken', refreshToken!)
+        }
+        window.authInProgress = false
       }
+
+      try {
+        const authRequest = await http.post('/auth/getAccessToken', {
+          refreshToken
+        })
+  
+        accessToken = authRequest.data.accessToken
+      } catch(e) {
+        toast.error(`Couldn't get access token!`)
+        throw new axios.Cancel()
+      }
+
+      window.localStorage.setItem('accessToken', accessToken!)
     }
 
-    config.headers['Authorization'] = token
-
-    // Add sisbot ID parameters to track download requests
-    if (axios.getUri(config).includes('download')) {
-      const sisbotID = window.localStorage.getItem('sis_sisbot_id') ?? ''
-      let sisbotMAC = window.localStorage.getItem('sis_sisbot_mac') ?? ''
-      sisbotMAC = sisbotMAC.match(/.{2}/g)?.join(':') ?? ''
-      config.url += `?pi_id=${sisbotID}&mac_address=${sisbotMAC}&class=wcdownload`
-    }
+    //holy grail
+    config.headers['Authorization'] = `Bearer ${accessToken}`
 
     return config
   },
@@ -64,5 +98,38 @@ http.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
+//hacks
+function waitForAuthorization() {
+  return new Promise<void>((resolve) => {
+    if (!window.authInProgress) {
+      resolve()
+    }
+
+    setInterval(() => {
+      if (!window.authInProgress) {
+        resolve()
+      }
+    }, 500)
+  })
+}
+
+function showLoginModal() {
+  console.log(`opening modal`)
+  return new Promise<void>((resolve) => {
+    const modal = useModal({
+      component: WebcenterLoginModal,
+
+      attrs: {
+        onLoggedin() {
+          modal.close()
+          toast.success('Signed in successfully')
+          resolve()
+        }
+      }
+    })
+    modal.open()
+  })
+}
 
 export default http

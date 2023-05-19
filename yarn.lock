@@ -154,6 +154,110 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.40.0.tgz#3ba73359e11f5a7bd3e407f70b3528abfae69cec"
   integrity sha512-ElyB54bJIhXQYVKjDSvCkPO1iU1tSAeVQJbllWJq1XQSmmA4dgFk8CbiBGpiOPxleE48vDogxCtmMYku4HSVLA==
 
+"@formkit/core@0.17.2", "@formkit/core@^0.17.2":
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/@formkit/core/-/core-0.17.2.tgz#17231851440c5bb9e4f1aca6bb543979d1af5504"
+  integrity sha512-aP4kbrtjd/07CDbxRIwFyEim+J/kBzBqfbf83+nPY3vcoymI5whNuZOvuYAFaY72QcQX+7Ozbeaf9IVIzCp0TQ==
+  dependencies:
+    "@formkit/utils" "0.17.2"
+
+"@formkit/core@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/core/-/core-0.18.0-065ebab.tgz#7bc3c45db318ac0a555c5df8908ddd418b751472"
+  integrity sha512-wTPD1ce1l1s/xEesjkYYAOvEE1LTqBYSNWtOBe7TOd0/qR3h0goJOZBpkqtE2QcMq9LHlHpYyVM/Y6m4m0Uz9Q==
+  dependencies:
+    "@formkit/utils" "0.18.0-065ebab"
+
+"@formkit/dev@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/dev/-/dev-0.18.0-065ebab.tgz#e465c4e8f49eae7963579f7966a89a1b92d618da"
+  integrity sha512-9cTiB4LpQmXCbvyjw58VloB48uudZo6dqEBIG44qArV4YNXzroN1vW+/e4wxLExs+cA5ATm0oiJV69/snfmv7Q==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+
+"@formkit/i18n@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/i18n/-/i18n-0.18.0-065ebab.tgz#8177f1c35f2a547177a13972d05d515752404331"
+  integrity sha512-vrwZKuRtPO9iWPMjyIY0HF1XSsxrJzHMi61l6/SlX234gD6mQzPz/btRCdITqiqzfmFCcTq0FCB2QeBBbDaqcg==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+    "@formkit/validation" "0.18.0-065ebab"
+
+"@formkit/inputs@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/inputs/-/inputs-0.18.0-065ebab.tgz#be2bcc7953ba761ee2751480745ed067c312471e"
+  integrity sha512-dEnALeuqBjj9AGPCX8nU7lImrTIGtOobZTicC6gimzfrSc8QilvJekZ+coNe5WfwCGm3YOu0dcve/VLjCvdTNQ==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+
+"@formkit/observer@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/observer/-/observer-0.18.0-065ebab.tgz#9a1250d56b3fa7a282d398eb82e657aa42cfc6cd"
+  integrity sha512-X9RnsFWud2PF5CLkSc4haO+ivMXgARyd1xu1GCzEOEO/LGEN7cZjmQzGYRiOEeoyBmxWVRNKIEUKeXoQYL1wIw==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+
+"@formkit/rules@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/rules/-/rules-0.18.0-065ebab.tgz#2dbaf51c8c55b6da4f2bacac91de66762a660b34"
+  integrity sha512-aiYc0/IyHcVo9yU1m957fhKW7JbKqGiv24u+LsJj3XyP9ZEfSN8GZcXvgbjcwPHaKXTfoItBjtw/GlDyNfNnQA==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+    "@formkit/validation" "0.18.0-065ebab"
+
+"@formkit/themes@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/themes/-/themes-0.18.0-065ebab.tgz#7020c1d0c47ff2ed1bf47b98f91a913aa07a6dfd"
+  integrity sha512-Iozc5xPS95lvqHYAUT4TBPU/mihdr1vJcdfBxmKtdeBjj8IlFp+PSXkZO1+gFJmQx8P+drlLPCtXyAPiVfZwxw==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+
+"@formkit/themes@^0.17.2":
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/@formkit/themes/-/themes-0.17.2.tgz#fbc634bb6637beaf313effdba300095643dfc260"
+  integrity sha512-hb2ppPO8j5FvEkGr74yBsrsBp298BhHuVRWXj6S2moAPBUeWKZVBC5zFDvQTmHtln/Ki68SoMq44gnwyzj1V1Q==
+  dependencies:
+    "@formkit/core" "0.17.2"
+
+"@formkit/utils@0.17.2":
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-0.17.2.tgz#bb89ac20e3bbb3da2ce28786794e9fbb431d761d"
+  integrity sha512-vLMPg4R0I4cpznFD1agm76S3dIzY6s8frAZADCtUsSLv8PHDRL/+F2ummClRqfjWeICK8qHFE/GFTRANQd4NOw==
+
+"@formkit/utils@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-0.18.0-065ebab.tgz#eae1539a656806f8dd6099e75f4c02dea476be07"
+  integrity sha512-zVIDakvHjVWN1nC7v6vroZbMcv0yIBNQoi1WhM1QhiomC0ZSvaXjg3vYxgrjSBL/ovH2QL8gEC8yx19BMfylaw==
+
+"@formkit/validation@0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/validation/-/validation-0.18.0-065ebab.tgz#0752802b8e913468b35de88d1245000bab063806"
+  integrity sha512-XRTlgOs3dPsqNgOJHK4SVsl6VQWJaTRHndy5gU+hgotnantKylq/1p4eYy10TX6PgwN6ufB4MIoymgtNd67OTA==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/observer" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+
+"@formkit/vue@^0.18.0-065ebab":
+  version "0.18.0-065ebab"
+  resolved "https://registry.yarnpkg.com/@formkit/vue/-/vue-0.18.0-065ebab.tgz#3084f07ab1cc8c73723fced5778b4005bef1dd8f"
+  integrity sha512-PAi0uW1j22WMOK0Qv5pxwE2L7McHJksUNSdQrLBK3pSO0/YRJnu8PQyA2MVqar39VidtOXcCJOW7piKwG7y4Dw==
+  dependencies:
+    "@formkit/core" "0.18.0-065ebab"
+    "@formkit/dev" "0.18.0-065ebab"
+    "@formkit/i18n" "0.18.0-065ebab"
+    "@formkit/inputs" "0.18.0-065ebab"
+    "@formkit/observer" "0.18.0-065ebab"
+    "@formkit/rules" "0.18.0-065ebab"
+    "@formkit/themes" "0.18.0-065ebab"
+    "@formkit/utils" "0.18.0-065ebab"
+    "@formkit/validation" "0.18.0-065ebab"
+
 "@heroicons/vue@^2.0.18":
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/@heroicons/vue/-/vue-2.0.18.tgz#cd55074dfb1915870b680e2757ca4dad6ab3326a"
@@ -2786,11 +2890,6 @@ minimatch@^9.0.0:
   dependencies:
     brace-expansion "^2.0.1"
 
-mitt@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/mitt/-/mitt-2.1.0.tgz#f740577c23176c6205b121b2973514eade1b2230"
-  integrity sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==
-
 ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
@@ -3345,6 +3444,11 @@ robust-predicates@^3.0.0:
   resolved "https://registry.yarnpkg.com/robust-predicates/-/robust-predicates-3.0.1.tgz#ecde075044f7f30118682bd9fb3f123109577f9a"
   integrity sha512-ndEIpszUHiG4HtDsQLeIuMvRsDnn8c8rYStabochtUeCvfuvNptb5TUbVD68LRAILPX7p9nqQGh4xJgn3EHS/g==
 
+rollup-plugin-analyzer@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-analyzer/-/rollup-plugin-analyzer-4.0.0.tgz#96b757ed64a098b59d72f085319e68cdd86d5798"
+  integrity sha512-LL9GEt3bkXp6Wa19SNR5MWcvHNMvuTFYg+eYBZN2OIFhSWN+pEJUQXEKu5BsOeABob3x9PDaLKW7w5iOJnsESQ==
+
 rollup@^3.21.0:
   version "3.21.7"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.21.7.tgz#022ab47416712c93546f369abfb20da5fb8ed42e"
@@ -3871,16 +3975,6 @@ vue-final-modal@^4.4.2:
     focus-trap "^7.4.0"
     vue "^3.2.47"
 
-vue-observe-visibility@^2.0.0-alpha.1:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-2.0.0-alpha.1.tgz#1e4eda7b12562161d58984b7e0dea676d83bdb13"
-  integrity sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==
-
-vue-resize@^2.0.0-alpha.1:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-2.0.0-alpha.1.tgz#43eeb79e74febe932b9b20c5c57e0ebc14e2df3a"
-  integrity sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==
-
 vue-router@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.2.0.tgz#558f31978a21ce3accf5122ffdf2cec34a5d2517"
@@ -3918,15 +4012,6 @@ vue-virtual-scroll-grid@^1.10.2:
     "@vueuse/core" "^9.1.1"
     ramda ">=0.28.0"
     rxjs "^7.5.1"
-
-vue-virtual-scroller@^2.0.0-beta.8:
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-2.0.0-beta.8.tgz#eeceda57e4faa5ba1763994c873923e2a956898b"
-  integrity sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==
-  dependencies:
-    mitt "^2.1.0"
-    vue-observe-visibility "^2.0.0-alpha.1"
-    vue-resize "^2.0.0-alpha.1"
 
 vue@^3.2.47, vue@^3.3.2:
   version "3.3.2"
