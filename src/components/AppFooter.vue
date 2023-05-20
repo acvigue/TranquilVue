@@ -9,16 +9,16 @@
         <HomeIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
       </router-link>
       <router-link
-        :to="{ name: 'library' }"
-        :class="{ 'pointer-events-none': files.tracks.length == 0 }"
+        to="/patterns"
+        :class="{ 'pointer-events-none': files.loaderActive }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
         <FolderIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
       </router-link>
       <router-link
-        to="/webcenter"
-        :class="{ 'pointer-events-none': files.tracks.length == 0 }"
+        to="/playlists"
+        :class="{ 'pointer-events-none': files.loaderActive }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
@@ -26,7 +26,6 @@
       </router-link>
       <router-link
         to="/settings"
-        :class="{ 'pointer-events-none': files.tracks.length == 0 }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >

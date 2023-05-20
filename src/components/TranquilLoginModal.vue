@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { VueFinalModal } from 'vue-final-modal'
 import { FormKit } from '@formkit/vue'
-import { type FormKitNode } from '@formkit/core'
-import webcenter from '../plugins/webcenter'
+import tranquilapi from '../plugins/tranquilapi'
 import { useToast } from 'vue-toast-notification'
 import axios from 'axios'
 
@@ -15,31 +14,25 @@ const toast = useToast()
 interface SignInFields {
   email: string
   password: string
-  sisbot_id: string
-  sisbot_mac: string
 }
 
 const signInAction = async (fields: SignInFields) => {
   try {
-    const refreshTokenResponse = await webcenter.post('/auth/getRefreshToken', {
+    const refreshTokenResponse = await tranquilapi.post('/auth', {
       email: fields.email,
-      password: fields.password,
-      sisbot: {
-        id: fields.sisbot_id,
-        mac: fields.sisbot_mac
-      }
+      password: fields.password
     })
 
     //valid refresh token!
-    window.localStorage.setItem('refreshToken', refreshTokenResponse.data.refreshToken)
+    window.localStorage.setItem('tranquilToken', refreshTokenResponse.data.token)
 
     emit('loggedin')
   } catch (e) {
-    if(axios.isAxiosError(e)) {
-      if(e.response) {
+    if (axios.isAxiosError(e)) {
+      if (e.response) {
         toast.error(e.response.data.error)
       } else {
-        toast.error("Network Error")
+        toast.error('Network Error')
       }
     }
   }
@@ -71,20 +64,6 @@ const signInAction = async (fields: SignInFields) => {
           id="password"
           label="Password"
           validation="required"
-        />
-        <FormKit
-          type="text"
-          name="sisbot_id"
-          id="sisbot_id"
-          label="Sisbot ID"
-          validation="sisbotid|required"
-        />
-        <FormKit
-          type="text"
-          name="sisbot_mac"
-          id="sisbot_mac"
-          label="Sisbot MAC"
-          validation="macaddress|required"
         />
       </FormKit>
     </div>

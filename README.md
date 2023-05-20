@@ -1,11 +1,10 @@
 
-# Oasis Control 2.0
+# TranquilVue
 
-A modern Vue 3 / TypeScript web app to control custom built kinetic art robots.
+A modern Vue 3 / TypeScript web app to control custom drawing robots
 
 ### Works with
-- [Webcenter](https://github.com/acvigue/webcenter) - Cloud backend
-- [OasisFirmware](https://github.com/acvigue/RBotFirmware) - Firmware for said plotters - ESP32 based!
+- [TranquilFirmware](https://github.com/acvigue/TranquilFirmware) - Firmware
 
 ### Uses
 - TailwindCSS

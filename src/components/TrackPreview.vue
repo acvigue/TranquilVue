@@ -36,24 +36,24 @@
 
 <script setup lang="ts">
 import { ref, type Ref, onMounted, watch, onBeforeUnmount } from 'vue'
-import { type Track } from '../stores/files'
+import { type Pattern } from '../stores/files'
 import webcenter from '../plugins/webcenter'
 import { lineRadial, curveBasis } from 'd3'
 
-interface TrackPreviewProps {
+interface PatternPreviewProps {
   lineColor: string
-  track: Track
+  pattern: Pattern
 }
 
-const props = defineProps<TrackPreviewProps>()
+const props = defineProps<PatternPreviewProps>()
 
 // The important part: the name of the variable needs to be equal to the ref's name of the canvas element in the template
 const canvasElement: Ref<HTMLCanvasElement | undefined> = ref()
 const context: Ref<CanvasRenderingContext2D | undefined> = ref()
 const isLoaded = ref(false)
 
-let trackData: [number, number][] = []
-let trackID = ''
+let patternData: [number, number][] = []
+let patternID = ''
 
 onMounted(async () => {
   context.value = canvasElement.value?.getContext('2d') || undefined
@@ -76,26 +76,26 @@ onBeforeUnmount(async () => {
   canvasElement.value.remove()
 })
 
-async function getTrackData(): Promise<boolean> {
-  const trackDataResponse = await webcenter.get(`/track/${props.track.track_id}/download`)
+async function getPatternData(): Promise<boolean> {
+  const patternDataResponse = await webcenter.get(`/pattern/${props.pattern.pattern_id}/download`)
 
-  if (trackDataResponse.data === null) {
+  if (patternDataResponse.data === null) {
     return false
   }
 
-  const trackDataRaw = trackDataResponse.data
+  const patternDataRaw = patternDataResponse.data
   const uninterpData: [number, number][] = []
-  for (const track of (trackDataRaw as string).split('\n')) {
-    if (track.charAt(0) === '#') {
+  for (const pattern of (patternDataRaw as string).split('\n')) {
+    if (pattern.charAt(0) === '#') {
       continue
     }
-    const trackVerts = track.split(' ')
-    const theta = parseFloat(trackVerts[0])
-    const rho = parseFloat(trackVerts[1])
+    const patternVerts = pattern.split(' ')
+    const theta = parseFloat(patternVerts[0])
+    const rho = parseFloat(patternVerts[1])
     uninterpData.push([theta, rho])
   }
 
-  trackData.push(uninterpData[0])
+  patternData.push(uninterpData[0])
   var last_point = uninterpData[0]
   for (const point of uninterpData) {
     var diff = Math.abs(last_point[0] - point[0])
@@ -106,10 +106,10 @@ async function getTrackData(): Promise<boolean> {
           last_point[0] + ((point[0] - last_point[0]) * i) / steps,
           last_point[1] + ((point[1] - last_point[1]) * i) / steps
         ]
-        trackData.push(newCoord)
+        patternData.push(newCoord)
       }
     }
-    trackData.push(point)
+    patternData.push(point)
     last_point = point
   }
 
@@ -117,17 +117,17 @@ async function getTrackData(): Promise<boolean> {
 }
 
 async function render() {
-  if (!context.value || props.track == undefined) {
+  if (!context.value || props.pattern == undefined) {
     return
   }
 
-  if (trackID != props.track.id) {
-    trackData = []
-    const gotTrackData = await getTrackData()
-    if (!gotTrackData) {
+  if (patternID != props.pattern.id) {
+    patternData = []
+    const gotPatternData = await getPatternData()
+    if (!gotPatternData) {
       return
     }
-    trackID = props.track.id
+    patternID = props.pattern.id
   }
 
   context.value.strokeStyle = props.lineColor
@@ -146,7 +146,7 @@ async function render() {
     .context(context.value)
 
   context.value.translate(dim / 2, dim / 2)
-  drawFunc(trackData)
+  drawFunc(patternData)
   context.value.stroke()
 
   isLoaded.value = true

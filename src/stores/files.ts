@@ -1,87 +1,54 @@
 import { ref, toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import table from '../plugins/table'
-import webcenter from '../plugins/webcenter'
+import tranquilapi from '../plugins/tranquilapi'
 
-export interface Track {
-  id: string //uuid
-  track_id: string //db id
-  type: string
+export interface Pattern {
+  uuid: string //uuid
   name: string
-  original_file_type: string
-  created_by_name: string
-  sm_thumb: string
-  thumb: string
-  large_photo: string
-  download_count: number
-  created_at: string
-  date_created: string
-  is_public: string
-  is_locked: string
-  two_ball: string
-  reversible: string
-  popularity: number
-  default_vel: number
-  user_id: string
-  r_type: string
-  firstR: number
-  lastR: number
-  is_approved: boolean
+  date: string
 }
 
 export interface Playlist {
-  id: string
-  playlist_id: string
-  type: string
+  uuid: string
   name: string
   description: string
-  db_tracks?: string[] | null
-  created_by_name: string
-  created_at: string
-  date_created: string
-  is_public: string
-  is_featured: string
-  featured_track: number
-  bg_color: string
-  sort_order: number
-  user_id: string
+  patterns: string[]
+  featured_pattern: string
+  date: string
 }
 
 export default defineStore('files', () => {
-  const tracks = ref([] as Track[])
+  const patterns = ref([] as Pattern[])
   const playlists = ref([] as Playlist[])
   const loaderActive = ref(false)
   const loaderMessage = ref('')
 
-  const getPlaylist = function (playlist_uuid: string): Playlist {
-    return playlists.value.find((playlist) => playlist.id === playlist_uuid)!
+  const getPlaylist = function (uuid: string): Playlist {
+    return playlists.value.find((playlist) => playlist.uuid === uuid)!
   }
 
-  const getTrack = function (track_uuid: string): Track {
-    return tracks.value.find((track) => track.id === track_uuid)!
+  const getPattern = function (uuid: string): Pattern {
+    return patterns.value.find((pattern) => pattern.uuid === uuid)!
   }
 
-  const getTrackByDBID = function (track_dbid: string): Track {
-    return tracks.value.find((track) => track.track_id === track_dbid)!
-  }
-
-  const downloadTrack = async function (track: Track) {
-    loaderMessage.value = `Downloading ${track.name}`
+  const downloadPattern = async function (pattern: Pattern) {
+    loaderMessage.value = `Downloading ${pattern.name}`
     loaderActive.value = true
 
-    const trackData = (await webcenter.post(`/tracks/${track.track_id}/download`)).data
+    const patternData = (await tranquilapi.get(`/patterns/${pattern.uuid}/data`)).data
 
-    loaderMessage.value = `Sending track ${track.name}`
+    loaderMessage.value = `Sending pattern ${pattern.name}`
 
-    await _uploadFile(`${track.id}.thr`, trackData)
+    await _uploadFile(`${pattern.uuid}.thr`, patternData)
 
-    tracks.value.push(track)
+    patterns.value.push(pattern)
     try {
       await saveManifest()
     } catch (e) {
       console.error(e)
       loaderActive.value = false
-      await table.get(`/fs/delete/sd/${track.id}.thr`)
+      await table.get(`/fs/delete/sd/${pattern.uuid}.thr`)
     }
   }
 
@@ -98,19 +65,19 @@ export default defineStore('files', () => {
     loaderMessage.value = 'Fetching playlist'
     loaderActive.value = true
 
-    const playlistData = (await webcenter.get(`playlists/${playlist.playlist_id}.json`)).data.resp
+    const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data.resp
 
     for (const item of playlistData) {
-      if (item.type == 'track') {
-        //Check if track is not already downloaded.
-        if (tracks.value.find((track) => track.id === item.id) == undefined) {
+      if (item.type == 'pattern') {
+        //Check if pattern is not already downloaded.
+        if (patterns.value.find((pattern) => pattern.uuid === item.id) == undefined) {
           console.log(`${item.name} is not downloaded..`)
-          await downloadTrack(item as Track)
+          await downloadPattern(item as Pattern)
         } else {
           console.log(`${item.name} is already downloaded!`)
         }
       } else if (item.type == 'playlist') {
-        const playlistFileLines = item.tracks.map((a: { id: string }) => a.id + '.thr')
+        const playlistFileLines = item.patterns.map((a: { id: string }) => a.id + '.thr')
         const playlistFileContent = playlistFileLines.join('\n')
 
         await _uploadFile(`${item.id}.seq`, playlistFileContent)
@@ -139,11 +106,11 @@ export default defineStore('files', () => {
     loaderActive.value = true
     const response = await table.get(`/files/sd/manifest.json`)
 
-    tracks.value = []
+    patterns.value = []
     playlists.value = []
 
-    for (const track of response.data.tracks) {
-      tracks.value.push(track)
+    for (const pattern of response.data.patterns) {
+      patterns.value.push(pattern)
     }
     for (const playlist of response.data.playlists) {
       playlists.value.push(playlist)
@@ -157,7 +124,7 @@ export default defineStore('files', () => {
     loaderActive.value = true
 
     const manifest = {
-      tracks: toRaw(tracks.value),
+      patterns: toRaw(patterns.value),
       playlists: toRaw(playlists.value)
     }
 
@@ -171,13 +138,12 @@ export default defineStore('files', () => {
   return {
     loaderActive,
     loaderMessage,
-    tracks,
+    patterns,
     playlists,
     refreshFiles,
-    downloadTrack,
+    downloadPattern,
     downloadPlaylist,
-    getTrack,
-    getTrackByDBID,
+    getPattern,
     getPlaylist,
     saveManifest,
     deleteFile

@@ -16,7 +16,7 @@ export default defineStore('tableStatus', () => {
   const loaderActive = ref(false)
   const loaderMessage = ref('')
 
-  const currentTrackID = computed(() => {
+  const currentPatternID = computed(() => {
     return (raw.value.file ?? '').replace('sd/', '').replace('/', '').replace('.thr', '')
   })
 
@@ -64,7 +64,7 @@ export default defineStore('tableStatus', () => {
     await table.get(`/reset`)
   }
 
-  const skipTrack = async function (dir: number) {
+  const skipPattern = async function (dir: number) {
     executeCommand(`seq_${dir > 0 ? 'next' : 'prev'}`)
   }
 
@@ -118,7 +118,7 @@ export default defineStore('tableStatus', () => {
   return {
     status,
     raw,
-    currentTrackID,
+    currentPatternID,
     currentPlaylistID,
     isPlaylist,
     setPausedState,
@@ -128,7 +128,7 @@ export default defineStore('tableStatus', () => {
     playFile,
     loaderActive,
     loaderMessage,
-    skipTrack,
+    skipPattern,
     setShuffle,
     setRepeat
   }

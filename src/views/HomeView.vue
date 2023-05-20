@@ -7,11 +7,11 @@
       <div class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center">
         <span class="mb-2 text-lg font-semibold">Play Something</span>
         <div :style="gradientColorStops" class="p-[4px] rounded-full">
-          <TrackPreview
+          <PatternPreview
             class="w-64 h-64 rounded-full bg-gray-800"
             lineColor="#ffffff"
             :showBall="false"
-            :track="files.tracks[randomTrackIndex]"
+            :pattern="files.patterns[randomPatternIndex]"
           >
             <div
               class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
@@ -26,7 +26,7 @@
                 ></PlayIcon>
               </div>
             </div>
-          </TrackPreview>
+          </PatternPreview>
         </div>
       </div>
     </template>
@@ -38,15 +38,15 @@
 
         <div class="flex flex-row items-center justify-around gap-4">
           <BackwardIcon
-            @click.stop="skipTrack(-1)"
+            @click.stop="skipPattern(-1)"
             v-if="tableStatus.isPlaylist"
             class="w-8 hover:text-white cursor-pointer"
           ></BackwardIcon>
           <div :style="gradientColorStopsProgress" class="p-[4px] rounded-full">
-            <TrackPreview
+            <PatternPreview
               class="w-64 h-64 rounded-full bg-gray-800"
               lineColor="#ffffff"
-              :track="currentTrack"
+              :pattern="currentPattern"
             >
               <div
                 class="relative w-full h-full rounded-full flex justify-center items-center group cursor-pointer"
@@ -66,18 +66,18 @@
                   ></PauseIcon>
                 </div>
               </div>
-            </TrackPreview>
+            </PatternPreview>
           </div>
           <ForwardIcon
-            @click.stop="skipTrack(1)"
+            @click.stop="skipPattern(1)"
             v-if="tableStatus.isPlaylist"
             class="w-8 hover:text-white cursor-pointer"
           ></ForwardIcon>
         </div>
         <div class="flex flex-col items-center">
-          <span class="mt-2 text-lg font-semibold">{{ currentTrack?.name ?? '...' }}</span>
+          <span class="mt-2 text-lg font-semibold">{{ currentPattern?.name ?? '...' }}</span>
           <span class="text-sm font-medium text-gray-400"
-            >by {{ currentTrack?.created_by_name ?? '...' }}</span
+            >by {{ currentPattern?.created_by_name ?? '...' }}</span
           >
         </div>
 
@@ -94,15 +94,15 @@
           <div class="grid grid-cols-2 gap-8">
             <div
               class="p-4 flex flex-col items-center justify-between h-60 bg-gray-800 rounded-xl"
-              v-for="track of upNextTracks"
-              :key="track.id"
+              v-for="pattern of upNextPatterns"
+              :key="pattern.id"
             >
               <div class="mb-2">
-                <TrackPreview class="w-40 h-40" lineColor="#ffffff" :track="track"></TrackPreview>
+                <PatternPreview class="w-40 h-40" lineColor="#ffffff" :pattern="pattern"></PatternPreview>
               </div>
               <span
                 class="font-medium text-ellipsis text-center overflow-hidden line-clamp-1 w-[80%]"
-                >{{ track.name }}</span
+                >{{ pattern.name }}</span
               >
             </div>
           </div>
@@ -118,7 +118,7 @@ import useTableStatusStore from '../stores/tableStatus'
 import useFilesStore from '../stores/files'
 import useTableLightsStore from '../stores/tableLights'
 
-import TrackPreview from '../components/TrackPreview.vue'
+import PatternPreview from '../components/PatternPreview.vue'
 import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/24/outline'
 import LogoWhite from '../assets/logo-white.svg';
 
@@ -134,7 +134,7 @@ const files = useFilesStore()
 const router = useRouter()
 
 const toast = useToast()
-const randomTrackIndex = ref(0)
+const randomPatternIndex = ref(0)
 
 const togglePauseState = async () => {
   try {
@@ -144,9 +144,9 @@ const togglePauseState = async () => {
   }
 }
 
-const skipTrack = async (dir: number) => {
+const skipPattern = async (dir: number) => {
   try {
-    tableStatus.skipTrack(dir)
+    tableStatus.skipPattern(dir)
   } catch (e) {
     toast.error(`Connection error: ${e}`)
   }
@@ -168,19 +168,19 @@ const toggleShuffleState = async () => {
   }
 }
 
-const upNextTracks = computed(() => {
+const upNextPatterns = computed(() => {
   return (
     files
       .getPlaylist(tableStatus.currentPlaylistID)
-      ?.db_tracks?.slice(tableStatus.raw.playlistIdx)
+      ?.db_patterns?.slice(tableStatus.raw.playlistIdx)
       .map((v) => {
-        return files.getTrackByDBID(v)
+        return files.getPatternByDBID(v)
       }) ?? []
   )
 })
 
-const currentTrack = computed(() => {
-  return files.getTrack(tableStatus.currentTrackID)
+const currentPattern = computed(() => {
+  return files.getPattern(tableStatus.currentPatternID)
 })
 
 const gradientColorStops = computed(() => {
@@ -203,6 +203,6 @@ const gradientColorStopsProgress = computed(() => {
 })
 
 setInterval(() => {
-  randomTrackIndex.value = Math.floor(Math.random() * files.tracks.length)
+  randomPatternIndex.value = Math.floor(Math.random() * files.patterns.length)
 }, 2500)
 </script>
