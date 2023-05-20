@@ -1,0 +1,35 @@
+<template>
+  <button
+    :style="style"
+    class="group flex flex-col items-center p-4 rounded-xl bg-gray-700 gap-3 hover:bg-gray-600 active:scale-90 transition transform-gpu duration-300 relative"
+  >
+    <HeartIcon class="absolute z-20 top-4 right-4 rounded-full text-orange-400 w-5" v-if="item.isFavorite" />
+    <PatternPreview
+      :pattern="item"
+      :key="item.uuid"
+      class="h-44 w-44 rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
+      lineColor="#ffffff"
+      :showBall="false"
+    />
+    <span
+      class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis overflow-hidden break-words"
+    >
+      {{ item.name }}</span
+    >
+  </button>
+</template>
+
+<script setup lang="ts">
+import type { Pattern } from '@/stores/files'
+import type { StyleValue } from 'vue'
+import { HeartIcon } from '@heroicons/vue/24/solid'
+
+import PatternPreview from '../components/PatternPreview.vue'
+
+interface PatternGridItemPlaceholderProps {
+  style?: StyleValue
+  item: Pattern
+}
+
+defineProps<PatternGridItemPlaceholderProps>()
+</script>

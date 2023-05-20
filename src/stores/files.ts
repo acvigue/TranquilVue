@@ -1,4 +1,4 @@
-import { ref, toRaw } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import table from '../plugins/table'
 import tranquilapi from '../plugins/tranquilapi'
@@ -7,6 +7,7 @@ export interface Pattern {
   uuid: string //uuid
   name: string
   date: string
+  isFavorite?: boolean
 }
 
 export interface Playlist {
@@ -23,6 +24,10 @@ export default defineStore('files', () => {
   const playlists = ref([] as Playlist[])
   const loaderActive = ref(false)
   const loaderMessage = ref('')
+
+  const favoritePatterns = computed(() => {
+    return patterns.value.filter((pattern) => pattern.isFavorite === true)
+  })
 
   const getPlaylist = function (uuid: string): Playlist {
     return playlists.value.find((playlist) => playlist.uuid === uuid)!
@@ -138,6 +143,7 @@ export default defineStore('files', () => {
     loaderMessage,
     patterns,
     playlists,
+    favoritePatterns,
     refreshFiles,
     downloadPattern,
     downloadPlaylist,

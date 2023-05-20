@@ -10,7 +10,7 @@
             class="w-64 h-64 rounded-full bg-gray-800"
             lineColor="#ffffff"
             :showBall="false"
-            :pattern="files.patterns[randomPatternIndex]"
+            :pattern="files.playlists[randomPatternIndex]"
           >
             <div
               class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
@@ -201,6 +201,6 @@ const gradientColorStopsProgress = computed(() => {
 })
 
 setInterval(() => {
-  randomPatternIndex.value = Math.floor(Math.random() * files.patterns.length)
+  randomPatternIndex.value = Math.floor(Math.random() * files.playlists.length)
 }, 2500)
 </script>
