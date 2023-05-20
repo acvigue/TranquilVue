@@ -60,7 +60,6 @@ import TabNav from '../components/TabNav.vue'
 import PlaylistModal from '../components/PlaylistModal.vue'
 import PatternGridItemPlaceholder from '@/components/PatternGridItemPlaceholder.vue'
 import PlaylistGridItem from '@/components/PlaylistGridItem.vue'
-import type { all } from 'axios'
 
 const files = useFilesStore()
 const toast = useToast()
