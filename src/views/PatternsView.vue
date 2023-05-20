@@ -65,8 +65,6 @@
 </template>
 
 <script setup lang="ts">
-import { HeartIcon as HeartIconOutline } from '@heroicons/vue/24/outline'
-
 import useFilesStore, { type Pattern } from '../stores/files'
 import tranquilapi from '../plugins/tranquilapi'
 import { useModal } from 'vue-final-modal'

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import table from './table'
-import { Buffer } from 'buffer'
 import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 
