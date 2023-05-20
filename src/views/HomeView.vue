@@ -1,12 +1,11 @@
 <template>
   <div class="mx-[5vw] flex flex-col gap-4 justify-evenly items-center pt-5">
-    
-    <LogoWhite class="font-semibold text-2xl text-center fill-white h-20"/>
+    <TranquilLogoWhite class="font-semibold text-2xl text-center fill-gray-200 h-20" />
 
     <template v-if="tableStatus.status === 'idle'">
-      <div class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center">
-        <span class="mb-2 text-lg font-semibold">Play Something</span>
-        <div :style="gradientColorStops" class="p-[4px] rounded-full">
+      <div class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4">
+        <span class="text-lg font-semibold">Play Something</span>
+        <div :style="gradientColorStops" class="p-1 rounded-full">
           <PatternPreview
             class="w-64 h-64 rounded-full bg-gray-800"
             lineColor="#ffffff"
@@ -42,7 +41,7 @@
             v-if="tableStatus.isPlaylist"
             class="w-8 hover:text-white cursor-pointer"
           ></BackwardIcon>
-          <div :style="gradientColorStopsProgress" class="p-[4px] rounded-full">
+          <div :style="gradientColorStopsProgress" class="p-1 rounded-full">
             <PatternPreview
               class="w-64 h-64 rounded-full bg-gray-800"
               lineColor="#ffffff"
@@ -76,9 +75,6 @@
         </div>
         <div class="flex flex-col items-center">
           <span class="mt-2 text-lg font-semibold">{{ currentPattern?.name ?? '...' }}</span>
-          <span class="text-sm font-medium text-gray-400"
-            >by {{ currentPattern?.created_by_name ?? '...' }}</span
-          >
         </div>
 
         <div v-if="tableStatus.isPlaylist" class="flex items-center gap-4">
@@ -95,10 +91,14 @@
             <div
               class="p-4 flex flex-col items-center justify-between h-60 bg-gray-800 rounded-xl"
               v-for="pattern of upNextPatterns"
-              :key="pattern.id"
+              :key="pattern.uuid"
             >
               <div class="mb-2">
-                <PatternPreview class="w-40 h-40" lineColor="#ffffff" :pattern="pattern"></PatternPreview>
+                <PatternPreview
+                  class="w-40 h-40"
+                  lineColor="#ffffff"
+                  :pattern="pattern"
+                ></PatternPreview>
               </div>
               <span
                 class="font-medium text-ellipsis text-center overflow-hidden line-clamp-1 w-[80%]"
@@ -120,7 +120,7 @@ import useTableLightsStore from '../stores/tableLights'
 
 import PatternPreview from '../components/PatternPreview.vue'
 import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/24/outline'
-import LogoWhite from '../assets/logo-white.svg';
+import TranquilLogoWhite from '../assets/tranquil-logo-white.svg'
 
 import { useToast } from 'vue-toast-notification'
 import { computed, ref } from 'vue'
@@ -172,10 +172,8 @@ const upNextPatterns = computed(() => {
   return (
     files
       .getPlaylist(tableStatus.currentPlaylistID)
-      ?.db_patterns?.slice(tableStatus.raw.playlistIdx)
-      .map((v) => {
-        return files.getPatternByDBID(v)
-      }) ?? []
+      ?.patterns?.slice(tableStatus.raw.playlistIdx)
+      .map((pattern) => files.getPattern(pattern)) ?? []
   )
 })
 

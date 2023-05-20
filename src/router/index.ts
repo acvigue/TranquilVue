@@ -10,14 +10,14 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/library',
-      name: 'library',
-      component: () => import('../views/LibraryView.vue')
+      path: '/patterns',
+      name: 'patterns',
+      component: () => import('../views/PatternsView.vue')
     },
     {
-      path: '/webcenter',
-      name: 'webcenter',
-      component: () => import('../views/WebcenterView.vue')
+      path: '/playlists',
+      name: 'playlists',
+      component: () => import('../views/PlaylistsView.vue')
     },
     {
       path: '/settings',

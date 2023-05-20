@@ -28,7 +28,7 @@ const router = useRouter()
 const playThisPattern = async function () {
   isPerformingAction.value = true
   try {
-    await table.playFile(`${props.pattern.id}.thr`)
+    await table.playFile(`${props.pattern.uuid}.thr`)
     emit('close')
     router.push('/')
   } catch (e) {
@@ -43,7 +43,7 @@ const deleteThisPattern = async function () {
   //Check if pattern is not in any playlists first
   const playlistsWithPattern = files.playlists
     .filter((v) => {
-      return (v.db_patterns ?? []).includes(props.pattern.pattern_id)
+      return (v.patterns ?? []).includes(props.pattern.uuid)
     })
     .map((v) => v.name)
 
@@ -64,7 +64,7 @@ const deleteThisPattern = async function () {
       onConfirm() {
         close()
         files
-          .deleteFile(`${props.pattern.id}.thr`)
+          .deleteFile(`${props.pattern.uuid}.thr`)
           .catch(() => {
             toast.error('Error deleting pattern!')
           })
@@ -78,7 +78,7 @@ const deleteThisPattern = async function () {
 }
 
 const isCurrentlyPlayingThisPattern = computed(() => {
-  return table.currentPatternID === props.pattern.id
+  return table.currentPatternID === props.pattern.uuid
 })
 
 const isPerformingAction = ref(false)
@@ -90,7 +90,7 @@ const isPerformingAction = ref(false)
     class="flex justify-center items-end"
     content-class="w-full h-[90vh] p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl overflow-scroll"
   >
-    <div class="flex flex-col gap-8">
+    <div class="flex flex-col justify-between h-full pb-20">
       <div class="flex justify-between">
         <div class="flex-1">
           <button @click="emit('close')" class="hover:scale-[1.2] transform-gpu duration-300">
@@ -111,9 +111,6 @@ const isPerformingAction = ref(false)
           lineColor="#ffffff"
           :showBall="false"
         />
-      </div>
-      <div class="flex justify-center mt-[-1em]">
-        <span class="text-md font-medium text-gray-400">by {{ pattern.created_by_name }}</span>
       </div>
       <div class="flex justify-evenly">
         <button

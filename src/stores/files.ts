@@ -40,7 +40,7 @@ export default defineStore('files', () => {
 
     loaderMessage.value = `Sending pattern ${pattern.name}`
 
-    await _uploadFile(`${pattern.uuid}.thr`, patternData)
+    await uploadFile(`${pattern.uuid}.thr`, patternData)
 
     patterns.value.push(pattern)
     try {
@@ -65,36 +65,34 @@ export default defineStore('files', () => {
     loaderMessage.value = 'Fetching playlist'
     loaderActive.value = true
 
-    const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data.resp
+    const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data.resp as Playlist
 
-    for (const item of playlistData) {
-      if (item.type == 'pattern') {
-        //Check if pattern is not already downloaded.
-        if (patterns.value.find((pattern) => pattern.uuid === item.id) == undefined) {
-          console.log(`${item.name} is not downloaded..`)
-          await downloadPattern(item as Pattern)
-        } else {
-          console.log(`${item.name} is already downloaded!`)
-        }
-      } else if (item.type == 'playlist') {
-        const playlistFileLines = item.patterns.map((a: { id: string }) => a.id + '.thr')
-        const playlistFileContent = playlistFileLines.join('\n')
-
-        await _uploadFile(`${item.id}.seq`, playlistFileContent)
-
-        playlists.value.push(item)
-        try {
-          await saveManifest()
-        } catch (e) {
-          loaderActive.value = false
-          console.error(e)
-          await table.get(`/fs/delete/sd/${item.id}.seq`)
-        }
+    for (const patternUUID of playlistData.patterns) {
+      const pattern = getPattern(patternUUID)
+      if (patterns.value.find((p) => p.uuid === pattern.uuid) == undefined) {
+        console.log(`${pattern.name} is not downloaded..`)
+        await downloadPattern(pattern)
+      } else {
+        console.log(`${pattern.name} is already downloaded!`)
       }
+    }
+
+    const patternFilenameList = playlist.patterns.map((pattern) => getPattern(pattern).uuid + '.thr')
+    const playlistFileContent = patternFilenameList.join('\n')
+
+    await uploadFile(`${playlist.uuid}.seq`, playlistFileContent)
+
+    playlists.value.push(playlist)
+    try {
+      await saveManifest()
+    } catch (e) {
+      loaderActive.value = false
+      console.error(e)
+      await table.get(`/fs/delete/sd/${playlist.uuid}.seq`)
     }
   }
 
-  const _uploadFile = async function (fileName: string, content: any) {
+  const uploadFile = async function (fileName: string, content: any) {
     const formData = new FormData()
     const manifestBlob = new Blob([content], { type: 'text/plain' })
     formData.append('file', manifestBlob, `sd/${fileName}`)
@@ -130,7 +128,7 @@ export default defineStore('files', () => {
 
     const content = JSON.stringify(manifest)
 
-    await _uploadFile('manifest.json', content)
+    await uploadFile('manifest.json', content)
 
     loaderActive.value = false
   }
@@ -146,6 +144,7 @@ export default defineStore('files', () => {
     getPattern,
     getPlaylist,
     saveManifest,
-    deleteFile
+    deleteFile,
+    uploadFile
   }
 })

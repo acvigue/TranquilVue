@@ -13,26 +13,14 @@ declare global {
 
 const toast = useToast()
 
-function isJWTExpired(jwt: string): boolean {
-  try {
-    const payload = JSON.parse(Buffer.from(jwt.split('.')[1], 'base64').toString())
-    const exp: number = payload.exp * 1000
-
-    return Date.now() >= exp
-  } catch (e) {
-    console.error(e)
-    return true
-  }
-}
-
 const http = axios.create({
-  baseURL: 'https://tranquil-api.fiftytwo.workers.dev'
+  baseURL: 'https://tranquilapi.fiftytwo.workers.dev'
 })
 
 http.interceptors.request.use(
   async function (config) {
     //ignore interceptor for these paths
-    if (axios.getUri(config).includes('getToken')) {
+    if (axios.getUri(config).includes('auth')) {
       return config
     }
 
@@ -41,11 +29,11 @@ http.interceptors.request.use(
 
     //Authorize all requests
     let tranquilToken = window.localStorage.getItem('tranquilToken')
-    if (tranquilToken === null || isJWTExpired(tranquilToken)) {
+    if (!tranquilToken || tranquilToken === null) {
       window.authInProgress = true
       let settings
       try {
-        settings = await table.get('/settings/tranquilapi')
+        settings = await table.get('/settings/tranquil')
       } catch (e) {
         toast.error(`Couldn't connect to robot backend!`)
         throw new axios.Cancel()
@@ -53,12 +41,12 @@ http.interceptors.request.use(
 
       tranquilToken = settings.data.tranquil.token
 
-      if (!tranquilToken || tranquilToken == null || isJWTExpired(tranquilToken)) {
+      if (!tranquilToken || tranquilToken == null) {
         await showLoginModal()
         tranquilToken = window.localStorage.getItem('tranquilToken')
 
         try {
-          await table.post('/settings/tranquilapi', {
+          await table.post('/settings/tranquil', {
             token: tranquilToken
           })
         } catch (e) {

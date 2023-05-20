@@ -37,8 +37,9 @@
 <script setup lang="ts">
 import { ref, type Ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { type Pattern } from '../stores/files'
-import webcenter from '../plugins/webcenter'
+import tranquilapi from '../plugins/tranquilapi'
 import { lineRadial, curveBasis } from 'd3'
+import { useToast } from 'vue-toast-notification'
 
 interface PatternPreviewProps {
   lineColor: string
@@ -46,6 +47,7 @@ interface PatternPreviewProps {
 }
 
 const props = defineProps<PatternPreviewProps>()
+const toast = useToast()
 
 // The important part: the name of the variable needs to be equal to the ref's name of the canvas element in the template
 const canvasElement: Ref<HTMLCanvasElement | undefined> = ref()
@@ -76,44 +78,45 @@ onBeforeUnmount(async () => {
   canvasElement.value.remove()
 })
 
-async function getPatternData(): Promise<boolean> {
-  const patternDataResponse = await webcenter.get(`/pattern/${props.pattern.pattern_id}/download`)
-
-  if (patternDataResponse.data === null) {
-    return false
+async function getPatternData() {
+  let patternDataResponse;
+  try {
+    patternDataResponse = await tranquilapi.get(`/patterns/${props.pattern.uuid}/data`)
+  } catch(e) {
+    throw new Error(`Pattern preview generation failed for ${props.pattern.name}`)
   }
 
   const patternDataRaw = patternDataResponse.data
-  const uninterpData: [number, number][] = []
-  for (const pattern of (patternDataRaw as string).split('\n')) {
-    if (pattern.charAt(0) === '#') {
+  const uninterpolatedData: [number, number][] = []
+  for (const patternDataLine of (patternDataRaw as string).split('\n')) {
+    if (patternDataLine.charAt(0) === '#') {
       continue
     }
-    const patternVerts = pattern.split(' ')
-    const theta = parseFloat(patternVerts[0])
-    const rho = parseFloat(patternVerts[1])
-    uninterpData.push([theta, rho])
+
+    const patternCoordinates = patternDataLine.split(' ')
+    const theta = parseFloat(patternCoordinates[0])
+    const rho = parseFloat(patternCoordinates[1])
+    uninterpolatedData.push([theta, rho])
   }
 
-  patternData.push(uninterpData[0])
-  var last_point = uninterpData[0]
-  for (const point of uninterpData) {
-    var diff = Math.abs(last_point[0] - point[0])
-    if (diff > 0.1) {
-      var steps = Math.ceil(diff / 0.1)
-      for (var i = 1; i < steps - 1; i++) {
-        const newCoord: [number, number] = [
-          last_point[0] + ((point[0] - last_point[0]) * i) / steps,
-          last_point[1] + ((point[1] - last_point[1]) * i) / steps
+  patternData.push(uninterpolatedData[0])
+  let previousPoint = uninterpolatedData[0]
+  for (const uninterpolatedPoint of uninterpolatedData) {
+    var diff = Math.abs(previousPoint[0] - uninterpolatedPoint[0])
+    if (diff > 0.2) {
+      var steps = Math.ceil(diff / 0.2)
+      for(const i of Array(steps).fill(0).map((_, i) => i + 1)) {
+        const newPoint: [number, number] = [
+          previousPoint[0] + ((uninterpolatedPoint[0] - previousPoint[0]) * i) / steps,
+          previousPoint[1] + ((uninterpolatedPoint[1] - previousPoint[1]) * i) / steps
         ]
-        patternData.push(newCoord)
+        patternData.push(newPoint)
       }
     }
-    patternData.push(point)
-    last_point = point
-  }
 
-  return true
+    patternData.push(uninterpolatedPoint)
+    previousPoint = uninterpolatedPoint
+  }
 }
 
 async function render() {
@@ -121,13 +124,15 @@ async function render() {
     return
   }
 
-  if (patternID != props.pattern.id) {
+  if (patternID != props.pattern.uuid) {
     patternData = []
-    const gotPatternData = await getPatternData()
-    if (!gotPatternData) {
+    try {
+      await getPatternData()
+    } catch(e) {
+      toast.error(`Pattern preview generation failed for ${props.pattern.name}`)
       return
     }
-    patternID = props.pattern.id
+    patternID = props.pattern.uuid
   }
 
   context.value.strokeStyle = props.lineColor
@@ -140,8 +145,8 @@ async function render() {
   context.value.beginPath()
 
   let drawFunc = lineRadial()
-    .angle((d) => d[0])
-    .radius((d) => d[1] * (dim / 2))
+    .angle((dataPt) => dataPt[0])
+    .radius((dataPt) => dataPt[1] * (dim / 2))
     .curve(curveBasis)
     .context(context.value)
 

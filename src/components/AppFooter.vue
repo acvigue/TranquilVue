@@ -14,7 +14,7 @@
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
-        <FolderIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
+        <MusicalNoteIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
       </router-link>
       <router-link
         to="/playlists"
@@ -22,7 +22,7 @@
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
-        <CloudIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
+        <QueueListIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
       </router-link>
       <router-link
         to="/settings"
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { HomeIcon, AdjustmentsVerticalIcon, CloudIcon, FolderIcon } from '@heroicons/vue/24/outline'
+import { HomeIcon, MusicalNoteIcon, QueueListIcon, AdjustmentsVerticalIcon } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
 import useFilesStore from '../stores/files'
 
