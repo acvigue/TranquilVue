@@ -120,7 +120,7 @@ async function getPatternData() {
 }
 
 async function render() {
-  if (!context.value || props.pattern == undefined) {
+  if (!context.value || props.pattern == undefined || props.pattern.uuid === undefined) {
     return
   }
 
@@ -129,6 +129,7 @@ async function render() {
     try {
       await getPatternData()
     } catch(e) {
+      isLoaded.value = true
       toast.error(`Pattern preview generation failed for ${props.pattern.name}`)
       return
     }

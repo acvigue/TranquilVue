@@ -74,7 +74,10 @@ onMounted(async () => {
   }
 })
 
-const downloadedPlaylistsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
+const downloadedPlaylistsScrollPageProvider = async function (
+  pageNumber: number,
+  pageSize: number
+) {
   const slice = files.playlists.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
   return Promise.resolve(slice)
 }
@@ -85,21 +88,16 @@ const allPlaylistsScrollPageProvider = async function (pageNumber: number, pageS
 }
 
 const showPlaylistModal = async function (playlist: Playlist) {
-  const isPlaylistDownloaded = files.playlists.find((v) => v.uuid === playlist.uuid)
-  if (!isPlaylistDownloaded) {
-    console.log('Not implemented')
-  } else {
-    const { open, close } = useModal({
-      component: PlaylistModal,
-      attrs: {
-        playlist: playlist,
-        onClose() {
-          close()
-        }
+  const { open, close } = useModal({
+    component: PlaylistModal,
+    attrs: {
+      playlist: playlist,
+      onClose() {
+        close()
       }
-    })
-    await open()
-  }
+    }
+  })
+  await open()
 }
 
 //0 => downloaded

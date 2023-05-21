@@ -10,11 +10,11 @@
             class="w-64 h-64 rounded-full bg-gray-800"
             lineColor="#ffffff"
             :showBall="false"
-            :pattern="files.playlists[randomPatternIndex]"
+            :pattern="files.patterns[randomPatternIndex]"
           >
             <div
               class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
-              @click="router.push('/library')"
+              @click="router.push('/patterns')"
             >
               <div
                 class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
@@ -201,6 +201,6 @@ const gradientColorStopsProgress = computed(() => {
 })
 
 setInterval(() => {
-  randomPatternIndex.value = Math.floor(Math.random() * files.playlists.length)
+  randomPatternIndex.value = Math.floor(Math.random() * files.patterns.length)
 }, 2500)
 </script>

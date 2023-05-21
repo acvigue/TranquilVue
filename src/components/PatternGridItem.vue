@@ -1,9 +1,10 @@
 <template>
   <button
     :style="style"
-    class="group flex flex-col items-center p-4 rounded-xl bg-gray-700 gap-3 hover:bg-gray-600 active:scale-90 transition transform-gpu duration-300 relative"
+    :class="{'border-orange-500': !isPatternDownloaded }"
+    class="group flex flex-col items-center border-[2px] border-gray-500 p-4 rounded-xl bg-gray-700 gap-3 hover:bg-gray-600 active:scale-90 transition transform-gpu duration-300 relative"
   >
-    <HeartIcon class="absolute z-20 top-4 right-4 rounded-full text-orange-400 w-5" v-if="item.isFavorite" />
+    <HeartIcon class="absolute z-20 top-4 right-4 rounded-full text-orange-400 w-8" v-if="item.isFavorite" />
     <PatternPreview
       :pattern="item"
       :key="item.uuid"
@@ -23,13 +24,19 @@
 import type { Pattern } from '@/stores/files'
 import type { StyleValue } from 'vue'
 import { HeartIcon } from '@heroicons/vue/24/solid'
-
+import useFilesStore from '../stores/files'
 import PatternPreview from '../components/PatternPreview.vue'
+import { computed } from 'vue'
 
 interface PatternGridItemPlaceholderProps {
   style?: StyleValue
   item: Pattern
 }
 
-defineProps<PatternGridItemPlaceholderProps>()
+const files = useFilesStore()
+const props = defineProps<PatternGridItemPlaceholderProps>()
+
+const isPatternDownloaded = computed(() => {
+  return files.patterns.find((pattern) => pattern.uuid === props.item.uuid) !== undefined
+})
 </script>

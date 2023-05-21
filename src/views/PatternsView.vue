@@ -108,21 +108,16 @@ const favoritePatternsScrollPageProvider = async function (pageNumber: number, p
 }
 
 const showPatternModal = async function (pattern: Pattern) {
-  const isPatternDownloaded = files.patterns.find((v) => v.uuid === pattern.uuid)
-  if (!isPatternDownloaded) {
-    console.log('Not implemented')
-  } else {
-    const { open, close } = useModal({
-      component: PatternModal,
-      attrs: {
-        pattern: pattern,
-        onClose() {
-          close()
-        }
+  const { open, close } = useModal({
+    component: PatternModal,
+    attrs: {
+      pattern: pattern,
+      onClose() {
+        close()
       }
-    })
-    await open()
-  }
+    }
+  })
+  await open();
 }
 
 //0 => downloaded

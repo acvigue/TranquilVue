@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import type { Pattern } from '@/stores/files'
 import { VueFinalModal, useModal } from 'vue-final-modal'
-import { XMarkIcon, PlayIcon, TrashIcon, PlusIcon } from '@heroicons/vue/24/outline'
+import {
+  XMarkIcon,
+  PlayIcon,
+  TrashIcon,
+  PlusIcon,
+  ArrowDownTrayIcon,
+  HeartIcon as HeartIconOutline
+} from '@heroicons/vue/24/outline'
+import { HeartIcon } from '@heroicons/vue/24/solid'
 import PatternPreview from './PatternPreview.vue'
 import DeleteConfirmationModal from './DeleteConfirmationModal.vue'
 import useTableStatusStore from '../stores/tableStatus'
 import { computed, ref } from 'vue'
 import { useToast } from 'vue-toast-notification'
-import { useRouter } from 'vue-router'
 import useFilesStore from '../stores/files'
 
 interface PatternModalProps {
@@ -20,19 +27,33 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
+const isPatternDownloaded = computed(() => {
+  return files.patterns.find((v) => v.uuid === props.pattern.uuid)
+})
+
 const table = useTableStatusStore()
 const files = useFilesStore()
 const toast = useToast()
-const router = useRouter()
 
 const playThisPattern = async function () {
   isPerformingAction.value = true
   try {
     await table.playFile(`${props.pattern.uuid}.thr`)
     emit('close')
-    router.push('/')
+    toast.success(`Playing ${props.pattern.name}`)
   } catch (e) {
     toast.error('Error playing pattern!')
+  }
+  isPerformingAction.value = false
+}
+
+const downloadThisPattern = async function () {
+  isPerformingAction.value = true
+  try {
+    await files.downloadPattern(props.pattern)
+    toast.success(`Downloaded ${props.pattern.name}`)
+  } catch (e) {
+    toast.error('Error downloading pattern!')
   }
   isPerformingAction.value = false
 }
@@ -69,12 +90,19 @@ const deleteThisPattern = async function () {
             toast.error('Error deleting pattern!')
           })
           .finally(() => {
+            files.patterns = files.patterns.filter((pattern) => pattern.uuid !== props.pattern.uuid)
             isPerformingAction.value = false
           })
       }
     }
   })
   await open()
+}
+
+const togglePatternFavorite = async function() {
+  const fav = files.getPattern(props.pattern.uuid).isFavorite
+  files.getPattern(props.pattern.uuid).isFavorite = !fav
+  await files.saveManifest()
 }
 
 const isCurrentlyPlayingThisPattern = computed(() => {
@@ -92,7 +120,7 @@ const isPerformingAction = ref(false)
   >
     <div class="flex flex-col justify-between h-full pb-20">
       <div class="flex justify-between">
-        <div class="flex-1">
+        <div>
           <button @click="emit('close')" class="hover:scale-[1.2] transform-gpu duration-300">
             <XMarkIcon class="w-7 h-7" />
           </button>
@@ -102,7 +130,12 @@ const isPerformingAction = ref(false)
             pattern.name
           }}</span>
         </div>
-        <div class="flex-1"></div>
+        <div>
+          <button @click="togglePatternFavorite" class="hover:scale-[1.2] transform-gpu duration-300">
+            <HeartIcon class="w-7 h-7 fill-orange-400" v-if="pattern.isFavorite" />
+            <HeartIconOutline class="w-7 h-7" v-else />
+          </button>
+        </div>
       </div>
       <div class="flex justify-center">
         <PatternPreview
@@ -112,7 +145,7 @@ const isPerformingAction = ref(false)
           :showBall="false"
         />
       </div>
-      <div class="flex justify-evenly">
+      <div class="flex justify-evenly" v-if="isPatternDownloaded">
         <button
           :disabled="isCurrentlyPlayingThisPattern || isPerformingAction"
           @click="playThisPattern()"
@@ -133,6 +166,15 @@ const isPerformingAction = ref(false)
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >
           <TrashIcon class="w-7 h-7" />
+        </button>
+      </div>
+      <div class="flex justify-evenly" v-else>
+        <button
+          :disabled="isPerformingAction"
+          @click="downloadThisPattern"
+          class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+        >
+          <ArrowDownTrayIcon class="w-7 h-7" />
         </button>
       </div>
     </div>
