@@ -2,9 +2,9 @@
   <button
     :style="style"
     :class="{'border-orange-500': !isPatternDownloaded }"
-    class="group flex flex-col items-center border-[2px] border-gray-500 p-4 rounded-xl bg-gray-700 gap-3 hover:bg-gray-600 active:scale-90 transition transform-gpu duration-300 relative"
+    class="group flex flex-col items-center border border-gray-500 p-4 rounded-xl bg-gray-700 gap-3 hover:bg-gray-600 active:scale-90 transition transform-gpu duration-300 relative"
   >
-    <HeartIcon class="absolute z-20 top-4 right-4 rounded-full text-orange-400 w-8" v-if="item.isFavorite" />
+    <HeartIcon class="absolute z-20 top-4 right-4 rounded-full text-red-400 w-8" v-if="item.isFavorite" />
     <PatternPreview
       :pattern="item"
       :key="item.uuid"

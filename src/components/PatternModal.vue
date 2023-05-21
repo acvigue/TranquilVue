@@ -89,8 +89,10 @@ const deleteThisPattern = async function () {
           .catch(() => {
             toast.error('Error deleting pattern!')
           })
-          .finally(() => {
+          .finally(async () => {
             files.patterns = files.patterns.filter((pattern) => pattern.uuid !== props.pattern.uuid)
+            await files.saveManifest();
+            toast.success(`Deleted ${props.pattern.name}`)
             isPerformingAction.value = false
           })
       }
@@ -132,7 +134,7 @@ const isPerformingAction = ref(false)
         </div>
         <div>
           <button @click="togglePatternFavorite" class="hover:scale-[1.2] transform-gpu duration-300">
-            <HeartIcon class="w-7 h-7 fill-orange-400" v-if="pattern.isFavorite" />
+            <HeartIcon class="w-7 h-7 fill-red-400" v-if="pattern.isFavorite" />
             <HeartIconOutline class="w-7 h-7" v-else />
           </button>
         </div>
