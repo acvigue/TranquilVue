@@ -70,7 +70,7 @@ export default defineStore('files', () => {
     loaderMessage.value = 'Fetching playlist'
     loaderActive.value = true
 
-    const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data.resp as Playlist
+    const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data as Playlist
 
     for (const patternUUID of playlistData.patterns) {
       const pattern = getPattern(patternUUID)

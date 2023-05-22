@@ -1,7 +1,9 @@
 <template>
   <div class="mx-[5vw] flex flex-col gap-5 justify-start items-center pt-5">
     <span class="font-semibold text-2xl text-center mb-[-1rem]">Patterns</span>
-    <TabNav :tabs="['Downloaded', 'All', 'Favorites']" v-model="viewType"></TabNav>
+    <div class="w-full px-4">
+      <TabNav :tabs="['Saved', 'All', 'Favorites']" v-model="viewType"></TabNav>
+    </div>
     <Transition name="fade" mode="out-in">
       <div v-if="viewType == 0" class="w-full pb-20">
         <!-- downloaded -->

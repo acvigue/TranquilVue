@@ -1,9 +1,11 @@
 <template>
-  <div class="mx-[5vw] flex flex-col gap-4 justify-evenly items-center pt-5">
+  <div class="mx-[5vw] flex flex-col justify-start items-center pt-5">
     <TranquilLogoWhite class="font-semibold text-2xl text-center fill-gray-200 h-20" />
 
     <template v-if="tableStatus.status === 'idle'">
-      <div class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4">
+      <div
+        class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4"
+      >
         <span class="text-lg font-semibold">Play Something</span>
         <div :style="gradientColorStops" class="p-1 rounded-full">
           <PatternPreview
@@ -41,32 +43,35 @@
             v-if="tableStatus.isPlaylist"
             class="w-8 hover:text-white cursor-pointer"
           ></BackwardIcon>
-          <div :style="gradientColorStopsProgress" class="p-1 rounded-full">
-            <PatternPreview
-              class="w-64 h-64 rounded-full bg-gray-800"
-              lineColor="#ffffff"
-              :pattern="currentPattern"
-            >
-              <div
-                class="relative w-full h-full rounded-full flex justify-center items-center group cursor-pointer"
-                @click="togglePauseState()"
+          <div :style="gradientColorStops" class="rounded-full">
+            <div :style="gradientColorStopsProgress" class="p-1 rounded-full">
+              <PatternPreview
+                class="w-64 h-64 rounded-full bg-gray-800"
+                lineColor="#ffffff"
+                :pattern="currentPattern"
               >
                 <div
-                  class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
-                ></div>
-                <div class="relative">
-                  <PlayIcon
-                    v-if="tableStatus.raw.pause === 1"
-                    class="w-14 group-hover:scale-105 transition transform-gpu duration-300"
-                  ></PlayIcon>
-                  <PauseIcon
-                    v-else
-                    class="w-14 group-hover:scale-105 transition transform-gpu duration-300"
-                  ></PauseIcon>
+                  class="relative w-full h-full rounded-full flex justify-center items-center group cursor-pointer"
+                  @click="togglePauseState()"
+                >
+                  <div
+                    class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
+                  ></div>
+                  <div class="relative">
+                    <PlayIcon
+                      v-if="tableStatus.raw.pause === 1"
+                      class="w-14 group-hover:scale-105 transition transform-gpu duration-300"
+                    ></PlayIcon>
+                    <PauseIcon
+                      v-else
+                      class="w-14 group-hover:scale-105 transition transform-gpu duration-300"
+                    ></PauseIcon>
+                  </div>
                 </div>
-              </div>
-            </PatternPreview>
+              </PatternPreview>
+            </div>
           </div>
+
           <ForwardIcon
             @click.stop="skipPattern(1)"
             v-if="tableStatus.isPlaylist"
@@ -192,12 +197,7 @@ const gradientColorStopsProgress = computed(() => {
   const progress = tableStatus.raw.filePos / tableStatus.raw.fileLen // 0.00 -> 1.00
   const progressDeg = parseFloat((progress * 360).toFixed(2))
 
-  const primaryColor = `rgb(${tableLights.primaryColor.join(',')})`
-  const secondaryColor = `rgb(${tableLights.secondaryColor.join(',')})`
-
-  return `background: conic-gradient(${primaryColor} 0deg, ${secondaryColor} ${
-    progressDeg / 2
-  }deg, ${primaryColor} ${progressDeg}deg, rgb(31,41,55) ${progressDeg + 0.001}deg);`
+  return `background: conic-gradient(rgba(0,0,0,0) 0deg, rgba(0,0,0,0) ${progressDeg}deg, rgba(31,44,55,1) ${progressDeg + 0.001}deg);`
 })
 
 setInterval(() => {

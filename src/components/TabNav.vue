@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col justify-center w-full rounded">
-    <div class="mx-8 shadow rounded-full h-10 mt-4 flex p-1 gap-2 items-center bg-gray-700">
+  <div class="flex flex-col justify-center grow rounded">
+    <div class="shadow rounded-full h-10 mt-4 flex p-1 gap-2 items-center bg-gray-700">
       <div
         v-for="(tabName, index) in tabs"
         :key="index"

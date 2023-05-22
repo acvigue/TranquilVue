@@ -6,7 +6,7 @@
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
-        <HomeIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
+        <HomeIcon class="h-6 text-gray-400 group-hover:text-blue-600 duration-300 transform-gpu" />
       </router-link>
       <router-link
         to="/patterns"
@@ -14,7 +14,7 @@
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
-        <MusicalNoteIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
+        <MusicalNoteIcon class="h-6 text-gray-400 group-hover:text-blue-600 duration-300 transform-gpu" />
       </router-link>
       <router-link
         to="/playlists"
@@ -22,14 +22,14 @@
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
-        <QueueListIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
+        <QueueListIcon class="h-6 text-gray-400 group-hover:text-blue-600 duration-300 transform-gpu" />
       </router-link>
       <router-link
         to="/settings"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
-        <AdjustmentsVerticalIcon class="h-6 text-gray-400 group-hover:text-blue-600" />
+        <AdjustmentsVerticalIcon class="h-6 text-gray-400 group-hover:text-blue-600 duration-300 transform-gpu" />
       </router-link>
     </div>
   </div>

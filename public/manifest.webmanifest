@@ -4,8 +4,8 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Oasis Control",
-  "short_name": "Oasis",
+  "name": "Tranquil Control",
+  "short_name": "Tranquil",
   "icons": [
     {
       "src": "/icon-192x192.png",

@@ -1,7 +1,12 @@
 <template>
   <div class="mx-[5vw] flex flex-col gap-5 justify-start items-center pt-5">
     <span class="font-semibold text-2xl text-center mb-[-1rem]">Playlists</span>
-    <TabNav :tabs="['Downloaded', 'All']" v-model="viewType"></TabNav>
+    <div class="w-full flex justify-evenly items-center gap-8">
+      <TabNav :tabs="['Saved', 'All']" v-model="viewType"></TabNav>
+      <button @click="console.log('x')" :disabled="viewType != 0" class="h-10 w-10 mt-4 bg-gray-700 p-1 flex items-center justify-center rounded-full group hover:bg-gray-800 duration-300 transform-gpu disabled:pointer-events-none disabled:opacity-50">
+        <PlusIcon class="w-6 h-6 text-gray-200 group-hover:text-blue-600 duration-300 transform-gpu"/>
+      </button>
+    </div>
     <Transition name="fade" mode="out-in">
       <div v-if="viewType == 0" class="w-full pb-20">
         <!-- downloaded -->
@@ -60,6 +65,7 @@ import TabNav from '../components/TabNav.vue'
 import PlaylistModal from '../components/PlaylistModal.vue'
 import PatternGridItemPlaceholder from '@/components/PatternGridItemPlaceholder.vue'
 import PlaylistGridItem from '@/components/PlaylistGridItem.vue'
+import { PlusIcon } from '@heroicons/vue/24/outline'
 
 const files = useFilesStore()
 const toast = useToast()
