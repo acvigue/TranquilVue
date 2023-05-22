@@ -6,14 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import useTableStatusStore from '../stores/tableStatus'
 import useTableLightsStore from '../stores/tableLights'
-
-import { useToast } from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-sugar.css'
-import { computed, ref } from 'vue'
 
-const tableStatus = useTableStatusStore()
 const tableLights = useTableLightsStore()
-const toast = useToast()
 </script>
