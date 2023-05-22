@@ -146,7 +146,6 @@ const emit = defineEmits<{
           :pattern="{ uuid: playlist.featured_pattern, name: '', date: '' }"
           class="md:h-80 md:w-80 w-[60vw] h-[60vw] rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
           lineColor="#ffffff"
-          :showBall="false"
         />
         <div class="flex items-center flex-col align-center w-full gap-3 mt-6 mb-5">
           <div class="flex justify-evenly w-full">

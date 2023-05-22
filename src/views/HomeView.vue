@@ -1,48 +1,77 @@
 <template>
-  <div class="mx-[5vw] flex flex-col justify-start items-center pt-5">
+  <div class="mx-[5vw] flex flex-col justify-between items-center pt-5 h-full pb-5">
     <TranquilLogoWhite class="font-semibold text-2xl text-center fill-gray-200 h-20" />
 
     <template v-if="tableStatus.status === 'idle'">
       <div
-        class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4"
+        class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4 absolute mb-auto mt-auto top-0 bottom-0 w-full"
       >
         <span class="text-lg font-semibold">Play Something</span>
-        <div :style="gradientColorStops" class="p-1 rounded-full">
-          <PatternPreview
-            class="w-64 h-64 rounded-full bg-gray-800"
-            lineColor="#ffffff"
-            :showBall="false"
-            :pattern="files.patterns[randomPatternIndex]"
-          >
-            <div
-              class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
-              @click="router.push('/patterns')"
+        <div class="flex flex-row items-center justify-between w-full overflow-hidden">
+          <div class="w-32 h-32 rounded-full ml-[-4rem] opacity-40">
+            <PatternPreview
+              class="w-full h-full rounded-full bg-gray-800"
+              lineColor="#ffffff"
+              :pattern="files.patterns[randomPatternIndex]"
+            />
+          </div>
+          <div :style="gradientColorStops" class="p-1 rounded-full">
+            <PatternPreview
+              class="w-64 h-64 rounded-full bg-gray-800"
+              lineColor="#ffffff"
+              :pattern="files.patterns[randomPatternIndex]"
             >
               <div
-                class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
-              ></div>
-              <div class="relative">
-                <PlayIcon
-                  class="w-10 h-10 group-hover:scale-105 transition transform-gpu duration-300"
-                ></PlayIcon>
+                class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
+                @click="router.push('/patterns')"
+              >
+                <div
+                  class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
+                ></div>
+                <div class="relative">
+                  <PlayIcon
+                    class="w-10 h-10 group-hover:scale-105 transition transform-gpu duration-300"
+                  ></PlayIcon>
+                </div>
               </div>
-            </div>
-          </PatternPreview>
+            </PatternPreview>
+          </div>
+          <div class="w-32 h-32 rounded-full mr-[-4rem] opacity-40">
+            <PatternPreview
+              class="w-full h-full rounded-full bg-gray-800"
+              lineColor="#ffffff"
+              :pattern="files.patterns[randomPatternIndex]"
+            />
+          </div>
         </div>
       </div>
     </template>
     <template v-else>
       <div
-        class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-8"
+        class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4 absolute mb-auto mt-auto top-0 bottom-0 w-full"
       >
         <span class="font-semibold text-xl">Now Playing</span>
 
-        <div class="flex flex-row items-center justify-around gap-4">
-          <BackwardIcon
-            @click.stop="skipPattern(-1)"
+        <div class="flex flex-row items-center justify-between w-full overflow-hidden lg:px-80">
+          <div
+            class="w-32 h-32 rounded-full ml-[-4rem] opacity-40"
             v-if="tableStatus.isPlaylist"
-            class="w-8 hover:text-white cursor-pointer"
-          ></BackwardIcon>
+            :class="{ '!opacity-0': tableStatus.raw.playlistIdx == 1 }"
+          >
+            <PatternPreview
+              class="w-full h-full rounded-full bg-gray-800"
+              lineColor="#ffffff"
+              :pattern="previousPatternInPlaylist"
+            >
+            </PatternPreview>
+          </div>
+          <button
+            @click="skipPattern(-1)"
+            class="w-8 h-8 -ml-16 text-white z-50"
+            :class="{ '!opacity-0': tableStatus.raw.playlistIdx == 1 }"
+          >
+            <BackwardIcon />
+          </button>
           <div :style="gradientColorStops" class="rounded-full">
             <div :style="gradientColorStopsProgress" class="p-1 rounded-full">
               <PatternPreview
@@ -71,49 +100,45 @@
               </PatternPreview>
             </div>
           </div>
-
-          <ForwardIcon
-            @click.stop="skipPattern(1)"
+          <button
+            @click="skipPattern(1)"
+            class="w-8 h-8 -mr-16 text-white z-50"
+            :class="{ '!opacity-0': upNextPatterns.length == 0 }"
+          >
+            <ForwardIcon />
+          </button>
+          <div
+            class="w-32 h-32 rounded-full mr-[-4rem] opacity-40"
             v-if="tableStatus.isPlaylist"
-            class="w-8 hover:text-white cursor-pointer"
-          ></ForwardIcon>
+            :class="{ '!opacity-0': upNextPatterns.length == 0 }"
+          >
+            <PatternPreview
+              class="w-full h-full rounded-full bg-gray-800"
+              lineColor="#ffffff"
+              :pattern="nextPatternInPlaylist"
+            />
+          </div>
         </div>
+
         <div class="flex flex-col items-center">
           <span class="mt-2 text-lg font-semibold">{{ currentPattern?.name ?? '...' }}</span>
         </div>
 
-        <div v-if="tableStatus.isPlaylist" class="flex items-center gap-4">
-          <div @click="toggleRepeatState()">rep</div>
+        <div v-if="tableStatus.isPlaylist" class="flex items-center gap-4 hidden">
+          <div @click="toggleRepeatState()">rep {{}}</div>
           <div @click="toggleShuffleState()">shuf</div>
         </div>
       </div>
-      <template v-if="tableStatus.isPlaylist">
-        <div
-          class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center mt-4 pb-16"
-        >
-          <span class="font-semibold text-xl mb-2">Up Next</span>
-          <div class="grid grid-cols-2 gap-8">
-            <div
-              class="p-4 flex flex-col items-center justify-between h-60 bg-gray-800 rounded-xl"
-              v-for="pattern of upNextPatterns"
-              :key="pattern.uuid"
-            >
-              <div class="mb-2">
-                <PatternPreview
-                  class="w-40 h-40"
-                  lineColor="#ffffff"
-                  :pattern="pattern"
-                ></PatternPreview>
-              </div>
-              <span
-                class="font-medium text-ellipsis text-center overflow-hidden line-clamp-1 w-[80%]"
-                >{{ pattern.name }}</span
-              >
-            </div>
-          </div>
-        </div>
-      </template>
     </template>
+    <div class="flex justify-center items-center w-full gap-4">
+      <button
+        @click="null"
+        class="flex items-center gap-2 justify-center py-2 px-4 bg-gray-700 text-gray-400 hover:text-blue-600 hover:bg-gray-800 group transition transform-gpu duration-300 rounded-full"
+      >
+        <LightBulbIcon class="h-6 w-6"></LightBulbIcon>
+        <span class="text-sm font-medium">Lights</span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -124,7 +149,13 @@ import useFilesStore from '../stores/files'
 import useTableLightsStore from '../stores/tableLights'
 
 import PatternPreview from '../components/PatternPreview.vue'
-import { PlayIcon, PauseIcon, ForwardIcon, BackwardIcon } from '@heroicons/vue/24/outline'
+import {
+  PlayIcon,
+  PauseIcon,
+  ForwardIcon,
+  BackwardIcon,
+  LightBulbIcon
+} from '@heroicons/vue/24/outline'
 import TranquilLogoWhite from '../assets/tranquil-logo-white.svg'
 
 import { useToast } from 'vue-toast-notification'
@@ -180,6 +211,20 @@ const upNextPatterns = computed(() => {
       ?.patterns?.slice(tableStatus.raw.playlistIdx)
       .map((pattern) => files.getPattern(pattern)) ?? []
   )
+})
+
+const previousPatternInPlaylist = computed(() => {
+  const ptrn = files.getPlaylist(tableStatus.currentPlaylistID).patterns[
+    Math.max(tableStatus.raw.playlistIdx - 2, 0)
+  ]
+  return files.getPattern(ptrn)
+})
+
+const nextPatternInPlaylist = computed(() => {
+  const ptrn = files.getPlaylist(tableStatus.currentPlaylistID).patterns[
+    tableStatus.raw.playlistIdx
+  ]
+  return files.getPattern(ptrn)
 })
 
 const currentPattern = computed(() => {

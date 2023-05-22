@@ -17,7 +17,7 @@ files.refreshFiles()
 </script>
 
 <template>
-  <RouterView v-slot="{ Component, route }" class="h-[90vh]">
+  <RouterView v-slot="{ Component, route }" class="h-[calc(100dvh-3.5rem)]">
     <Transition name="fade" mode="out-in">
       <component :is="Component" :key="route.path" />
     </Transition>
