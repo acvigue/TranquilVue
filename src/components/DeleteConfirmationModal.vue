@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VueFinalModal } from 'vue-final-modal';
+import { VueFinalModal } from 'vue-final-modal'
 
 interface DeleteConfirmationModalProps {
   itemName: string

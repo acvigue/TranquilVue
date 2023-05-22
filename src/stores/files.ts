@@ -82,7 +82,9 @@ export default defineStore('files', () => {
       }
     }
 
-    const patternFilenameList = playlist.patterns.map((pattern) => getPattern(pattern).uuid + '.thr')
+    const patternFilenameList = playlist.patterns.map(
+      (pattern) => getPattern(pattern).uuid + '.thr'
+    )
     const playlistFileContent = patternFilenameList.join('\n')
 
     await uploadFile(`${playlist.uuid}.seq`, playlistFileContent)

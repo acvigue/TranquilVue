@@ -79,10 +79,10 @@ onBeforeUnmount(async () => {
 })
 
 async function getPatternData() {
-  let patternDataResponse;
+  let patternDataResponse
   try {
     patternDataResponse = await tranquilapi.get(`/patterns/${props.pattern.uuid}/data`)
-  } catch(e) {
+  } catch (e) {
     throw new Error(`Pattern preview generation failed for ${props.pattern.name}`)
   }
 
@@ -105,7 +105,9 @@ async function getPatternData() {
     var diff = Math.abs(previousPoint[0] - uninterpolatedPoint[0])
     if (diff > 0.2) {
       var steps = Math.ceil(diff / 0.2)
-      for(const i of Array(steps).fill(0).map((_, i) => i + 1)) {
+      for (const i of Array(steps)
+        .fill(0)
+        .map((_, i) => i + 1)) {
         const newPoint: [number, number] = [
           previousPoint[0] + ((uninterpolatedPoint[0] - previousPoint[0]) * i) / steps,
           previousPoint[1] + ((uninterpolatedPoint[1] - previousPoint[1]) * i) / steps
@@ -128,7 +130,7 @@ async function render() {
     patternData = []
     try {
       await getPatternData()
-    } catch(e) {
+    } catch (e) {
       isLoaded.value = true
       toast.error(`Pattern preview generation failed for ${props.pattern.name}`)
       return

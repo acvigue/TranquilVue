@@ -6,7 +6,7 @@ import theme from './formkit.theme'
 const config: DefaultConfigOptions = {
   config: {
     classes: generateClasses(theme)
-  },
+  }
 }
 
 export default config

@@ -119,7 +119,7 @@ const showPatternModal = async function (pattern: Pattern) {
       }
     }
   })
-  await open();
+  await open()
 }
 
 //0 => downloaded

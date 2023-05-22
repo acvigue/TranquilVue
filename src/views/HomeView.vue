@@ -197,7 +197,9 @@ const gradientColorStopsProgress = computed(() => {
   const progress = tableStatus.raw.filePos / tableStatus.raw.fileLen // 0.00 -> 1.00
   const progressDeg = parseFloat((progress * 360).toFixed(2))
 
-  return `background: conic-gradient(rgba(0,0,0,0) 0deg, rgba(0,0,0,0) ${progressDeg}deg, rgba(31,44,55,1) ${progressDeg + 0.001}deg);`
+  return `background: conic-gradient(rgba(0,0,0,0) 0deg, rgba(0,0,0,0) ${progressDeg}deg, rgba(31,44,55,1) ${
+    progressDeg + 0.001
+  }deg);`
 })
 
 setInterval(() => {

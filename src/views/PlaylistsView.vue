@@ -3,8 +3,14 @@
     <span class="font-semibold text-2xl text-center mb-[-1rem]">Playlists</span>
     <div class="w-full flex justify-evenly items-center gap-8">
       <TabNav :tabs="['Saved', 'All']" v-model="viewType"></TabNav>
-      <button @click="console.log('x')" :disabled="viewType != 0" class="h-10 w-10 mt-4 bg-gray-700 p-1 flex items-center justify-center rounded-full group hover:bg-gray-800 duration-300 transform-gpu disabled:pointer-events-none disabled:opacity-50">
-        <PlusIcon class="w-6 h-6 text-gray-200 group-hover:text-blue-600 duration-300 transform-gpu"/>
+      <button
+        @click="console.log('x')"
+        :disabled="viewType != 0"
+        class="h-10 w-10 mt-4 bg-gray-700 p-1 flex items-center justify-center rounded-full group hover:bg-gray-800 duration-300 transform-gpu disabled:pointer-events-none disabled:opacity-50"
+      >
+        <PlusIcon
+          class="w-6 h-6 text-gray-200 group-hover:text-blue-600 duration-300 transform-gpu"
+        />
       </button>
     </div>
     <Transition name="fade" mode="out-in">

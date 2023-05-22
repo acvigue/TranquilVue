@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
-import type { StyleValue } from 'vue';
+import type { StyleValue } from 'vue'
 
 interface PatternGridItemPlaceholderProps {
-    style?: StyleValue
+  style?: StyleValue
 }
 
-defineProps<PatternGridItemPlaceholderProps>();
+defineProps<PatternGridItemPlaceholderProps>()
 </script>
