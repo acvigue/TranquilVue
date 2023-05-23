@@ -132,8 +132,9 @@
     </template>
     <div class="flex justify-center items-center w-full gap-4">
       <button
-        @click="null"
-        class="flex items-center gap-2 justify-center py-2 px-4 bg-gray-700 text-gray-400 hover:text-blue-600 hover:bg-gray-800 group transition transform-gpu duration-300 rounded-full"
+        @click="openLightsModal()"
+        :class="{ 'text-yellow-200': tableLights.on }"
+        class="flex items-center gap-2 justify-center px-4 py-2 bg-gray-700 hover:text-blue-600 hover:bg-gray-800 group transition transform-gpu duration-300 rounded-full"
       >
         <LightBulbIcon class="h-6 w-6"></LightBulbIcon>
         <span class="text-sm font-medium">Lights</span>
@@ -145,9 +146,10 @@
 <script setup lang="ts">
 import useTableStatusStore from '../stores/tableStatus'
 
-import useFilesStore from '../stores/files'
+import useFilesStore, { type Pattern } from '../stores/files'
 import useTableLightsStore from '../stores/tableLights'
 
+import LightsModal from '../components/LightsModal.vue'
 import PatternPreview from '../components/PatternPreview.vue'
 import {
   PlayIcon,
@@ -161,6 +163,7 @@ import TranquilLogoWhite from '../assets/tranquil-logo-white.svg'
 import { useToast } from 'vue-toast-notification'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useModal } from 'vue-final-modal'
 
 import 'vue-toast-notification/dist/theme-sugar.css'
 
@@ -171,6 +174,18 @@ const router = useRouter()
 
 const toast = useToast()
 const randomPatternIndex = ref(0)
+
+const openLightsModal = async () => {
+  const { open, close } = useModal({
+    component: LightsModal,
+    attrs: {
+      onClose() {
+        close()
+      }
+    }
+  })
+  await open()
+}
 
 const togglePauseState = async () => {
   try {
@@ -214,6 +229,14 @@ const upNextPatterns = computed(() => {
 })
 
 const previousPatternInPlaylist = computed(() => {
+  if (tableStatus.currentPlaylistID === '') {
+    return {
+      name: '',
+      uuid: '',
+      date: '',
+      isFavorite: false
+    } as Pattern
+  }
   const ptrn = files.getPlaylist(tableStatus.currentPlaylistID).patterns[
     Math.max(tableStatus.raw.playlistIdx - 2, 0)
   ]
@@ -221,6 +244,14 @@ const previousPatternInPlaylist = computed(() => {
 })
 
 const nextPatternInPlaylist = computed(() => {
+  if (tableStatus.currentPlaylistID === '') {
+    return {
+      name: '',
+      uuid: '',
+      date: '',
+      isFavorite: false
+    } as Pattern
+  }
   const ptrn = files.getPlaylist(tableStatus.currentPlaylistID).patterns[
     tableStatus.raw.playlistIdx
   ]
