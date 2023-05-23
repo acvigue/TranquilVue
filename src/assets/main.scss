@@ -29,3 +29,13 @@ body {
 .fade-y-leave-active {
   transition: opacity 0.3s, transform 0.5s;
 }
+
+@layer components {
+  input[type=range] {
+    @apply appearance-none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    @apply  bg-blue-600 rounded-full appearance-none w-5 h-5;
+  }
+}

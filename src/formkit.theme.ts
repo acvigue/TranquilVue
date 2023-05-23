@@ -219,7 +219,7 @@ export default {
       'flex items-center py-1 [&>.formkit-max-value]:mb-0 [&>.formkit-max-value]:ml-8 [&>.formkit-max-value]:shrink [&>.formkit-max-value]:grow-0 [&>.formkit-icon]:bg-none [&>.formkit-icon]:border-none [&>.formkit-icon]:p-0 [&>.formkit-icon]:w-4 [&>.formkit-prefix-icon]:mr-2 [&>.formkit-suffix-icon]:ml-2 [&[data-has-mark-labels="true"]_.formkit-track]:mb-4',
     track: 'grow relative z-[3] py-1',
     trackWrapper: 'px-[2px] rounded-full bg-gray-200',
-    trackInner: 'h-[6px] mx-[2px] relative',
+    trackInner: 'h-[10px] mx-[2px] relative',
     fill: 'h-full rounded-full absolute top-0 mx-[-4px] bg-blue-500',
     marks: 'absolute pointer-events-none left-0 right-0 top-0 bottom-0',
     mark: 'absolute top-1/2 w-[3px] h-[3px] rounded-full -translate-x-1/2 -translate-y-1/2 bg-gray-400 data-[active="true"]:bg-white',

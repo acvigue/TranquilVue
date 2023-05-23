@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-[5vw] flex flex-col justify-between items-center pt-5 h-full pb-5">
+  <div class="mx-[5vw] flex flex-col justify-between items-center pt-5 pb-5">
     <TranquilLogoWhite class="font-semibold text-2xl text-center fill-gray-200 h-20" />
 
     <template v-if="tableStatus.status === 'idle'">
@@ -7,14 +7,7 @@
         class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4 absolute mb-auto mt-auto top-0 bottom-0 w-full"
       >
         <span class="text-lg font-semibold">Play Something</span>
-        <div class="flex flex-row items-center justify-between w-full overflow-hidden">
-          <div class="w-32 h-32 rounded-full ml-[-4rem] opacity-40">
-            <PatternPreview
-              class="w-full h-full rounded-full bg-gray-800"
-              lineColor="#ffffff"
-              :pattern="files.patterns[randomPatternIndex]"
-            />
-          </div>
+        <div class="flex flex-row items-center justify-center w-full overflow-hidden">
           <div :style="gradientColorStops" class="p-1 rounded-full">
             <PatternPreview
               class="w-64 h-64 rounded-full bg-gray-800"
@@ -36,13 +29,6 @@
               </div>
             </PatternPreview>
           </div>
-          <div class="w-32 h-32 rounded-full mr-[-4rem] opacity-40">
-            <PatternPreview
-              class="w-full h-full rounded-full bg-gray-800"
-              lineColor="#ffffff"
-              :pattern="files.patterns[randomPatternIndex]"
-            />
-          </div>
         </div>
       </div>
     </template>
@@ -52,7 +38,7 @@
       >
         <span class="font-semibold text-xl">Now Playing</span>
 
-        <div class="flex flex-row items-center justify-between w-full overflow-hidden lg:px-80">
+        <div class="flex flex-row items-center justify-between w-full overflow-hidden lg:px-80" :class="{'!justify-center': !tableStatus.isPlaylist}">
           <div
             class="w-32 h-32 rounded-full ml-[-4rem] opacity-40"
             v-if="tableStatus.isPlaylist"
@@ -68,6 +54,7 @@
           <button
             @click="skipPattern(-1)"
             class="w-8 h-8 -ml-16 text-white z-50"
+            v-if="tableStatus.isPlaylist"
             :class="{ '!opacity-0': tableStatus.raw.playlistIdx == 1 }"
           >
             <BackwardIcon />
@@ -103,6 +90,7 @@
           <button
             @click="skipPattern(1)"
             class="w-8 h-8 -mr-16 text-white z-50"
+            v-if="tableStatus.isPlaylist"
             :class="{ '!opacity-0': upNextPatterns.length == 0 }"
           >
             <ForwardIcon />

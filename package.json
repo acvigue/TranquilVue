@@ -13,8 +13,9 @@
   },
   "dependencies": {
     "@formkit/core": "^0.17.2",
+    "@formkit/pro": "^0.112.2",
     "@formkit/themes": "^0.17.2",
-    "@formkit/vue": "^0.18.0-065ebab",
+    "@formkit/vue": "^0.17.2",
     "@heroicons/vue": "^2.0.18",
     "axios": "^1.4.0",
     "d3": "^7.8.4",
@@ -25,6 +26,7 @@
     "vue-router": "^4.2.0",
     "vue-toast-notification": "^3.1.1",
     "vue-virtual-scroll-grid": "^1.10.2",
+    "vue3-colorpicker": "^2.1.2",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {

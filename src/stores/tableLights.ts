@@ -19,28 +19,28 @@ export default defineStore('tableLights', () => {
   const setBrightness = async function (newBrightness: number) {
     if (brightness.value != newBrightness) {
       brightness.value = newBrightness
-      await _updateLedConfig()
+      await update()
     }
   }
 
   const setEnabled = async function (enabled: boolean) {
     if (on.value != enabled) {
       on.value = enabled
-      await _updateLedConfig()
+      await update()
     }
   }
 
   const setAutoDimEnabled = async function (enabled: boolean) {
     if (autoDimEnabled.value != enabled) {
       autoDimEnabled.value = enabled
-      await _updateLedConfig()
+      await update()
     }
   }
 
   const setAutoDimStrength = async function (maxlux: number) {
     if (autoDimStrength.value != maxlux) {
       autoDimStrength.value = maxlux
-      await _updateLedConfig()
+      await update()
     }
   }
 
@@ -53,7 +53,7 @@ export default defineStore('tableLights', () => {
       primaryColor.value[0] = color[0]
       primaryColor.value[1] = color[1]
       primaryColor.value[2] = color[2]
-      await _updateLedConfig()
+      await update()
     }
   }
 
@@ -66,25 +66,25 @@ export default defineStore('tableLights', () => {
       secondaryColor.value[0] = color[0]
       secondaryColor.value[1] = color[1]
       secondaryColor.value[2] = color[2]
-      await _updateLedConfig()
+      await update()
     }
   }
 
   const setEffect = async function (newEffectID: number) {
     if (effectID.value != newEffectID) {
       effectID.value = newEffectID
-      await _updateLedConfig()
+      await update()
     }
   }
 
   const setEffectSpeed = async function (newSpeed: number) {
     if (effectSpeed.value != newSpeed) {
       effectSpeed.value = newSpeed
-      await _updateLedConfig()
+      await update()
     }
   }
 
-  const _updateLedConfig = async function () {
+  const update = async function () {
     loaderActive.value = true
     const config = {
       ledOn: on.value ? 1 : 0,
@@ -101,7 +101,11 @@ export default defineStore('tableLights', () => {
       autoDimStrength: autoDimStrength.value
     }
 
-    await table.post('/settings/led', JSON.stringify(config))
+    await table.post('/settings/led', JSON.stringify(config), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
     loaderActive.value = false
   }
 
@@ -144,6 +148,7 @@ export default defineStore('tableLights', () => {
     setEnabled,
     setPrimaryColor,
     setSecondaryColor,
-    getLedConfig
+    getLedConfig,
+    update
   }
 })
