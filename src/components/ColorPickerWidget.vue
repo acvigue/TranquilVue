@@ -2,7 +2,7 @@
 import { ColorPicker } from 'vue3-colorpicker'
 import { VueFinalModal } from 'vue-final-modal'
 import 'vue3-colorpicker/style.css'
-import { ref, type Ref, watch } from 'vue';
+import { ref, type Ref, watch } from 'vue'
 
 interface ColorPickerWidgetProps {
   color: Ref<string>
@@ -16,7 +16,7 @@ const props = defineProps<ColorPickerWidgetProps>()
 const color = ref(props.color)
 
 watch(color, () => {
-    emit("colorChange", color.value)
+  emit('colorChange', color.value)
 })
 </script>
 

@@ -4,4 +4,4 @@ const proPlugin = createProPlugin('fk-6', {
   toggle
 })
 
-export default proPlugin;
+export default proPlugin

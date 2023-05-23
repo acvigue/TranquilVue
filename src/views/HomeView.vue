@@ -38,7 +38,10 @@
       >
         <span class="font-semibold text-xl">Now Playing</span>
 
-        <div class="flex flex-row items-center justify-between w-full overflow-hidden lg:px-80" :class="{'!justify-center': !tableStatus.isPlaylist}">
+        <div
+          class="flex flex-row items-center justify-between w-full overflow-hidden lg:px-80"
+          :class="{ '!justify-center': !tableStatus.isPlaylist }"
+        >
           <div
             class="w-32 h-32 rounded-full ml-[-4rem] opacity-40"
             v-if="tableStatus.isPlaylist"

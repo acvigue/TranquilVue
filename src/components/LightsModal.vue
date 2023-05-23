@@ -2,7 +2,7 @@
 import useTableLightsStore from '../stores/tableLights'
 import { VueFinalModal } from 'vue-final-modal'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useModal } from 'vue-final-modal'
 import ColorPickerWidget from './ColorPickerWidget.vue'
 
@@ -29,9 +29,12 @@ const openPrimaryColorModal = async () => {
         close()
       },
       onColorChange(color) {
-        lights.primaryColor = color.slice(color.indexOf('(') + 1, color.indexOf(')')).split(', ').map((v) => {
-          return parseInt(v)
-        })
+        lights.primaryColor = color
+          .slice(color.indexOf('(') + 1, color.indexOf(')'))
+          .split(', ')
+          .map((v) => {
+            return parseInt(v)
+          })
         lights.update()
       }
     }
@@ -48,9 +51,12 @@ const openSecondaryColorModal = async () => {
         close()
       },
       onColorChange(color) {
-        lights.secondaryColor = color.slice(color.indexOf('(') + 1, color.indexOf(')')).split(', ').map((v) => {
-          return parseInt(v)
-        })
+        lights.secondaryColor = color
+          .slice(color.indexOf('(') + 1, color.indexOf(')'))
+          .split(', ')
+          .map((v) => {
+            return parseInt(v)
+          })
         lights.update()
       }
     }
@@ -64,7 +70,7 @@ const openSecondaryColorModal = async () => {
     contentTransition="fade-y"
     overlayTransition="fade"
     class="flex justify-center items-end"
-    content-class="w-full h-[90vh] p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl overflow-scroll"
+    content-class="w-full h-[70vh] p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl overflow-scroll"
   >
     <div class="flex flex-col justify-start h-full pb-4 gap-4 w-full items-center">
       <!-- Header -->
@@ -127,14 +133,22 @@ const openSecondaryColorModal = async () => {
       <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl">
         <div class="flex justify-between w-full items-center">
           <span class="text-lg font-medium">Primary Color</span>
-          <button @click="openPrimaryColorModal()" class="w-10 h-10 rounded-full border-[2px] border-gray-400" :style="{'background-color': primaryColor }"></button>
+          <button
+            @click="openPrimaryColorModal()"
+            class="w-10 h-10 rounded-full border-[2px] border-gray-400"
+            :style="{ 'background-color': primaryColor }"
+          ></button>
         </div>
       </div>
 
-      <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl">
+      <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl -mt-2">
         <div class="flex justify-between w-full items-center">
           <span class="text-lg font-medium">Secondary Color</span>
-          <button @click="openSecondaryColorModal()" class="w-10 h-10 rounded-full border-[2px] border-gray-400" :style="{'background-color': secondaryColor }"></button>
+          <button
+            @click="openSecondaryColorModal()"
+            class="w-10 h-10 rounded-full border-[2px] border-gray-400"
+            :style="{ 'background-color': secondaryColor }"
+          ></button>
         </div>
       </div>
     </div>

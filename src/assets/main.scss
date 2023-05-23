@@ -31,11 +31,11 @@ body {
 }
 
 @layer components {
-  input[type=range] {
+  input[type='range'] {
     @apply appearance-none;
   }
 
-  input[type=range]::-webkit-slider-thumb {
-    @apply  bg-blue-600 rounded-full appearance-none w-5 h-5;
+  input[type='range']::-webkit-slider-thumb {
+    @apply bg-blue-600 rounded-full appearance-none w-5 h-5;
   }
 }
