@@ -4,6 +4,7 @@ import { RouterView } from 'vue-router'
 import useFilesStore from './stores/files'
 import useTableStatusStore from './stores/tableStatus'
 import useTableLightsStore from './stores/tableLights'
+import useTableWiFiStore from './stores/tableWiFi'
 
 import { ModalsContainer } from 'vue-final-modal'
 import 'vue-final-modal/style.css'
@@ -14,6 +15,7 @@ import FullScreenLoader from './components/FullScreenLoader.vue'
 const files = useFilesStore()
 const tableStatus = useTableStatusStore()
 const tableLights = useTableLightsStore()
+const tableWiFi = useTableWiFiStore()
 
 files.refreshFiles()
 </script>
@@ -36,6 +38,10 @@ files.refreshFiles()
   <FullScreenLoader
     :active="tableLights.loaderActive"
     :message="tableLights.loaderMessage"
+  ></FullScreenLoader>
+  <FullScreenLoader
+    :active="tableWiFi.loaderActive"
+    :message="tableWiFi.loaderMessage"
   ></FullScreenLoader>
 
   <ModalsContainer />

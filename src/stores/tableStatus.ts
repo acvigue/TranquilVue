@@ -1,6 +1,11 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import table from '../plugins/table'
+import { useModal } from 'vue-final-modal'
+import { useToast } from 'vue-toast-notification'
+import TranquilWiFiSetupModal from '../components/TranquilWiFiSetupModal.vue'
+
+const toast = useToast();
 
 export default defineStore('tableStatus', () => {
   const status = computed(() => {
@@ -27,6 +32,8 @@ export default defineStore('tableStatus', () => {
   const isPlaylist = computed(() => {
     return (raw.value.playlist ?? false) == true
   })
+
+  const _isWiFiSetupModalShowing = ref(false);
 
   const raw = ref({
     Qd: 0,
@@ -113,7 +120,33 @@ export default defineStore('tableStatus', () => {
 
   table.get('/status').then((resp) => {
     _updateRaw(resp.data)
+
+    //ap mode, start connection loop
+    if(resp.data.wifiConn === 'A') {
+      if(!_isWiFiSetupModalShowing.value) {
+        showWiFiSetupModal();
+        _isWiFiSetupModalShowing.value = true;
+      }
+    }
   })
+
+  const showWiFiSetupModal = function(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const modal = useModal({
+        component: TranquilWiFiSetupModal,
+  
+        attrs: {
+          onSaved() {
+            modal.close()
+            toast.success('WiFi settings saved. Please reconnect or refresh as necessary.')
+            _isWiFiSetupModalShowing.value = false
+            resolve()
+          }
+        }
+      })
+      modal.open()
+    })
+  }
 
   return {
     status,

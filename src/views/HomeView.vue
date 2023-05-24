@@ -12,6 +12,7 @@
             <PatternPreview
               class="w-64 h-64 rounded-full bg-gray-800"
               lineColor="#ffffff"
+              :key="files.patterns[randomPatternIndex]?.uuid ?? ''"
               :pattern="files.patterns[randomPatternIndex]"
             >
               <div

@@ -40,6 +40,9 @@ import { type Pattern } from '../stores/files'
 import tranquilapi from '../plugins/tranquilapi'
 import { lineRadial, curveBasis } from 'd3'
 import { useToast } from 'vue-toast-notification'
+import useTableWiFiStore from '../stores/tableWiFi'
+
+const tableWiFi = useTableWiFiStore()
 
 interface PatternPreviewProps {
   lineColor: string
@@ -58,8 +61,10 @@ let patternData: [number, number][] = []
 let patternID = ''
 
 onMounted(async () => {
-  context.value = canvasElement.value?.getContext('2d') || undefined
-  await render()
+  if(tableWiFi.connectionType !== 3) {
+    context.value = canvasElement.value?.getContext('2d') || undefined
+    await render()
+  }
 })
 
 onBeforeUnmount(async () => {
