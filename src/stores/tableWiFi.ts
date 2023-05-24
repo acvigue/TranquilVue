@@ -6,7 +6,7 @@ export default defineStore('tableWiFi', () => {
   const loaderActive = ref(false)
   const loaderMessage = ref('Saving')
 
-  const connectionType = ref(3);
+  const connectionType = ref(-1);
   const ssid = ref("");
   const password = ref("");
   const hostname = ref("");

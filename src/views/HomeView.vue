@@ -113,10 +113,10 @@
         </div>
 
         <div class="flex flex-col items-center">
-          <span class="mt-2 text-lg font-semibold">{{ currentPattern?.name ?? '...' }}</span>
+          <span class="mt-2 text-lg font-semibold">{{ currentPattern?.name ?? '...' }} • {{ Math.floor((tableStatus.raw.filePos / tableStatus.raw.fileLen) * 100) }}%</span>
         </div>
 
-        <div v-if="tableStatus.isPlaylist" class="flex items-center gap-4 hidden">
+        <div v-if="tableStatus.isPlaylist" class="items-center gap-4 hidden">
           <div @click="toggleRepeatState()">rep {{}}</div>
           <div @click="toggleShuffleState()">shuf</div>
         </div>
@@ -125,8 +125,8 @@
     <div class="flex justify-center items-center w-full gap-4">
       <button
         @click="openLightsModal()"
-        :class="{ 'text-yellow-200': tableLights.on }"
-        class="flex items-center gap-2 justify-center px-4 py-2 bg-gray-700 hover:text-blue-600 hover:bg-gray-800 group transition transform-gpu duration-300 rounded-full"
+        :class="{ 'border-[2px] border-yellow-200 text-yellow-200 hover:border-blue-600': tableLights.on }"
+        class="flex items-center gap-2 justify-center px-4 py-2 bg-gray-700 hover:text-blue-600 hover:bg-gray-800 text-gray-400 group transition transform-gpu duration-300 rounded-full"
       >
         <LightBulbIcon class="h-6 w-6"></LightBulbIcon>
         <span class="text-sm font-medium">Lights</span>

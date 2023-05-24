@@ -10,7 +10,7 @@ const emit = defineEmits<{
 const tableWiFi = useTableWiFiStore()
 const connectAction = async () => {
   console.log(tableWiFi);
-  await tableWiFi.update().catch((e) => {
+  await tableWiFi.update().catch(() => {
     emit('saved')
   })
 }

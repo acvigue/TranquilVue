@@ -131,7 +131,7 @@ export default defineStore('tableStatus', () => {
   })
 
   const showWiFiSetupModal = function(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const modal = useModal({
         component: TranquilWiFiSetupModal,
   

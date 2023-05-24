@@ -5,10 +5,18 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue'
 import { useModal } from 'vue-final-modal'
 import ColorPickerWidget from './ColorPickerWidget.vue'
+import { FormKit } from '@formkit/vue'
+import type { FormKitNode } from '@formkit/core'
 
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
+
+const effects = [
+  { label: 'Solid', value: 0 },
+  { label: 'Rainbow', value: 1 },
+  { label: 'Motion Tracked', value: 2 }
+]
 
 const lights = useTableLightsStore()
 
@@ -141,7 +149,7 @@ const openSecondaryColorModal = async () => {
         </div>
       </div>
 
-      <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl -mt-2">
+      <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl -mt-2 mb-2">
         <div class="flex justify-between w-full items-center">
           <span class="text-lg font-medium">Secondary Color</span>
           <button
@@ -149,6 +157,19 @@ const openSecondaryColorModal = async () => {
             class="w-10 h-10 rounded-full border-[2px] border-gray-400"
             :style="{ 'background-color': secondaryColor }"
           ></button>
+        </div>
+      </div>
+
+      <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl -mt-2 pb-2">
+        <div class="flex justify-between w-full items-center">
+          <FormKit
+            type="dropdown"
+            name="effect"
+            label="Light Effect"
+            v-model="lights.effectID"
+            @input="(_x: any, node: FormKitNode) => { lights.setEffect(node.value as number) }"
+            :options="effects"
+          />
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export default {
     loaderIcon: 'inline-flex items-center w-4 text-gray-600 animate-spin',
     message: 'text-red-500 mb-1 text-xs',
     messages: 'list-none p-0 mt-1 mb-0',
-    outer: 'mb-4 formkit-disabled:opacity-50',
+    outer: 'mb-4 formkit-disabled:opacity-50 w-full',
     prefixIcon:
       'w-10 flex self-stretch grow-0 shrink-0 rounded-tl rounded-bl border-r border-gray-400 bg-white bg-gradient-to-b from-transparent to-gray-200 [&>svg]:w-full [&>svg]:max-w-[1em] [&>svg]:max-h-[1em] [&>svg]:m-auto',
     suffixIcon:
@@ -44,10 +44,10 @@ export default {
     inner:
       ' relative flex ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 rounded mb-1 formkit-disabled:focus-within:ring-gray-400 formkit-disabled:focus-within:ring-1 [&>span:first-child]:focus-within:text-blue-500',
     input: 'w-full px-3 py-2',
-    listbox: 'bg-white drop-shadow-lg rounded overflow-hidden',
+    listbox: 'bg-gray-600 drop-shadow-2xl rounded overflow-hidden',
     listboxButton: 'flex w-12 self-stretch justify-center mx-auto',
     listitem:
-      'pl-7 relative hover:bg-gray-300 data-[is-active="true"]:bg-gray-300 data-[is-active="true"]:aria-selected:bg-blue-600 aria-selected:bg-blue-600 aria-selected:text-white',
+      'pl-7 relative hover:bg-gray-500 data-[is-active="true"]:bg-gray-500 data-[is-active="true"]:aria-selected:bg-blue-600 aria-selected:bg-blue-600 aria-selected:text-gray-200',
     loaderIcon: 'ml-auto',
     loadMoreInner:
       'flex items-center justify-center text-sm p-2 text-center w-full text-blue-500 formkit-loading:text-gray-500 cursor-pointer [&>span]:mr-3 [&>span]:ml-0',

@@ -1,7 +1,8 @@
-import { createProPlugin, slider, toggle } from '@formkit/pro'
+import { createProPlugin, slider, toggle, dropdown } from '@formkit/pro'
 const proPlugin = createProPlugin('fk-6', {
   slider,
-  toggle
+  toggle,
+  dropdown
 })
 
 export default proPlugin
