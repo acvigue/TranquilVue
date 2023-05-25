@@ -4,7 +4,7 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
-    "types": ["node", "d3"],
+    "types": ["node", "d3", "uuid"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

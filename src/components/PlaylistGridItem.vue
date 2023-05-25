@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { type Playlist } from '@/stores/files'
+import { type StyleValue } from 'vue'
+import PatternPreview from '../components/PatternPreview.vue'
+
+interface PlaylistGridItemPlaceholderProps {
+  style?: StyleValue
+  item: Playlist
+}
+
+defineProps<PlaylistGridItemPlaceholderProps>()
+</script>
+
 <template>
   <button
     :style="style"
@@ -15,16 +28,3 @@
     >
   </button>
 </template>
-
-<script setup lang="ts">
-import { type Playlist } from '@/stores/files'
-import { type StyleValue } from 'vue'
-import PatternPreview from '../components/PatternPreview.vue'
-
-interface PlaylistGridItemPlaceholderProps {
-  style?: StyleValue
-  item: Playlist
-}
-
-defineProps<PlaylistGridItemPlaceholderProps>()
-</script>

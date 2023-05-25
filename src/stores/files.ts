@@ -30,15 +30,15 @@ export default defineStore('files', () => {
     return patterns.value.filter((pattern) => pattern.isFavorite === true)
   })
 
-  const getPlaylist = function (uuid: string): Playlist {
+  const getPlaylist = (uuid: string): Playlist => {
     return playlists.value.find((playlist) => playlist.uuid === uuid)!
   }
 
-  const getPattern = function (uuid: string): Pattern {
+  const getPattern = (uuid: string): Pattern => {
     return patterns.value.find((pattern) => pattern.uuid === uuid)!
   }
 
-  const downloadPattern = async function (pattern: Pattern) {
+  const downloadPattern = async (pattern: Pattern) => {
     loaderMessage.value = `Downloading ${pattern.name}`
     loaderActive.value = true
 
@@ -58,7 +58,7 @@ export default defineStore('files', () => {
     }
   }
 
-  const deleteFile = async function (path: string) {
+  const deleteFile = async (path: string) => {
     loaderMessage.value = `Removing`
     loaderActive.value = true
 
@@ -67,7 +67,7 @@ export default defineStore('files', () => {
     loaderActive.value = false
   }
 
-  const downloadPlaylist = async function (playlist: Playlist) {
+  const downloadPlaylist = async (playlist: Playlist) => {
     loaderMessage.value = 'Fetching playlist'
     loaderActive.value = true
 
@@ -75,7 +75,7 @@ export default defineStore('files', () => {
 
     for (const patternUUID of playlistData.patterns) {
       const pattern = getPattern(patternUUID)
-      if (patterns.value.find((p) => p.uuid === pattern.uuid) == undefined) {
+      if (patterns.value.find((p) => p.uuid === pattern.uuid) === undefined) {
         console.log(`${pattern.name} is not downloaded..`)
         await downloadPattern(pattern)
       } else {
@@ -100,14 +100,14 @@ export default defineStore('files', () => {
     }
   }
 
-  const uploadFile = async function (fileName: string, content: any) {
+  const uploadFile = async (fileName: string, content: any) => {
     const formData = new FormData()
     const manifestBlob = new Blob([content], { type: 'text/plain' })
     formData.append('file', manifestBlob, `sd/${fileName}`)
     await table.post('/fs/upload', formData)
   }
 
-  const refreshFiles = async function () {
+  const refreshFiles = async () => {
     loaderMessage.value = 'Refreshing files'
     loaderActive.value = true
     const response = await table.get(`/files/sd/manifest.json`)
@@ -125,7 +125,7 @@ export default defineStore('files', () => {
     loaderActive.value = false
   }
 
-  const saveManifest = async function () {
+  const saveManifest = async () => {
     loaderMessage.value = 'Saving manifest'
     loaderActive.value = true
 

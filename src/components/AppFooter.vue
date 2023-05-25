@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import {
+  HomeIcon,
+  MusicalNoteIcon,
+  QueueListIcon,
+  AdjustmentsVerticalIcon
+} from '@heroicons/vue/24/outline'
+import { RouterLink } from 'vue-router'
+import useFilesStore from '../stores/files'
+
+const files = useFilesStore()
+</script>
+
 <template>
   <div class="fixed bottom-0 left-0 z-40 w-full h-14 bg-gray-700">
     <div class="grid h-full grid-cols-4 mx-auto font-medium">
@@ -40,16 +53,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import {
-  HomeIcon,
-  MusicalNoteIcon,
-  QueueListIcon,
-  AdjustmentsVerticalIcon
-} from '@heroicons/vue/24/outline'
-import { RouterLink } from 'vue-router'
-import useFilesStore from '../stores/files'
-
-const files = useFilesStore()
-</script>

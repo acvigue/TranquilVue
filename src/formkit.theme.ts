@@ -1,8 +1,8 @@
 export default {
   // Global styles apply to _all_ inputs with matching section keys
   global: {
-    fieldset: ' border border-gray-400 rounded px-2 pb-1',
-    help: 'text-xs text-gray-500',
+    fieldset: 'border border-gray-400 rounded px-2 pb-1',
+    help: 'text-xs text-gray-400',
     inner:
       'formkit-disabled:bg-gray-700 formkit-disabled:cursor-not-allowed formkit-disabled:pointer-events-none',
     input: 'appearance-none bg-transparent focus:outline-none focus:ring-0 focus:shadow-none',
@@ -11,7 +11,7 @@ export default {
     loaderIcon: 'inline-flex items-center w-4 text-gray-600 animate-spin',
     message: 'text-red-500 mb-1 text-xs',
     messages: 'list-none p-0 mt-1 mb-0',
-    outer: 'mb-4 formkit-disabled:opacity-50 w-full',
+    outer: 'mb-2 formkit-disabled:opacity-50 w-full',
     prefixIcon:
       'w-10 flex self-stretch grow-0 shrink-0 rounded-tl rounded-bl border-r border-gray-400 bg-white bg-gradient-to-b from-transparent to-gray-200 [&>svg]:w-full [&>svg]:max-w-[1em] [&>svg]:max-h-[1em] [&>svg]:m-auto',
     suffixIcon:
@@ -21,7 +21,7 @@ export default {
   // Family styles apply to all inputs that share a common family
   'family:box': {
     decorator:
-      'block relative h-5 w-5 mr-2 rounded from-transparent ring-1 ring-gray-400 peer-checked:ring-blue-500 text-transparent peer-checked:text-blue-500 peer-checked:bg-blue-500',
+      'block relative h-5 w-5 mr-2 rounded from-transparent ring-1 ring-gray-400 peer-checked:ring-blue-600 text-transparent peer-checked:text-blue-600 peer-checked:bg-blue-600',
     decoratorIcon:
       'flex p-[3px] w-full h-full absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2',
     help: 'mb-2 mt-1.5',
@@ -38,19 +38,19 @@ export default {
     suffixIcon: '$reset block w-4 ml-2 stretch'
   },
   'family:dropdown': {
-    dropdownWrapper: 'my-2 w-full drop-shadow-2xl rounded-xl [&::-webkit-scrollbar]:hidden',
+    dropdownWrapper: 'my-2 w-full drop-shadow-2xl rounded-lg [&::-webkit-scrollbar]:hidden',
     emptyMessageInner:
       'flex items-center justify-center text-sm p-2 text-center w-full text-gray-500 [&>span]:mr-3 [&>span]:ml-0',
     inner:
-      ' relative flex ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 rounded mb-1 formkit-disabled:focus-within:ring-gray-400 formkit-disabled:focus-within:ring-1 [&>span:first-child]:focus-within:text-blue-500',
+      ' relative flex ring-1 ring-gray-400 focus-within:ring-blue-600 focus-within:ring-2 rounded border-gray-400 mb-1 formkit-disabled:focus-within:ring-gray-400 formkit-disabled:focus-within:ring-1 [&>span:first-child]:focus-within:text-blue-600',
     input: 'w-full px-3 py-2',
-    listbox: 'bg-gray-600 drop-shadow-2xl rounded overflow-hidden',
+    listbox: 'bg-gray-600 drop-shadow-2xl rounded overflow-hidden [&>*:not(:last-child)]:border-b',
     listboxButton: 'flex w-12 self-stretch justify-center mx-auto',
     listitem:
-      'pl-7 relative hover:bg-gray-500 data-[is-active="true"]:bg-gray-500 data-[is-active="true"]:aria-selected:bg-blue-600 aria-selected:bg-blue-600 aria-selected:text-gray-200',
+      'pl-7 relative hover:bg-gray-500 data-[is-active="true"]:bg-gray-500 data-[is-active="true"]:aria-selected:bg-blue-600 aria-selected:bg-blue-600 aria-selected:text-gray-200 border-gray-700 transition duration-300 transform-gpu',
     loaderIcon: 'ml-auto',
     loadMoreInner:
-      'flex items-center justify-center text-sm p-2 text-center w-full text-blue-500 formkit-loading:text-gray-500 cursor-pointer [&>span]:mr-3 [&>span]:ml-0',
+      'flex items-center justify-center text-sm p-2 text-center w-full text-blue-600 formkit-loading:text-gray-500 cursor-pointer [&>span]:mr-3 [&>span]:ml-0',
     option: 'p-2.5',
     optionLoading: 'text-gray-500',
     placeholder: 'p-2.5 text-gray-400',
@@ -60,12 +60,12 @@ export default {
   },
   'family:text': {
     inner:
-      'flex items-center ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-500 rounded mb-1',
+      'flex items-center ring-1 ring-gray-400 focus-within:ring-blue-600 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-600 rounded mb-1',
     input: 'w-full px-3 py-2 border-none text-base text-gray-200 placeholder-gray-400'
   },
   'family:date': {
     inner:
-      'flex items-center ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-500 rounded mb-1',
+      'flex items-center ring-1 ring-gray-400 focus-within:ring-blue-600 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-600 rounded mb-1',
     input: 'w-full px-3 py-2 border-none text-gray-200 placeholder-gray-400'
   },
 
@@ -83,7 +83,7 @@ export default {
     fileList: 'shrink grow peer px-3 py-2 formkit-multiple:data-[has-multiple="true"]:mb-6',
     fileName: 'break-all grow text-ellipsis',
     fileRemove:
-      'relative z-[2] ml-auto text-[0px] hover:text-red-500 pl-2 peer-data-[has-multiple=true]:text-sm peer-data-[has-multiple=true]:text-blue-500 peer-data-[has-multiple=true]:ml-3 peer-data-[has-multiple=true]:mb-2 formkit-multiple:bottom-[0.15em] formkit-multiple:pl-0 formkit-multiple:ml-0 formkit-multiple:left-[1em] formkit-multiple:formkit-prefix-icon:left-[3.75em]',
+      'relative z-[2] ml-auto text-[0px] hover:text-red-500 pl-2 peer-data-[has-multiple=true]:text-sm peer-data-[has-multiple=true]:text-blue-600 peer-data-[has-multiple=true]:ml-3 peer-data-[has-multiple=true]:mb-2 formkit-multiple:bottom-[0.15em] formkit-multiple:pl-0 formkit-multiple:ml-0 formkit-multiple:left-[1em] formkit-multiple:formkit-prefix-icon:left-[3.75em]',
     fileRemoveIcon: 'block text-base w-3 relative z-[2]',
     inner: 'relative cursor-pointer formkit-multiple:[&>button]:absolute',
     input: 'cursor-pointer text-transparent absolute top-0 right-0 left-0 bottom-0 opacity-0 z-[2]',
@@ -104,7 +104,7 @@ export default {
   },
   select: {
     inner:
-      'flex relative items-center rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>span:first-child]:focus-within:text-blue-500',
+      'flex relative items-center rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-600 focus-within:ring-2 [&>span:first-child]:focus-within:text-blue-600',
     input:
       'w-full pl-3 pr-8 py-2 border-none text-base text-gray-200 placeholder-gray-400 formkit-multiple:p-0 data-[placeholder="true"]:text-gray-400 formkit-multiple:data-[placeholder="true"]:text-inherit',
     selectIcon: 'flex p-[3px] shrink-0 w-5 mr-2 -ml-[1.5em] h-full pointer-events-none',
@@ -112,7 +112,7 @@ export default {
   },
   textarea: {
     inner:
-      'flex rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-500 [&>label:first-child]:focus-within:text-blue-500',
+      'flex rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-600 [&>label:first-child]:focus-within:text-blue-600',
     input:
       'block w-full h-32 px-3 py-3 border-none text-base text-gray-200 placeholder-gray-400 focus:shadow-outline'
   },
@@ -139,8 +139,8 @@ export default {
     flex items-center justify-center
     w-[calc(33%_-_1em)] m-2 p-2 rounded-md
     bg-gray-200
-    aria-selected:bg-blue-500 aria-selected:text-white
-    focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2 focus:bg-white focus:text-black
+    aria-selected:bg-blue-600 aria-selected:text-white
+    focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2 focus:bg-white focus:text-black
     data-[is-extra=true]:opacity-25
     formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none
    `,
@@ -150,8 +150,8 @@ export default {
     flex items-center justify-center
     w-[calc(20%_-_1em)] m-2 p-2 rounded-md
     bg-gray-200
-    aria-selected:bg-blue-500 aria-selected:text-white
-    focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2 focus:bg-white focus:text-black
+    aria-selected:bg-blue-600 aria-selected:text-white
+    focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2 focus:bg-white focus:text-black
     data-[is-extra=true]:opacity-25
     formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none
    `,
@@ -163,29 +163,29 @@ export default {
     flex items-center justify-center
     w-[2.25em] h-[2.25em] m-1 p-2 rounded-md
     bg-gray-200
-    aria-selected:bg-blue-500 aria-selected:text-white
-    focus:outline focus:outline-2 focus:outline-blue-500 focus:outline-offset-2 focus:bg-white focus:text-black
+    aria-selected:bg-blue-600 aria-selected:text-white
+    focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2 focus:bg-white focus:text-black
     data-[is-extra=true]:opacity-25
     formkit-disabled:opacity-50 formkit-disabled:cursor-default formkit-disabled:pointer-events-none
    `,
     timeInput:
-      'w-full border-2 border-gray-300 rounded-md p-2 my-[2em] focus-visible:outline-blue-500',
+      'w-full border-2 border-gray-300 rounded-md p-2 my-[2em] focus-visible:outline-blue-600',
     daysHeader: 'flex items-center justify-center',
     prev: 'mr-auto px-3 py-1 hover:bg-gray-100 hover:rounded-lg col-start-1 col-end-1',
     prevLabel: 'hidden',
     prevIcon: 'flex w-3 select-none [&>svg]:w-full',
     dayButton:
-      'appearance-none cursor-pointer px-3 py-1 border-2 rounded-lg mx-1 hover:border-blue-500',
+      'appearance-none cursor-pointer px-3 py-1 border-2 rounded-lg mx-1 hover:border-blue-600',
     monthButton:
-      'appearance-none cursor-pointer px-3 py-1 border-2 rounded-lg mx-1 hover:border-blue-500',
+      'appearance-none cursor-pointer px-3 py-1 border-2 rounded-lg mx-1 hover:border-blue-600',
     yearButton:
-      'appearance-none cursor-pointer px-3 py-1 border-2 rounded-lg mx-1 hover:border-blue-500',
+      'appearance-none cursor-pointer px-3 py-1 border-2 rounded-lg mx-1 hover:border-blue-600',
     next: 'ml-auto px-3 py-1 hover:bg-gray-100 hover:rounded col-start-3 col-end-3',
     nextLabel: 'hidden',
     nextIcon: 'flex w-3 select-none [&>svg]:w-full',
     openButton: `
     appearance-none border-0 bg-transparent flex p-0 self-stretch cursor-pointer
-    focus-visible:outline-none focus-visible:text-white focus-visible:bg-blue-500
+    focus-visible:outline-none focus-visible:text-white focus-visible:bg-blue-600
    `,
     calendarIcon:
       'flex w-8 grow-0 shrink-0 self-stretch select-none [&>svg]:w-full [&>svg]:m-auto [&>svg]:max-h-[1em] [&>svg]:max-w-[1em]'
@@ -202,15 +202,15 @@ export default {
     content: 'grow p-3 flex flex-col align-center',
     controlLabel: 'absolute opacity-0 pointer-events-none',
     controls: 'flex flex-col items-center justify-center bg-gray-100 p-3',
-    downControl: 'hover:text-blue-500 disabled:hover:text-inherit disabled:opacity-25',
+    downControl: 'hover:text-blue-600 disabled:hover:text-inherit disabled:opacity-25',
     fieldset: 'py-4 px-5',
     help: 'mb-2 mt-1.5',
     item: 'flex w-full mb-1 rounded border border-gray-200',
     moveDownIcon: 'block w-3 my-1',
     moveUpIcon: 'block w-3 my-1',
-    removeControl: 'hover:text-blue-500 disabled:hover:text-inherit disabled:opacity-25',
+    removeControl: 'hover:text-blue-600 disabled:hover:text-inherit disabled:opacity-25',
     removeIcon: 'block w-5 my-1',
-    upControl: 'hover:text-blue-500 disabled:hover:text-inherit disabled:opacity-25'
+    upControl: 'hover:text-blue-600 disabled:hover:text-inherit disabled:opacity-25'
   },
   slider: {
     outer: '',
@@ -218,18 +218,18 @@ export default {
     sliderInner:
       'flex items-center py-1 [&>.formkit-max-value]:mb-0 [&>.formkit-max-value]:ml-8 [&>.formkit-max-value]:shrink [&>.formkit-max-value]:grow-0 [&>.formkit-icon]:bg-none [&>.formkit-icon]:border-none [&>.formkit-icon]:p-0 [&>.formkit-icon]:w-4 [&>.formkit-prefix-icon]:mr-2 [&>.formkit-suffix-icon]:ml-2 [&[data-has-mark-labels="true"]_.formkit-track]:mb-4',
     track: 'grow relative z-[3] py-1',
-    trackWrapper: 'px-[2px] rounded-full bg-gray-200',
-    trackInner: 'h-[10px] mx-[2px] relative',
-    fill: 'h-full rounded-full absolute top-0 mx-[-4px] bg-blue-500',
+    trackWrapper: 'px-[2px] rounded-full bg-gray-600',
+    trackInner: 'h-3 mx-[2px] relative',
+    fill: 'h-full rounded-full absolute top-0 mx-[-4px] bg-blue-600',
     marks: 'absolute pointer-events-none left-0 right-0 top-0 bottom-0',
     mark: 'absolute top-1/2 w-[3px] h-[3px] rounded-full -translate-x-1/2 -translate-y-1/2 bg-gray-400 data-[active="true"]:bg-white',
     markLabel:
       'absolute top-[calc(100%+0.5em)] left-1/2 text-gray-400 text-[0.66em] -translate-x-1/2',
     handles: 'm-0 p-0 list-none',
     handle:
-      'group w-4 h-4 rounded-full bg-white absolute top-1/2 left-0 z-[2] -translate-x-1/2 -translate-y-1/2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.1),0_1px_2px_0_rgba(0,0,0,0.8)] focus-visible:outline-0 focus-visible:ring-2 ring-blue-500 data-[is-target="true"]:z-[3]',
+      'group w-5 h-5 rounded-full absolute top-1/2 left-0 z-[2] -translate-x-1/2 -translate-y-1/2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.1),0_1px_2px_0_rgba(0,0,0,0.8)] focus-visible:outline-0 focus-visible:ring-2 ring-blue-600 data-[is-target="true"]:z-[3] bg-blue-600',
     tooltip:
-      'absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-[4px] bg-blue-500 text-white py-1 px-2 text-xs leading-none whitespace-nowrap rounded-sm opacity-0 pointer-events-none transition-opacity after:content-[""] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-[1px] after:border-4 after:border-transparent after:border-t-blue-500 group-hover:opacity-100 group-focus-visible:opacity-100 group-data-[show-tooltip="true"]:opacity-100',
+      'absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-[4px] bg-blue-600 text-white py-1 px-2 text-xs leading-none whitespace-nowrap rounded-sm opacity-0 pointer-events-none transition-opacity after:content-[""] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-[1px] after:border-4 after:border-transparent after:border-t-blue-600 group-hover:opacity-100 group-focus-visible:opacity-100 group-data-[show-tooltip="true"]:opacity-100',
     linkedValues: 'flex items-start justify-between',
     minValue:
       'grow max-w-[45%] mb-0 relative [&_.formkit-inner::after]:content-[""] [&_.formkit-inner::after]:absolute [&_.formkit-inner::after]:left-[105%] [&_.formkit-inner::after]:-translate-y-1/2 [&_.formkit-inner::after]:w-[10%] [&_.formkit-inner::after]:h-[1px] [&_.formkit-inner::after]:bg-gray-500',
@@ -243,7 +243,7 @@ export default {
     removeSelection: 'w-2.5 mx-1 self-center text-black leading-none',
     tag: 'flex items-center my-1 p-1 bg-gray-200 text-xs rounded-full',
     tagWrapper:
-      'mr-1 focus:outline-none focus:text-white [&>div]:focus:bg-blue-500 [&>div>button]:focus:text-white',
+      'mr-1 focus:outline-none focus:text-white [&>div]:focus:bg-blue-600 [&>div>button]:focus:text-white',
     tagLabel: 'pl-2 pr-1',
     tags: 'flex items-center flex-wrap w-full py-1.5 px-2'
   },
@@ -255,13 +255,14 @@ export default {
       'text-[10px] font-bold absolute left-full top-1/2 -translate-x-full -translate-y-1/2 px-1',
     thumb: 'relative left-0 aspect-square rounded-full transition-all w-5 bg-gray-100',
     track:
-      'p-0.5 min-w-[3em] relative rounded-full transition-all bg-gray-400 peer-checked:bg-blue-500 peer-checked:[&>div:last-child]:left-full peer-checked:[&>div:last-child]:-translate-x-full peer-checked:[&>div:first-child:not(:last-child)]:left-0 peer-checked:[&>div:first-child:not(:last-child)]:translate-x-0',
+      'p-0.5 min-w-[3em] relative rounded-full transition-all bg-gray-400 peer-checked:bg-blue-600 peer-checked:[&>div:last-child]:left-full peer-checked:[&>div:last-child]:-translate-x-full peer-checked:[&>div:first-child:not(:last-child)]:left-0 peer-checked:[&>div:first-child:not(:last-child)]:translate-x-0',
     valueLabel: 'font-bold text-sm',
-    wrapper: 'flex flex-wrap items-center mb-1'
+    wrapper: 'flex flex-wrap items-center mb-1',
+    label: '!mb-0'
   },
   transferlist: {
     outer: `
-    [&_.dnd-placeholder]:bg-blue-500 [&_.dnd-placeholder]:text-white
+    [&_.dnd-placeholder]:bg-blue-600 [&_.dnd-placeholder]:text-white
     [&_.dnd-placeholder_svg]:text-white
     [&_.dnd-children-hidden]:w-full [&_.dnd-children-hidden]:p-0 [&_.dnd-children-hidden]:flex [&_.dnd-children-hidden]:flex-col [&_.dnd-children-hidden]:border-none
     [&_.dnd-children-hidden_span]:hidden
@@ -279,12 +280,12 @@ export default {
     transferlistListItems:
       'list-none bg-gray-50 h-full sm:max-w-xs overflow-x-hidden overflow-y-auto',
     transferlistListItem:
-      'pl-8 relative aria-selected:bg-blue-600 aria-selected:data-[is-active=true]:bg-blue-600 aria-selected:text-white aria-selected:data-[is-active=true]:text-white first:-mt-px first:border-t py-2 px-3 flex relative border-b bg-white data-[is-active=true]:text-blue-500 data-[is-active=true]:bg-gray-100 cursor-pointer group-data-[is-max=true]:cursor-not-allowed items-center',
+      'pl-8 relative aria-selected:bg-blue-600 aria-selected:data-[is-active=true]:bg-blue-600 aria-selected:text-white aria-selected:data-[is-active=true]:text-white first:-mt-px first:border-t py-2 px-3 flex relative border-b bg-white data-[is-active=true]:text-blue-600 data-[is-active=true]:bg-gray-100 cursor-pointer group-data-[is-max=true]:cursor-not-allowed items-center',
     transferlistOption: 'text-sm',
     transferControls:
       'flex sm:flex-col justify-center mx-auto my-2 sm:mx-2 sm:my-auto border rounded',
     transferlistButton:
-      'text-sm disabled:cursor-not-allowed disabled:bg-gray-200 disabled:opacity-50 first:rounded-l last:rounded-r sm:first:rounded-t sm:last:rounded-b appearance-none p-2 m-0 cursor-pointer h-10 border-none rounded-none bg-gray-50 hover:outline disabled:hover:outline-none hover:outline-1 hover:outline-black hover:text-blue-500 disabled:hover:text-current hover:z-10',
+      'text-sm disabled:cursor-not-allowed disabled:bg-gray-200 disabled:opacity-50 first:rounded-l last:rounded-r sm:first:rounded-t sm:last:rounded-b appearance-none p-2 m-0 cursor-pointer h-10 border-none rounded-none bg-gray-50 hover:outline disabled:hover:outline-none hover:outline-1 hover:outline-black hover:text-blue-600 disabled:hover:text-current hover:z-10',
     sourceEmptyMessage:
       'appearance-none border-none w-full p-0 m-0 text-center text-gray-500 italic',
     sourceListItems: 'group-data-[is-max=true]:opacity-50',

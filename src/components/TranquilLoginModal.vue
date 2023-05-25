@@ -4,6 +4,7 @@ import { FormKit } from '@formkit/vue'
 import tranquilapi from '../plugins/tranquilapi'
 import { useToast } from 'vue-toast-notification'
 import axios from 'axios'
+import type { FormKitNode } from '@formkit/core'
 
 const emit = defineEmits<{
   (e: 'loggedin'): void
@@ -16,7 +17,7 @@ interface SignInFields {
   password: string
 }
 
-const signInAction = async (fields: SignInFields) => {
+const signInAction = async (fields: SignInFields, node: FormKitNode<unknown> | undefined) => {
   try {
     const refreshTokenResponse = await tranquilapi.post('/auth', {
       email: fields.email,
@@ -29,8 +30,8 @@ const signInAction = async (fields: SignInFields) => {
     emit('loggedin')
   } catch (e) {
     if (axios.isAxiosError(e)) {
-      if (e.response) {
-        toast.error(e.response.data.error)
+      if (e.response && node) {
+        node.setErrors([e.response.data.error])
       } else {
         toast.error('Network Error')
       }

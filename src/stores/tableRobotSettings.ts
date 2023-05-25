@@ -12,7 +12,7 @@ export default defineStore('tableRobotSettings', () => {
     return robotConfig.robotGeom.axis0.maxVal + robotConfig.robotGeom.axis1.maxVal
   })
 
-  const getTableRobotSettings = async function () {
+  const getTableRobotSettings = async () => {
     const resp = await table.get('/settings/robot')
     tableScheduler.value = JSON.stringify(resp.data.cmdSched)
     tableConfig.value = JSON.stringify(resp.data.robotConfig)

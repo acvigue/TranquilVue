@@ -51,7 +51,7 @@ const isCurrentlyPlayingThisPlaylist = computed(() => {
   return table.currentPlaylistID === props.playlist.uuid
 })
 
-const downloadThisPlaylist = async function () {
+const downloadThisPlaylist = async () => {
   try {
     await files.downloadPlaylist(props.playlist)
     toast.success(`Downloaded ${props.playlist.name}`)
@@ -61,7 +61,7 @@ const downloadThisPlaylist = async function () {
   }
 }
 
-const playThisPlaylist = async function () {
+const playThisPlaylist = async () => {
   try {
     await table.playFile(`${props.playlist.uuid}.seq`)
     toast.success(`Playing ${props.playlist.name}`)
@@ -70,7 +70,7 @@ const playThisPlaylist = async function () {
   }
 }
 
-const deleteThisPlaylist = async function () {
+const deleteThisPlaylist = async () => {
   const { open, close } = useModal({
     component: DeleteConfirmationModal,
     attrs: {
@@ -91,6 +91,7 @@ const deleteThisPlaylist = async function () {
             )
             await files.saveManifest()
             toast.success(`Deleted ${props.playlist.name}`)
+            emit('close')
           })
       }
     }
@@ -98,7 +99,7 @@ const deleteThisPlaylist = async function () {
   await open()
 }
 
-const savePlaylistEdits = async function () {
+const savePlaylistEdits = async () => {
   isEditing.value = false
   files.getPlaylist(props.playlist.uuid).patterns = patterns.value.map((pattern) => pattern.uuid)
 
@@ -111,6 +112,7 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 </script>
+
 <template>
   <VueFinalModal
     contentTransition="fade-y"

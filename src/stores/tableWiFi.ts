@@ -14,7 +14,7 @@ export default defineStore('tableWiFi', () => {
   const peapPassword = ref('')
   const peapIdentity = ref('')
 
-  const update = async function () {
+  const update = async () => {
     loaderActive.value = true
     const config = {
       WiFiMode: connectionType.value ?? 3,
@@ -45,7 +45,7 @@ export default defineStore('tableWiFi', () => {
     hostname.value = data.WiFiHostname ?? 'Tranquil'
   }
 
-  const getWiFiConfig = async function () {
+  const getWiFiConfig = async () => {
     const data = await table.get('/settings/wifi')
     _update(data.data)
   }

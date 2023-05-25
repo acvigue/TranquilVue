@@ -20,13 +20,13 @@
     "axios": "^1.4.0",
     "d3": "^7.8.4",
     "pinia": "^2.0.36",
-    "vite-plugin-node-polyfills": "^0.8.2",
+    "uuid": "^9.0.0",
     "vue": "^3.3.2",
     "vue-final-modal": "^4.4.2",
     "vue-router": "^4.2.0",
     "vue-toast-notification": "^3.1.1",
     "vue-virtual-scroll-grid": "^1.10.2",
-    "vue3-colorpicker": "^2.1.2",
+    "vue3-swatches-next": "^1.2.4",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
@@ -36,6 +36,7 @@
     "@types/axios": "^0.14.0",
     "@types/d3": "^7.4.0",
     "@types/node": "^20.1.5",
+    "@types/uuid": "^9.0.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/eslint-config-prettier": "^7.1.0",
     "@vue/eslint-config-typescript": "^11.0.3",

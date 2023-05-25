@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import table from '../plugins/table'
 
@@ -16,75 +16,7 @@ export default defineStore('tableLights', () => {
   const effectSpeed = ref(0)
   const lux = ref(-1)
 
-  const setBrightness = async function (newBrightness: number) {
-    if (brightness.value != newBrightness) {
-      brightness.value = newBrightness
-      await update()
-    }
-  }
-
-  const setEnabled = async function (enabled: boolean) {
-    if (on.value != enabled) {
-      on.value = enabled
-      await update()
-    }
-  }
-
-  const setAutoDimEnabled = async function (enabled: boolean) {
-    if (autoDimEnabled.value != enabled) {
-      autoDimEnabled.value = enabled
-      await update()
-    }
-  }
-
-  const setAutoDimStrength = async function (maxlux: number) {
-    if (autoDimStrength.value != maxlux) {
-      autoDimStrength.value = maxlux
-      await update()
-    }
-  }
-
-  const setPrimaryColor = async function (color: [number, number, number]) {
-    if (
-      primaryColor.value[0] != color[0] ||
-      primaryColor.value[1] != color[1] ||
-      primaryColor.value[2] != color[2]
-    ) {
-      primaryColor.value[0] = color[0]
-      primaryColor.value[1] = color[1]
-      primaryColor.value[2] = color[2]
-      await update()
-    }
-  }
-
-  const setSecondaryColor = async function (color: [number, number, number]) {
-    if (
-      secondaryColor.value[0] != color[0] ||
-      secondaryColor.value[1] != color[1] ||
-      secondaryColor.value[2] != color[2]
-    ) {
-      secondaryColor.value[0] = color[0]
-      secondaryColor.value[1] = color[1]
-      secondaryColor.value[2] = color[2]
-      await update()
-    }
-  }
-
-  const setEffect = async function (newEffectID: number) {
-    if (effectID.value != newEffectID) {
-      effectID.value = newEffectID
-      await update()
-    }
-  }
-
-  const setEffectSpeed = async function (newSpeed: number) {
-    if (effectSpeed.value != newSpeed) {
-      effectSpeed.value = newSpeed
-      await update()
-    }
-  }
-
-  const update = async function () {
+  const postState = async () => {
     loaderActive.value = true
     const config = {
       ledOn: on.value ? 1 : 0,
@@ -111,22 +43,38 @@ export default defineStore('tableLights', () => {
 
   const _update = function (dto: any) {
     const data = dto.led
-    on.value = data.ledOn == 1
+    on.value = data.ledOn === 1
     brightness.value = data.ledBrightness
     primaryColor.value = [data.primaryRedVal, data.primaryGreenVal, data.primaryBlueVal]
     secondaryColor.value = [data.secRedVal, data.secGreenVal, data.secBlueVal]
     effectID.value = data.effectID
     effectSpeed.value = data.effectSpeed
-    autoDimEnabled.value = data.autoDim == 1
+    autoDimEnabled.value = data.autoDim === 1
     autoDimStrength.value = data.autoDimStrength
   }
 
-  const getLedConfig = async function () {
+  const getLedConfig = async () => {
     const data = await table.get('/settings/led')
     _update(data.data)
   }
 
   getLedConfig().then(() => {})
+
+  watch(
+    [
+      on,
+      autoDimEnabled,
+      autoDimStrength,
+      brightness,
+      primaryColor,
+      secondaryColor,
+      effectID,
+      effectSpeed
+    ],
+    async () => {
+      await postState()
+    }
+  )
 
   return {
     loaderActive,
@@ -140,15 +88,6 @@ export default defineStore('tableLights', () => {
     effectID,
     effectSpeed,
     lux,
-    setAutoDimEnabled,
-    setAutoDimStrength,
-    setBrightness,
-    setEffect,
-    setEffectSpeed,
-    setEnabled,
-    setPrimaryColor,
-    setSecondaryColor,
-    getLedConfig,
-    update
+    getLedConfig
   }
 })

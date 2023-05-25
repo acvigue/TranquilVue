@@ -9,10 +9,13 @@ const toast = useToast()
 
 export default defineStore('tableStatus', () => {
   const status = computed(() => {
-    if (raw.value.pause == 0 && raw.value.file != '') {
+    if (raw.value.pause === 0 && raw.value.file !== '') {
       return 'playing'
     }
-    if ((raw.value.pause == 0 && raw.value.Qd == 0) || (raw.value.file != '' && raw.value.Qd < 3)) {
+    if (
+      (raw.value.pause === 0 && raw.value.Qd === 0) ||
+      (raw.value.file !== '' && raw.value.Qd < 3)
+    ) {
       return 'idle'
     }
     return 'paused'
@@ -30,7 +33,7 @@ export default defineStore('tableStatus', () => {
   })
 
   const isPlaylist = computed(() => {
-    return (raw.value.playlist ?? false) == true
+    return (raw.value.playlist ?? false) === true
   })
 
   const _isWiFiSetupModalShowing = ref(false)
@@ -53,43 +56,43 @@ export default defineStore('tableStatus', () => {
     pause: 0
   })
 
-  const setPausedState = async function (pausedState: boolean) {
+  const setPausedState = async (pausedState: boolean) => {
     executeCommand(pausedState ? 'pause' : 'resume')
   }
 
-  const playFile = async function (fileName: string) {
+  const playFile = async (fileName: string) => {
     loaderActive.value = true
     await table.get(`/playFile/sd/${fileName}`)
     loaderActive.value = false
   }
 
-  const stopMotion = async function () {
+  const stopMotion = async () => {
     executeCommand('stop')
   }
 
-  const resetTable = async function () {
+  const resetTable = async () => {
     await table.get(`/reset`)
   }
 
-  const skipPattern = async function (dir: number) {
+  const skipPattern = async (dir: number) => {
     executeCommand(`seq_${dir > 0 ? 'next' : 'prev'}`)
   }
 
-  const setShuffle = async function (state: boolean) {
+  const setShuffle = async (state: boolean) => {
     executeCommand(`seq_shuffle_${state ? 'on' : 'off'}`)
   }
 
-  const setRepeat = async function (state: boolean) {
+  const setRepeat = async (state: boolean) => {
     executeCommand(`seq_repeat_${state ? 'on' : 'off'}`)
   }
 
-  const executeCommand = async function (command: string) {
+  const executeCommand = async (command: string) => {
     loaderActive.value = true
     await table.get(`/exec/${command}`)
     loaderActive.value = false
   }
 
-  const _updateRaw = function (data: any) {
+  const _updateRaw = (data: any) => {
     raw.value.Qd = data.Qd ?? 0
     raw.value.playlist = data.playlist ?? false
     raw.value.file = data.file ?? ''
@@ -105,6 +108,14 @@ export default defineStore('tableStatus', () => {
     raw.value.shuffleMode = data.shuffleMode ?? false
     raw.value.repeatMode = data.repeatMode ?? false
     raw.value.pause = data.pause ?? 0
+
+    //ap mode, start connection loop
+    if (data.wifiConn === 'A') {
+      if (!_isWiFiSetupModalShowing.value) {
+        showWiFiSetupModal()
+        _isWiFiSetupModalShowing.value = true
+      }
+    }
   }
 
   const _sse = new EventSource(`${table.defaults.baseURL ?? ''}/events`)
@@ -119,14 +130,6 @@ export default defineStore('tableStatus', () => {
 
   table.get('/status').then((resp) => {
     _updateRaw(resp.data)
-
-    //ap mode, start connection loop
-    if (resp.data.wifiConn === 'A') {
-      if (!_isWiFiSetupModalShowing.value) {
-        showWiFiSetupModal()
-        _isWiFiSetupModalShowing.value = true
-      }
-    }
   })
 
   const showWiFiSetupModal = function (): Promise<void> {

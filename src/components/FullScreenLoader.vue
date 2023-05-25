@@ -1,3 +1,10 @@
+<script setup lang="ts">
+defineProps({
+  active: Boolean,
+  message: String
+})
+</script>
+
 <template>
   <div
     v-if="active"
@@ -22,10 +29,3 @@
     <div class="mt-3">{{ message }}</div>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  active: Boolean,
-  message: String
-})
-</script>
