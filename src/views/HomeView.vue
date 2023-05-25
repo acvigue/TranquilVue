@@ -8,27 +8,30 @@
       >
         <span class="text-lg font-semibold">Play Something</span>
         <div class="flex flex-row items-center justify-center w-full overflow-hidden">
-          <div :style="gradientColorStops" class="p-1 rounded-full">
-            <PatternPreview
-              class="w-64 h-64 rounded-full bg-gray-800"
-              lineColor="#ffffff"
-              :key="files.patterns[randomPatternIndex]?.uuid ?? ''"
-              :pattern="files.patterns[randomPatternIndex]"
-            >
-              <div
-                class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
-                @click="router.push('/patterns')"
+          <div :style="gradientColorStops" class="p-1 rounded-full relative">
+            <Transition name="fade" mode="out-in">
+              <PatternPreview
+                class="w-64 h-64 rounded-full bg-gray-800 absolute z-20"
+                lineColor="#ffffff"
+                :key="files.patterns[randomPatternIndex]?.uuid ?? ''"
+                :pattern="files.patterns[randomPatternIndex]"
               >
                 <div
-                  class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
-                ></div>
-                <div class="relative">
-                  <PlayIcon
-                    class="w-10 h-10 group-hover:scale-105 transition transform-gpu duration-300"
-                  ></PlayIcon>
+                  class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
+                  @click="router.push('/patterns')"
+                >
+                  <div
+                    class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-gray-900 to-gray-800 w-full h-full opacity-50 group-hover:opacity-80 transition transform-gpu duration-300"
+                  ></div>
+                  <div class="relative">
+                    <PlayIcon
+                      class="w-10 h-10 group-hover:scale-105 transition transform-gpu duration-300"
+                    ></PlayIcon>
+                  </div>
                 </div>
-              </div>
-            </PatternPreview>
+              </PatternPreview>
+            </Transition>
+            <div class="w-64 h-64 rounded-full bg-gray-800 absolute z-10 top-0 mt-1"></div>
           </div>
         </div>
       </div>
@@ -113,7 +116,10 @@
         </div>
 
         <div class="flex flex-col items-center">
-          <span class="mt-2 text-lg font-semibold">{{ currentPattern?.name ?? '...' }} • {{ Math.floor((tableStatus.raw.filePos / tableStatus.raw.fileLen) * 100) }}%</span>
+          <span class="mt-2 text-lg font-semibold"
+            >{{ currentPattern?.name ?? '...' }} •
+            {{ Math.floor((tableStatus.raw.filePos / tableStatus.raw.fileLen) * 100) }}%</span
+          >
         </div>
 
         <div v-if="tableStatus.isPlaylist" class="items-center gap-4 hidden">
@@ -125,7 +131,9 @@
     <div class="flex justify-center items-center w-full gap-4">
       <button
         @click="openLightsModal()"
-        :class="{ 'border-[2px] border-yellow-200 text-yellow-200 hover:border-blue-600': tableLights.on }"
+        :class="{
+          'border-[2px] border-yellow-200 text-yellow-200 hover:border-blue-600': tableLights.on
+        }"
         class="flex items-center gap-2 justify-center px-4 py-2 bg-gray-700 hover:text-blue-600 hover:bg-gray-800 text-gray-400 group transition transform-gpu duration-300 rounded-full"
       >
         <LightBulbIcon class="h-6 w-6"></LightBulbIcon>

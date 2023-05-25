@@ -5,49 +5,10 @@
       <TabNav :tabs="['Saved', 'All', 'Favorites']" v-model="viewType"></TabNav>
     </div>
     <Transition name="fade" mode="out-in">
-      <div v-if="viewType == 0" class="w-full pb-20">
-        <!-- downloaded -->
+      <div class="w-full pb-20" :key="viewType">
         <ScrollGrid
-          :length="files.patterns.length"
-          :pageProvider="downloadedPatternsScrollPageProvider"
-          :pageSize="2"
-          class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
-        >
-          <template v-slot:default="{ item, style }: { item: Pattern, style: StyleValue }">
-            <PatternGridItem :item="item" :style="style" @click="showPatternModal(item)" />
-          </template>
-          <template v-slot:placeholder="{ style }: { style: StyleValue }">
-            <PatternGridItemPlaceholder :style="style" />
-          </template>
-          <template v-slot:probe>
-            <PatternGridItemPlaceholder />
-          </template>
-        </ScrollGrid>
-      </div>
-      <div v-else-if="viewType == 1" class="w-full pb-20">
-        <!-- all -->
-        <ScrollGrid
-          :length="allPatterns.length"
-          :pageProvider="allPatternsScrollPageProvider"
-          :pageSize="2"
-          class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
-        >
-          <template v-slot:default="{ item, style }: { item: Pattern, style: StyleValue }">
-            <PatternGridItem :item="item" :style="style" @click="showPatternModal(item)" />
-          </template>
-          <template v-slot:placeholder="{ style }: { style: StyleValue }">
-            <PatternGridItemPlaceholder :style="style" />
-          </template>
-          <template v-slot:probe>
-            <PatternGridItemPlaceholder />
-          </template>
-        </ScrollGrid>
-      </div>
-      <div v-else class="w-full pb-20">
-        <!-- favorites -->
-        <ScrollGrid
-          :length="files.favoritePatterns.length"
-          :pageProvider="favoritePatternsScrollPageProvider"
+          :length="patternsScrollLength"
+          :pageProvider="patternsScrollPageProvider"
           :pageSize="2"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
         >
@@ -73,7 +34,7 @@ import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 
 import ScrollGrid from 'vue-virtual-scroll-grid'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { StyleValue } from 'vue'
 
 import TabNav from '../components/TabNav.vue'
@@ -94,19 +55,50 @@ onMounted(async () => {
   }
 })
 
-const downloadedPatternsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
-  const slice = files.patterns.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-  return Promise.resolve(slice)
-}
+const patternsScrollLength = computed(() => {
+  switch (viewType.value) {
+    case 0:
+      return files.patterns.length
+    case 1:
+      return allPatterns.value.length
+    case 2:
+      return files.favoritePatterns.length
+  }
+  return 0
+})
 
-const allPatternsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
-  const slice = allPatterns.value.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-  return Promise.resolve(slice)
-}
+const patternsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
+  let rawItems: Pattern[] = []
+  switch (viewType.value) {
+    case 0:
+      rawItems = files.patterns
+      break
+    case 1:
+      rawItems = allPatterns.value
+      break
+    case 2:
+      rawItems = files.favoritePatterns
+      break
+  }
 
-const favoritePatternsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
-  const slice = files.favoritePatterns.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-  return Promise.resolve(slice)
+  if (sortType.value === 0) {
+    rawItems = rawItems.sort((a, b) => a.name.localeCompare(b.name))
+  } else if (sortType.value === 1) {
+    rawItems = rawItems.sort((a, b) => {
+      return new Date(b.date).getDate() - new Date(a.date).getDate()
+    })
+  } else {
+    rawItems = rawItems.sort((a, b) => {
+      return (
+        new Date(b.dateAdded ?? Date.now()).getDate() -
+        new Date(a.dateAdded ?? Date.now()).getDate()
+      )
+    })
+  }
+
+  const items = rawItems.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
+
+  return Promise.resolve(items)
 }
 
 const showPatternModal = async function (pattern: Pattern) {
@@ -126,4 +118,9 @@ const showPatternModal = async function (pattern: Pattern) {
 //1 => all
 //2 => favorites
 const viewType = ref(0)
+
+//0 => name
+//1 => date created descending
+//2 => date added descending
+const sortType = ref(0)
 </script>

@@ -8,6 +8,7 @@ export interface Pattern {
   name: string
   date: string
   isFavorite?: boolean
+  dateAdded?: string
 }
 
 export interface Playlist {

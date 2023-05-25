@@ -38,7 +38,7 @@ export default {
     suffixIcon: '$reset block w-4 ml-2 stretch'
   },
   'family:dropdown': {
-    dropdownWrapper: 'my-2 w-full drop-shadow-lg rounded [&::-webkit-scrollbar]:hidden',
+    dropdownWrapper: 'my-2 w-full drop-shadow-2xl rounded-xl [&::-webkit-scrollbar]:hidden',
     emptyMessageInner:
       'flex items-center justify-center text-sm p-2 text-center w-full text-gray-500 [&>span]:mr-3 [&>span]:ml-0',
     inner:

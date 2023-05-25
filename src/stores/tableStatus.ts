@@ -107,12 +107,11 @@ export default defineStore('tableStatus', () => {
     raw.value.pause = data.pause ?? 0
   }
 
-  const _sse = new EventSource(import.meta.env.PROD ? '/events' : 'http://sandytable.local/events')
+  const _sse = new EventSource(`${table.defaults.baseURL ?? ""}/events`)
 
   const _parseStatusEvent = (evt: Event) => {
     const messageEvent = evt as MessageEvent
     const data: any = JSON.parse(messageEvent.data)
-
     _updateRaw(data)
   }
 

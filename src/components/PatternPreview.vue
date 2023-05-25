@@ -137,7 +137,6 @@ async function render() {
       await getPatternData()
     } catch (e) {
       isLoaded.value = true
-      toast.error(`Pattern preview generation failed for ${props.pattern.name}`)
       return
     }
     patternID = props.pattern.uuid

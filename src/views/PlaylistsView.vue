@@ -14,30 +14,11 @@
       </button>
     </div>
     <Transition name="fade" mode="out-in">
-      <div v-if="viewType == 0" class="w-full pb-20">
+      <div class="w-full pb-20" :key="viewType">
         <!-- downloaded -->
         <ScrollGrid
-          :length="files.playlists.length"
-          :pageProvider="downloadedPlaylistsScrollPageProvider"
-          :pageSize="2"
-          class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
-        >
-          <template v-slot:default="{ item, style }: { item: Playlist, style: StyleValue }">
-            <PlaylistGridItem :item="item" :style="style" @click="showPlaylistModal(item)" />
-          </template>
-          <template v-slot:placeholder="{ style }: { style: StyleValue }">
-            <PatternGridItemPlaceholder :style="style" />
-          </template>
-          <template v-slot:probe>
-            <PatternGridItemPlaceholder />
-          </template>
-        </ScrollGrid>
-      </div>
-      <div v-else class="w-full pb-20">
-        <!-- all -->
-        <ScrollGrid
-          :length="allPlaylists.length"
-          :pageProvider="allPlaylistsScrollPageProvider"
+          :length="playlistsScrollLength"
+          :pageProvider="playlistsScrollPageProvider"
           :pageSize="2"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
         >
@@ -64,14 +45,14 @@ import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 
 import ScrollGrid from 'vue-virtual-scroll-grid'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { StyleValue } from 'vue'
 
 import TabNav from '../components/TabNav.vue'
 import PlaylistModal from '../components/PlaylistModal.vue'
 import PatternGridItemPlaceholder from '@/components/PatternGridItemPlaceholder.vue'
 import PlaylistGridItem from '@/components/PlaylistGridItem.vue'
-import { PlusIcon } from '@heroicons/vue/24/outline'
+import { FolderPlusIcon, PlusIcon } from '@heroicons/vue/24/outline'
 
 const files = useFilesStore()
 const toast = useToast()
@@ -86,17 +67,26 @@ onMounted(async () => {
   }
 })
 
-const downloadedPlaylistsScrollPageProvider = async function (
-  pageNumber: number,
-  pageSize: number
-) {
-  const slice = files.playlists.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-  return Promise.resolve(slice)
-}
+const playlistsScrollLength = computed(() => {
+  switch (viewType.value) {
+    case 0:
+      return files.playlists.length
+    case 1:
+      return allPlaylists.value.length
+  }
+  return 0
+})
 
-const allPlaylistsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
-  const slice = allPlaylists.value.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-  return Promise.resolve(slice)
+const playlistsScrollPageProvider = async function (pageNumber: number, pageSize: number) {
+  let rawItems
+  if (viewType.value === 0) {
+    rawItems = files.playlists
+  } else {
+    rawItems = allPlaylists.value
+  }
+  const items = rawItems.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
+
+  return Promise.resolve(items)
 }
 
 const showPlaylistModal = async function (playlist: Playlist) {
