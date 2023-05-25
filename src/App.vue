@@ -5,7 +5,7 @@ import useFilesStore from './stores/files'
 import useTableStatusStore from './stores/tableStatus'
 import useTableLightsStore from './stores/tableLights'
 import useTableWiFiStore from './stores/tableWiFi'
-
+import useTableSecurityStore from './stores/tableSecurity'
 import { ModalsContainer } from 'vue-final-modal'
 import 'vue-final-modal/style.css'
 
@@ -16,6 +16,7 @@ const files = useFilesStore()
 const tableStatus = useTableStatusStore()
 const tableLights = useTableLightsStore()
 const tableWiFi = useTableWiFiStore()
+const tableSecurity = useTableSecurityStore()
 
 files.refreshFiles()
 </script>
@@ -42,6 +43,10 @@ files.refreshFiles()
   <FullScreenLoader
     :active="tableWiFi.loaderActive"
     :message="tableWiFi.loaderMessage"
+  ></FullScreenLoader>
+  <FullScreenLoader
+    :active="tableSecurity.loaderActive"
+    :message="tableSecurity.loaderMessage"
   ></FullScreenLoader>
 
   <ModalsContainer />

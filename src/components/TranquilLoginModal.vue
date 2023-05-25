@@ -3,7 +3,7 @@ import { VueFinalModal } from 'vue-final-modal'
 import { FormKit } from '@formkit/vue'
 import tranquilapi from '../plugins/tranquilapi'
 import { useToast } from 'vue-toast-notification'
-import axios from 'axios'
+import { isAxiosError } from 'axios'
 import type { FormKitNode } from '@formkit/core'
 
 const emit = defineEmits<{
@@ -29,7 +29,7 @@ const signInAction = async (fields: SignInFields, node: FormKitNode<unknown> | u
 
     emit('loggedin')
   } catch (e) {
-    if (axios.isAxiosError(e)) {
+    if (isAxiosError(e)) {
       if (e.response && node) {
         node.setErrors([e.response.data.error])
       } else {

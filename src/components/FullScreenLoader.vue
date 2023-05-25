@@ -8,7 +8,7 @@ defineProps({
 <template>
   <div
     v-if="active"
-    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 z-[5000] flex flex-col justify-center items-center overflow-hidden"
+    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 z-[100] flex flex-col justify-center items-center overflow-hidden"
   >
     <svg
       aria-hidden="true"
