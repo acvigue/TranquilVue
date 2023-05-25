@@ -5,7 +5,7 @@ import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 import TranquilWiFiSetupModal from '../components/TranquilWiFiSetupModal.vue'
 
-const toast = useToast();
+const toast = useToast()
 
 export default defineStore('tableStatus', () => {
   const status = computed(() => {
@@ -33,7 +33,7 @@ export default defineStore('tableStatus', () => {
     return (raw.value.playlist ?? false) == true
   })
 
-  const _isWiFiSetupModalShowing = ref(false);
+  const _isWiFiSetupModalShowing = ref(false)
 
   const raw = ref({
     Qd: 0,
@@ -107,7 +107,7 @@ export default defineStore('tableStatus', () => {
     raw.value.pause = data.pause ?? 0
   }
 
-  const _sse = new EventSource(`${table.defaults.baseURL ?? ""}/events`)
+  const _sse = new EventSource(`${table.defaults.baseURL ?? ''}/events`)
 
   const _parseStatusEvent = (evt: Event) => {
     const messageEvent = evt as MessageEvent
@@ -121,19 +121,19 @@ export default defineStore('tableStatus', () => {
     _updateRaw(resp.data)
 
     //ap mode, start connection loop
-    if(resp.data.wifiConn === 'A') {
-      if(!_isWiFiSetupModalShowing.value) {
-        showWiFiSetupModal();
-        _isWiFiSetupModalShowing.value = true;
+    if (resp.data.wifiConn === 'A') {
+      if (!_isWiFiSetupModalShowing.value) {
+        showWiFiSetupModal()
+        _isWiFiSetupModalShowing.value = true
       }
     }
   })
 
-  const showWiFiSetupModal = function(): Promise<void> {
+  const showWiFiSetupModal = function (): Promise<void> {
     return new Promise((resolve) => {
       const modal = useModal({
         component: TranquilWiFiSetupModal,
-  
+
         attrs: {
           onSaved() {
             modal.close()

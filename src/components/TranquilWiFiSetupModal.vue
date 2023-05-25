@@ -9,7 +9,7 @@ const emit = defineEmits<{
 
 const tableWiFi = useTableWiFiStore()
 const connectAction = async () => {
-  console.log(tableWiFi);
+  console.log(tableWiFi)
   await tableWiFi.update().catch(() => {
     emit('saved')
   })
@@ -33,7 +33,14 @@ const connectAction = async () => {
           </span>
         </div>
       </div>
-      <FormKit type="text" name="ssid" id="ssid" v-model="tableWiFi.ssid" label="Network Name" validation="required" />
+      <FormKit
+        type="text"
+        name="ssid"
+        id="ssid"
+        v-model="tableWiFi.ssid"
+        label="Network Name"
+        validation="required"
+      />
       <FormKit
         type="radio"
         name="type"
@@ -91,7 +98,12 @@ const connectAction = async () => {
         validation="required"
       />
       <div class="flex w-full justify-end items-center">
-        <button @click.stop="connectAction()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 transition-gpu duration-300 transform-gpu rounded-xl">Save</button>
+        <button
+          @click.stop="connectAction()"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-500 transition-gpu duration-300 transform-gpu rounded-xl"
+        >
+          Save
+        </button>
       </div>
     </div>
   </VueFinalModal>

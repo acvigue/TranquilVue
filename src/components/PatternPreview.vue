@@ -61,7 +61,7 @@ let patternData: [number, number][] = []
 let patternID = ''
 
 onMounted(async () => {
-  if(tableWiFi.connectionType !== 3) {
+  if (tableWiFi.connectionType !== 3) {
     context.value = canvasElement.value?.getContext('2d') || undefined
     await render()
   }

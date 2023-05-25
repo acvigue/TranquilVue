@@ -34,7 +34,9 @@ const emit = defineEmits<{
         </div>
         <div class="flex-1"></div>
       </div>
-      <span class="text-md text-medium">'{{ currentlyPlayingItemName }}' is already playing. Continuing will stop playback.</span>
+      <span class="text-md text-medium"
+        >'{{ currentlyPlayingItemName }}' is already playing. Continuing will stop playback.</span
+      >
       <div class="flex justify-end gap-4">
         <button
           @click="emit('close')"

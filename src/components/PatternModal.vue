@@ -12,6 +12,7 @@ import {
 import { HeartIcon } from '@heroicons/vue/24/solid'
 import PatternPreview from './PatternPreview.vue'
 import DeleteConfirmationModal from './DeleteConfirmationModal.vue'
+import AddItemToPlaylistModal from './AddItemToPlaylistModal.vue'
 import useTableStatusStore from '../stores/tableStatus'
 import { computed, ref } from 'vue'
 import { useToast } from 'vue-toast-notification'
@@ -56,6 +57,22 @@ const downloadThisPattern = async function () {
     toast.error('Error downloading pattern!')
   }
   isPerformingAction.value = false
+}
+
+const openAddToPlaylistModal = async function () {
+  isPerformingAction.value = true
+
+  const { open, close } = useModal({
+    component: AddItemToPlaylistModal,
+    attrs: {
+      item: props.pattern,
+      onClose() {
+        isPerformingAction.value = false
+        close()
+      }
+    }
+  })
+  await open()
 }
 
 const deleteThisPattern = async function () {
@@ -158,8 +175,8 @@ const isPerformingAction = ref(false)
           <PlayIcon class="w-7 h-7" />
         </button>
         <button
-          :disabled="true || isPerformingAction"
-          @click="null"
+          :disabled="isPerformingAction"
+          @click="openAddToPlaylistModal"
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >
           <PlusIcon class="w-7 h-7" />
