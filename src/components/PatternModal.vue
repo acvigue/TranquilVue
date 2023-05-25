@@ -37,7 +37,6 @@ const files = useFilesStore()
 const toast = useToast()
 
 const playThisPattern = async function () {
-  isPerformingAction.value = true
   try {
     await table.playFile(`${props.pattern.uuid}.thr`)
     emit('close')
@@ -45,29 +44,23 @@ const playThisPattern = async function () {
   } catch (e) {
     toast.error('Error playing pattern!')
   }
-  isPerformingAction.value = false
 }
 
 const downloadThisPattern = async function () {
-  isPerformingAction.value = true
   try {
     await files.downloadPattern(props.pattern)
     toast.success(`Downloaded ${props.pattern.name}`)
   } catch (e) {
     toast.error('Error downloading pattern!')
   }
-  isPerformingAction.value = false
 }
 
 const openAddToPlaylistModal = async function () {
-  isPerformingAction.value = true
-
   const { open, close } = useModal({
     component: AddItemToPlaylistModal,
     attrs: {
       item: props.pattern,
       onClose() {
-        isPerformingAction.value = false
         close()
       }
     }
@@ -76,8 +69,6 @@ const openAddToPlaylistModal = async function () {
 }
 
 const deleteThisPattern = async function () {
-  isPerformingAction.value = true
-
   //Check if pattern is not in any playlists first
   const playlistsWithPattern = files.playlists
     .filter((v) => {
@@ -87,7 +78,6 @@ const deleteThisPattern = async function () {
 
   if (playlistsWithPattern.length !== 0) {
     toast.error(`Cannot remove pattern as it is used in: ${playlistsWithPattern.join(', ')}`)
-    isPerformingAction.value = false
     return
   }
 
@@ -97,7 +87,6 @@ const deleteThisPattern = async function () {
       itemName: props.pattern.name,
       onClose() {
         close()
-        isPerformingAction.value = false
       },
       onConfirm() {
         close()
@@ -110,7 +99,6 @@ const deleteThisPattern = async function () {
             files.patterns = files.patterns.filter((pattern) => pattern.uuid !== props.pattern.uuid)
             await files.saveManifest()
             toast.success(`Deleted ${props.pattern.name}`)
-            isPerformingAction.value = false
           })
       }
     }
@@ -127,8 +115,6 @@ const togglePatternFavorite = async function () {
 const isCurrentlyPlayingThisPattern = computed(() => {
   return table.currentPatternID === props.pattern.uuid
 })
-
-const isPerformingAction = ref(false)
 </script>
 <template>
   <VueFinalModal
@@ -168,21 +154,19 @@ const isPerformingAction = ref(false)
       </div>
       <div class="flex justify-evenly" v-if="isPatternDownloaded">
         <button
-          :disabled="isCurrentlyPlayingThisPattern || isPerformingAction"
+          :disabled="isCurrentlyPlayingThisPattern"
           @click="playThisPattern()"
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >
           <PlayIcon class="w-7 h-7" />
         </button>
         <button
-          :disabled="isPerformingAction"
           @click="openAddToPlaylistModal"
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >
           <PlusIcon class="w-7 h-7" />
         </button>
         <button
-          :disabled="isPerformingAction"
           @click="deleteThisPattern()"
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >
@@ -191,7 +175,6 @@ const isPerformingAction = ref(false)
       </div>
       <div class="flex justify-evenly" v-else>
         <button
-          :disabled="isPerformingAction"
           @click="downloadThisPattern"
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >

@@ -52,7 +52,6 @@ const isCurrentlyPlayingThisPlaylist = computed(() => {
 })
 
 const downloadThisPlaylist = async function () {
-  isPerformingAction.value = true
   try {
     await files.downloadPlaylist(props.playlist)
     toast.success(`Downloaded ${props.playlist.name}`)
@@ -60,30 +59,24 @@ const downloadThisPlaylist = async function () {
     console.log(e)
     toast.error('Error downloading playlist!')
   }
-  isPerformingAction.value = false
 }
 
 const playThisPlaylist = async function () {
-  isPerformingAction.value = true
   try {
     await table.playFile(`${props.playlist.uuid}.seq`)
-    toast.success(`Playling ${props.playlist.name}`)
+    toast.success(`Playing ${props.playlist.name}`)
   } catch (e) {
     toast.error('Error playing playlist!')
   }
-  isPerformingAction.value = false
 }
 
 const deleteThisPlaylist = async function () {
-  isPerformingAction.value = true
-
   const { open, close } = useModal({
     component: DeleteConfirmationModal,
     attrs: {
       itemName: props.playlist.name,
       onClose() {
         close()
-        isPerformingAction.value = false
       },
       onConfirm() {
         close()
@@ -98,7 +91,6 @@ const deleteThisPlaylist = async function () {
             )
             await files.saveManifest()
             toast.success(`Deleted ${props.playlist.name}`)
-            isPerformingAction.value = false
           })
       }
     }
@@ -113,7 +105,6 @@ const savePlaylistEdits = async function () {
   await files.saveManifest()
 }
 
-const isPerformingAction = ref(false)
 const isEditing = ref(false)
 
 const emit = defineEmits<{
@@ -151,7 +142,7 @@ const emit = defineEmits<{
           <div class="flex justify-evenly w-full">
             <button
               v-if="isPlaylistDownloaded"
-              :disabled="isCurrentlyPlayingThisPlaylist || isPerformingAction"
+              :disabled="isCurrentlyPlayingThisPlaylist || isEditing"
               @click="playThisPlaylist"
               class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
             >
@@ -159,7 +150,6 @@ const emit = defineEmits<{
             </button>
             <button
               v-if="isPlaylistDownloaded && !isEditing"
-              :disabled="isPerformingAction"
               @click="isEditing = true"
               class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
             >
@@ -167,7 +157,6 @@ const emit = defineEmits<{
             </button>
             <button
               v-if="isPlaylistDownloaded && isEditing"
-              :disabled="isPerformingAction"
               @click="savePlaylistEdits"
               class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
             >
@@ -175,7 +164,7 @@ const emit = defineEmits<{
             </button>
             <button
               v-if="isPlaylistDownloaded"
-              :disabled="isPerformingAction"
+              :disabled="isEditing"
               @click="deleteThisPlaylist"
               class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
             >
@@ -183,7 +172,6 @@ const emit = defineEmits<{
             </button>
             <button
               v-if="!isPlaylistDownloaded"
-              :disabled="isPerformingAction"
               @click="downloadThisPlaylist"
               class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
             >
