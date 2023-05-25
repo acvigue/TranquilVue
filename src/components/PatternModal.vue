@@ -14,7 +14,7 @@ import PatternPreview from './PatternPreview.vue'
 import DeleteConfirmationModal from './DeleteConfirmationModal.vue'
 import AddItemToPlaylistModal from './AddItemToPlaylistModal.vue'
 import useTableStatusStore from '../stores/tableStatus'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useToast } from 'vue-toast-notification'
 import useFilesStore from '../stores/files'
 

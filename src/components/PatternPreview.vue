@@ -39,7 +39,6 @@ import { ref, type Ref, onMounted, watch, onBeforeUnmount } from 'vue'
 import { type Pattern } from '../stores/files'
 import tranquilapi from '../plugins/tranquilapi'
 import { lineRadial, curveBasis } from 'd3'
-import { useToast } from 'vue-toast-notification'
 import useTableWiFiStore from '../stores/tableWiFi'
 
 const tableWiFi = useTableWiFiStore()
@@ -50,7 +49,6 @@ interface PatternPreviewProps {
 }
 
 const props = defineProps<PatternPreviewProps>()
-const toast = useToast()
 
 // The important part: the name of the variable needs to be equal to the ref's name of the canvas element in the template
 const canvasElement: Ref<HTMLCanvasElement | undefined> = ref()

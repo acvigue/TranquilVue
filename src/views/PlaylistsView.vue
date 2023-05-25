@@ -52,7 +52,7 @@ import TabNav from '../components/TabNav.vue'
 import PlaylistModal from '../components/PlaylistModal.vue'
 import PatternGridItemPlaceholder from '@/components/PatternGridItemPlaceholder.vue'
 import PlaylistGridItem from '@/components/PlaylistGridItem.vue'
-import { FolderPlusIcon, PlusIcon } from '@heroicons/vue/24/outline'
+import { PlusIcon } from '@heroicons/vue/24/outline'
 
 const files = useFilesStore()
 const toast = useToast()
