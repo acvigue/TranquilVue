@@ -14,6 +14,7 @@ export default defineStore('tableLights', () => {
   const brightness = ref(0)
   const effectID = ref(0)
   const effectSpeed = ref(0)
+  const angleOffset = ref(0)
   const lux = ref(-1)
 
   const postState = async () => {
@@ -30,7 +31,8 @@ export default defineStore('tableLights', () => {
       effectID: effectID.value,
       effectSpeed: effectSpeed.value,
       autoDim: autoDimEnabled.value ? 1 : 0,
-      autoDimStrength: autoDimStrength.value
+      autoDimStrength: autoDimStrength.value,
+      ledAngleOffset: angleOffset.value
     }
 
     await table.post('/settings/led', JSON.stringify(config), {
@@ -51,6 +53,7 @@ export default defineStore('tableLights', () => {
     effectSpeed.value = data.effectSpeed
     autoDimEnabled.value = data.autoDim === 1
     autoDimStrength.value = data.autoDimStrength
+    angleOffset.value = data.ledAngleOffset
   }
 
   const getLedConfig = async () => {
@@ -69,7 +72,8 @@ export default defineStore('tableLights', () => {
       primaryColor,
       secondaryColor,
       effectID,
-      effectSpeed
+      effectSpeed,
+      angleOffset
     ],
     async () => {
       await postState()
@@ -87,6 +91,7 @@ export default defineStore('tableLights', () => {
     secondaryColor,
     effectID,
     effectSpeed,
+    angleOffset,
     lux,
     getLedConfig
   }
