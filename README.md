@@ -1,6 +1,8 @@
 
 # TranquilVue
 
+[![CodeFactor](https://www.codefactor.io/repository/github/acvigue/tranquilvue/badge/main)](https://www.codefactor.io/repository/github/acvigue/tranquilvue/overview/main)
+
 A modern Vue 3 / TypeScript web app to control custom drawing robots
 
 ### Works with
