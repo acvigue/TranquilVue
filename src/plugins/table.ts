@@ -35,7 +35,6 @@ http.interceptors.response.use(
 
     if (e.response?.status === 401) {
       if (!window.tablePin) {
-        toast.error('Enter PIN')
         window.pinInProgress = true
         await showLoginModal()
         window.pinInProgress = false

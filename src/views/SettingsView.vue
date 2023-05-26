@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import AdvancedLightsSettingsModal from '@/components/modals/AdvancedLightsSettingsModal.vue'
 import SecuritySettingsModal from '@/components/modals/SecuritySettingsModal.vue'
+import WiFiSettingsModal from '@/components/modals/WiFiSettingsModal.vue'
+import WireguardSettingsModal from '@/components/modals/WireguardSettingsModal.vue'
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { useModal } from 'vue-final-modal'
 import 'vue-toast-notification/dist/theme-sugar.css'
@@ -8,6 +11,43 @@ const openSecuritySettingsModal = async () => {
   const { open, close } = useModal({
     component: SecuritySettingsModal,
     attrs: {
+      onClose: () => {
+        close()
+      }
+    }
+  })
+  await open()
+}
+
+const openWireguardSettingsModal = async () => {
+  const { open, close } = useModal({
+    component: WireguardSettingsModal,
+    attrs: {
+      onClose: () => {
+        close()
+      }
+    }
+  })
+  await open()
+}
+
+const openWiFiSettingsModal = async () => {
+  const { open, close } = useModal({
+    component: WiFiSettingsModal,
+    attrs: {
+      canClose: true,
+      onClose: () => {
+        close()
+      }
+    }
+  })
+  await open()
+}
+const openLightsSettingsModal = async () => {
+  const { open, close } = useModal({
+    component: AdvancedLightsSettingsModal,
+    attrs: {
+      canClose: true,
       onClose: () => {
         close()
       }
@@ -25,8 +65,29 @@ const openSecuritySettingsModal = async () => {
         @click="openSecuritySettingsModal"
         class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
       >
-        <span class="text-lg font-medium">Security Settings</span>
-        <span class="text-lg font-medium"><ArrowRightIcon class="w-7 h-7"></ArrowRightIcon></span>
+        <span class="text-lg font-medium">PIN Code</span>
+        <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
+      </button>
+      <button
+        @click="openWireguardSettingsModal"
+        class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
+      >
+        <span class="text-lg font-medium">WireGuard Remote Access</span>
+        <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
+      </button>
+      <button
+        @click="openWiFiSettingsModal"
+        class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
+      >
+        <span class="text-lg font-medium">Wi-Fi</span>
+        <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
+      </button>
+      <button
+        @click="openLightsSettingsModal"
+        class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
+      >
+        <span class="text-lg font-medium">Lights</span>
+        <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
       </button>
     </div>
   </div>

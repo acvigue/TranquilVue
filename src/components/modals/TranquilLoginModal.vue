@@ -47,7 +47,7 @@ const signInAction = async (fields: SignInFields, node: FormKitNode<unknown> | u
     :escToClose="false"
     contentTransition="fade-y"
     overlayTransition="fade"
-    content-class="p-4 md:w-[60vw] w-[80vw] bg-gray-900 border-[3px] border-gray-800 rounded-2xl z-[10000]"
+    content-class="p-4 w-[95vw] max-w-xl bg-gray-900 border-[3px] border-gray-800 rounded-2xl z-[10000]"
   >
     <div class="flex flex-col gap-4">
       <div class="flex justify-center">

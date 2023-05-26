@@ -21,15 +21,13 @@ export default defineStore('tableSecurity', () => {
     loader.hideLoader('security')
   }
 
-  const _update = function (dto: any) {
-    const data = dto.security
-    pinCode.value = data.pinCode
-    pinEnabled.value = data.pinEnabled === 1
-  }
-
   const getSecurityConfig = async () => {
-    const data = await table.get('/settings/security')
-    _update(data.data)
+    loader.showLoader('security')
+    const resp = await table.get('/settings/security')
+    const data = resp.data.security
+    pinCode.value = data.pinCode ?? ''
+    pinEnabled.value = (data.pinEnabled ?? 0) === 1
+    loader.hideLoader('security')
   }
 
   getSecurityConfig().then(() => {})

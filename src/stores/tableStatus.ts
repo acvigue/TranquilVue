@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
-import TranquilWiFiSetupModal from '@/components/modals/TranquilWiFiSetupModal.vue'
+import WiFiSettingsModal from '@/components/modals/WiFiSettingsModal.vue'
 import useLoader from '@/stores/loader'
 
 const toast = useToast()
@@ -50,7 +50,8 @@ export default defineStore('tableStatus', () => {
     shuffleMode: false,
     repeatMode: false,
     pause: 0,
-    Hmd: 0
+    Hmd: 0,
+    wgConn: false
   })
 
   const setPausedState = async (pausedState: boolean) => {
@@ -134,6 +135,7 @@ export default defineStore('tableStatus', () => {
     raw.value.repeatMode = data.repeatMode ?? false
     raw.value.pause = data.pause ?? 0
     raw.value.Hmd = data.Hmd ?? 0
+    raw.value.wgConn = data.wgConn ?? false
 
     //ap mode, start connection loop
     if (data.wifiConn === 'A') {
@@ -144,7 +146,7 @@ export default defineStore('tableStatus', () => {
     }
   }
 
-  const _sse = new EventSource(`${table.defaults.baseURL ?? ''}/events`)
+  const _sse = new EventSource(`events`)
 
   const _parseStatusEvent = (evt: Event) => {
     const messageEvent = evt as MessageEvent
@@ -161,9 +163,9 @@ export default defineStore('tableStatus', () => {
   const showWiFiSetupModal = function (): Promise<void> {
     return new Promise((resolve) => {
       const modal = useModal({
-        component: TranquilWiFiSetupModal,
-
+        component: WiFiSettingsModal,
         attrs: {
+          canClose: false,
           onClose() {
             modal.close()
             toast.success('WiFi settings saved. Please reconnect or refresh as necessary.')

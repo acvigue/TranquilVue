@@ -42,8 +42,10 @@ export default defineStore('tableWiFi', () => {
   }
 
   const getWiFiConfig = async () => {
+    loader.showLoader('wifi')
     const data = await table.get('/settings/wifi')
     _update(data.data)
+    loader.hideLoader('wifi')
   }
 
   getWiFiConfig().then(() => {})

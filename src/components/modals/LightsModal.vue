@@ -114,17 +114,6 @@ function rgbToHex(color: number[]) {
           min="0"
           max="255"
         />
-        <FormKit
-          type="slider"
-          label="Dimming Strength"
-          min="0"
-          max="10"
-          step="0.2"
-          :disabled="!lights.autoDimEnabled"
-          v-model="lights.autoDimStrength"
-          help="Set the lux level for maximum brightness"
-          :delay="500"
-        />
       </div>
 
       <!-- Colors -->

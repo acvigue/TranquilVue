@@ -3,9 +3,7 @@ import { VueFinalModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 import useTableSecurityStore from '@/stores/tableSecurity'
 import { FormKit } from '@formkit/vue'
-import type { FormKitNode } from '@formkit/core'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { isAxiosError } from 'axios'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -14,23 +12,12 @@ const emit = defineEmits<{
 const toast = useToast()
 const security = useTableSecurityStore()
 
-const formHandler = async (
-  fields: { enabled: boolean; pincode: string },
-  node: FormKitNode<unknown> | undefined
-) => {
+const formHandler = async () => {
   try {
-    security.pinCode = fields.pincode
-    security.pinEnabled = fields.enabled
     await security.saveSettings()
     toast.success('Security settings updated')
   } catch (e) {
-    if (isAxiosError(e)) {
-      if (e.response && node) {
-        node.setErrors([e.response.data.error])
-      } else {
-        toast.error('Network Error')
-      }
-    }
+    toast.error('Error updating security settings')
   }
 }
 </script>
@@ -59,14 +46,14 @@ const formHandler = async (
       <FormKit type="form" @submit="formHandler" submit-label="Save">
         <FormKit
           type="toggle"
-          :value="security.pinEnabled"
+          v-model="security.pinEnabled"
           name="enabled"
           id="enabled"
           label="PIN Enabled"
         />
         <FormKit
           type="text"
-          :value="security.pinCode"
+          v-model="security.pinCode"
           name="pincode"
           id="pincode"
           label="PIN Code"

@@ -24,8 +24,10 @@ export default defineStore('tableRobotSettings', () => {
   }
 
   const getTableRobotSettings = async () => {
+    loader.showLoader('robotSettings')
     const resp = await table.get('/settings/robot')
     _update(resp.data)
+    loader.hideLoader('robotSettings')
   }
 
   getTableRobotSettings().then(() => {})

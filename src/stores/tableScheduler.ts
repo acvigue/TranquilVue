@@ -14,7 +14,7 @@ export default defineStore('tableScheduler', () => {
   const jobs = ref([] as SchedulerJob[])
   const loader = useLoader()
 
-  const saveSchedule = async () => {
+  const saveSettings = async () => {
     loader.showLoader('scheduler')
     const config = {
       jobs: jobs.value
@@ -24,15 +24,17 @@ export default defineStore('tableScheduler', () => {
     loader.hideLoader('scheduler')
   }
 
-  const getSecurityConfig = async () => {
+  const getSchedulerConfig = async () => {
+    loader.showLoader('scheduler')
     const resp = await table.get('/settings/scheduler')
     jobs.value = resp.data.jobs
+    loader.hideLoader('scheduler')
   }
 
-  getSecurityConfig().then(() => {})
+  getSchedulerConfig().then(() => {})
 
   return {
     jobs,
-    saveSchedule
+    saveSettings
   }
 })
