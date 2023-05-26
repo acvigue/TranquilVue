@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VueFinalModal } from 'vue-final-modal'
 import { FormKit } from '@formkit/vue'
-import tranquilapi from '../plugins/tranquilapi'
+import tranquilapi from '@/plugins/tranquilapi'
 import { useToast } from 'vue-toast-notification'
 import { isAxiosError } from 'axios'
 import type { FormKitNode } from '@formkit/core'

@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import table from '../plugins/table'
+import table from '@/plugins/table'
 
 export default defineStore('tableRobotSettings', () => {
   const tableName = ref('')

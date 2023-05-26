@@ -2,7 +2,7 @@
 import type { Pattern, Playlist } from '@/stores/files'
 import { computed, ref, onMounted } from 'vue'
 import { VueFinalModal } from 'vue-final-modal'
-import useFilesStore from '../stores/files'
+import useFilesStore from '@/stores/files'
 import {
   XMarkIcon,
   PlayIcon,
@@ -11,10 +11,10 @@ import {
   ArrowDownTrayIcon,
   CheckIcon
 } from '@heroicons/vue/24/outline'
-import PatternPreview from './PatternPreview.vue'
-import DeleteConfirmationModal from './DeleteConfirmationModal.vue'
+import PatternPreview from '@/components/PatternPreview.vue'
+import DeleteConfirmationModal from '@/components/modals/DeleteConfirmationModal.vue'
 import draggable from 'vuedraggable'
-import tranquilapi from '../plugins/tranquilapi'
+import tranquilapi from '@/plugins/tranquilapi'
 import { useToast } from 'vue-toast-notification'
 import { useModal } from 'vue-final-modal'
 import useTableStatusStore from '@/stores/tableStatus'

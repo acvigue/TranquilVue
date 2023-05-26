@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { VueFinalModal } from 'vue-final-modal'
-import table from '../plugins/table'
+import table from '@/plugins/table'
 import { useToast } from 'vue-toast-notification'
-import useTableSecurityStore from '../stores/tableSecurity'
+import useTableSecurityStore from '@/stores/tableSecurity'
 import { isAxiosError } from 'axios'
 import { ref, watch } from 'vue'
 import { FormKit } from '@formkit/vue'

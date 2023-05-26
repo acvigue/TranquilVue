@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import useFilesStore, { type Playlist } from '../stores/files'
+import useFilesStore, { type Playlist } from '@/stores/files'
 
-import tranquilapi from '../plugins/tranquilapi'
+import tranquilapi from '@/plugins/tranquilapi'
 import { useModal, VueFinalModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 
@@ -9,9 +9,9 @@ import ScrollGrid from 'vue-virtual-scroll-grid'
 import { computed, onMounted, ref } from 'vue'
 import type { StyleValue } from 'vue'
 
-import TabNav from '../components/TabNav.vue'
-import PlaylistModal from '../components/PlaylistModal.vue'
-import NewPlaylistModal from '../components/NewPlaylistModal.vue'
+import TabNav from '@/components/TabNav.vue'
+import PlaylistModal from '@/components/modals/PlaylistModal.vue'
+import NewPlaylistModal from '@/components/modals/NewPlaylistModal.vue'
 import PatternGridItemPlaceholder from '@/components/PatternGridItemPlaceholder.vue'
 import PlaylistGridItem from '@/components/PlaylistGridItem.vue'
 import { PlusIcon, FunnelIcon } from '@heroicons/vue/24/outline'

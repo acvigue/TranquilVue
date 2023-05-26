@@ -1,7 +1,7 @@
 import { computed, ref, toRaw } from 'vue'
 import { defineStore } from 'pinia'
-import table from '../plugins/table'
-import tranquilapi from '../plugins/tranquilapi'
+import table from '@/plugins/table'
+import tranquilapi from '@/plugins/tranquilapi'
 
 export interface Pattern {
   uuid: string //uuid

@@ -6,7 +6,7 @@ import {
   AdjustmentsVerticalIcon
 } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
-import useFilesStore from '../stores/files'
+import useFilesStore from '@/stores/files'
 
 const files = useFilesStore()
 </script>

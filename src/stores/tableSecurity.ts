@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
-import table from '../plugins/table'
+import table from '@/plugins/table'
 
 export default defineStore('tableSecurity', () => {
   const loaderActive = ref(false)

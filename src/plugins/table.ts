@@ -2,7 +2,7 @@ import axios, { type AxiosError } from 'axios'
 import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 
-import TablePinLoginModal from '../components/TablePinLoginModal.vue'
+import TablePinLoginModal from '@/components/modals/TablePinLoginModal.vue'
 declare global {
   interface Window {
     pinInProgress: boolean
@@ -26,6 +26,7 @@ http.interceptors.response.use(
     }
     const e = error as AxiosError
 
+    //If heap had a bad response, reject it (this makes pin error work)
     if (axios.getUri(e.config).includes('heap')) {
       return Promise.reject(error)
     }

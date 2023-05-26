@@ -10,13 +10,13 @@ import {
   HeartIcon as HeartIconOutline
 } from '@heroicons/vue/24/outline'
 import { HeartIcon } from '@heroicons/vue/24/solid'
-import PatternPreview from './PatternPreview.vue'
-import DeleteConfirmationModal from './DeleteConfirmationModal.vue'
-import AddItemToPlaylistModal from './AddItemToPlaylistModal.vue'
-import useTableStatusStore from '../stores/tableStatus'
+import PatternPreview from '@/components/PatternPreview.vue'
+import DeleteConfirmationModal from '@/components/modals/DeleteConfirmationModal.vue'
+import AddItemToPlaylistModal from '@/components/modals/AddItemToPlaylistModal.vue'
+import useTableStatusStore from '@/stores/tableStatus'
 import { computed } from 'vue'
 import { useToast } from 'vue-toast-notification'
-import useFilesStore from '../stores/files'
+import useFilesStore from '@/stores/files'
 
 interface PatternModalProps {
   pattern: Pattern

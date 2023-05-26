@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { VueFinalModal } from 'vue-final-modal'
-import useFilesStore, { type Playlist } from '../stores/files'
+import useFilesStore, { type Playlist } from '@/stores/files'
 import { FormKit } from '@formkit/vue'
 import { v4 as uuidv4 } from 'uuid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'

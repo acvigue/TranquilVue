@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Playlist } from '@/stores/files'
 import { type StyleValue } from 'vue'
-import PatternPreview from '../components/PatternPreview.vue'
+import PatternPreview from '@/components/PatternPreview.vue'
 
 interface PlaylistGridItemPlaceholderProps {
   style?: StyleValue

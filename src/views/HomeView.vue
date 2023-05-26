@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import useTableStatusStore from '../stores/tableStatus'
+import useTableStatusStore from '@/stores/tableStatus'
 
-import useFilesStore, { type Pattern } from '../stores/files'
-import useTableLightsStore from '../stores/tableLights'
+import useFilesStore, { type Pattern } from '@/stores/files'
+import useTableLightsStore from '@/stores/tableLights'
 
-import LightsModal from '../components/LightsModal.vue'
-import PatternPreview from '../components/PatternPreview.vue'
+import LightsModal from '@/components/modals/LightsModal.vue'
+import PatternPreview from '@/components/PatternPreview.vue'
 import {
   PlayIcon,
   PauseIcon,
@@ -13,7 +13,7 @@ import {
   BackwardIcon,
   LightBulbIcon
 } from '@heroicons/vue/24/outline'
-import TranquilLogoWhite from '../assets/tranquil-logo-white.svg'
+import TranquilLogoWhite from '@/assets/tranquil-logo-white.svg'
 
 import { useToast } from 'vue-toast-notification'
 import { computed, ref } from 'vue'

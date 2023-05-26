@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VueFinalModal } from 'vue-final-modal'
 import { FormKit } from '@formkit/vue'
-import useTableWiFiStore from '../stores/tableWiFi'
+import useTableWiFiStore from '@/stores/tableWiFi'
 
 const emit = defineEmits<{
   (e: 'saved'): void

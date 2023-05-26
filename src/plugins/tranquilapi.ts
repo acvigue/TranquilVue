@@ -3,7 +3,7 @@ import table from './table'
 import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 
-import TranquilLoginModal from '../components/TranquilLoginModal.vue'
+import TranquilLoginModal from '@/components/modals/TranquilLoginModal.vue'
 declare global {
   interface Window {
     authInProgress: boolean

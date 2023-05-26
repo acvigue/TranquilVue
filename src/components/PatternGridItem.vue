@@ -2,8 +2,8 @@
 import type { Pattern } from '@/stores/files'
 import type { StyleValue } from 'vue'
 import { HeartIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/solid'
-import useFilesStore from '../stores/files'
-import PatternPreview from '../components/PatternPreview.vue'
+import useFilesStore from '@/stores/files'
+import PatternPreview from '@/components/PatternPreview.vue'
 import { computed } from 'vue'
 
 interface PatternGridItemPlaceholderProps {

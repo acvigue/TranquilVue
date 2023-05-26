@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 
-import useFilesStore from './stores/files'
-import useTableStatusStore from './stores/tableStatus'
-import useTableLightsStore from './stores/tableLights'
-import useTableWiFiStore from './stores/tableWiFi'
-import useTableSecurityStore from './stores/tableSecurity'
+import useFilesStore from '@/stores/files'
+import useTableStatusStore from '@/stores/tableStatus'
+import useTableLightsStore from '@/stores/tableLights'
+import useTableWiFiStore from '@/stores/tableWiFi'
+import useTableSecurityStore from '@/stores/tableSecurity'
 import { ModalsContainer } from 'vue-final-modal'
 import 'vue-final-modal/style.css'
 
-import AppFooter from './components/AppFooter.vue'
-import FullScreenLoader from './components/FullScreenLoader.vue'
+import AppFooter from '@/components/AppFooter.vue'
+import FullScreenLoader from '@/components/FullScreenLoader.vue'
 
 const files = useFilesStore()
 const tableStatus = useTableStatusStore()

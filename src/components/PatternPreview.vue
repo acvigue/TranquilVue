@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, type Ref, onMounted, watch, onBeforeUnmount } from 'vue'
-import { type Pattern } from '../stores/files'
-import tranquilapi from '../plugins/tranquilapi'
+import { type Pattern } from '@/stores/files'
+import tranquilapi from '@/plugins/tranquilapi'
 import { lineRadial, curveBasis } from 'd3'
-import useTableWiFiStore from '../stores/tableWiFi'
+import useTableWiFiStore from '@/stores/tableWiFi'
 
 const tableWiFi = useTableWiFiStore()
 

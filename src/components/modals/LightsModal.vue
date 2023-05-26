@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import useTableLightsStore from '../stores/tableLights'
+import useTableLightsStore from '@/stores/tableLights'
 import { VueFinalModal } from 'vue-final-modal'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue'
 import { FormKit } from '@formkit/vue'
 import { VSwatches } from 'vue3-swatches-next'
 import 'vue3-swatches-next/dist/style.css'
-import swatches from '../assets/colorSwatches'
+import swatches from '@/assets/colorSwatches'
 import type { FormKitNode } from '@formkit/core'
 
 const emit = defineEmits<{

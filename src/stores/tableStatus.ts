@@ -1,9 +1,9 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import table from '../plugins/table'
+import table from '@/plugins/table'
 import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
-import TranquilWiFiSetupModal from '../components/TranquilWiFiSetupModal.vue'
+import TranquilWiFiSetupModal from '@/components/modals/TranquilWiFiSetupModal.vue'
 
 const toast = useToast()
 

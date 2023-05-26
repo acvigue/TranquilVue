@@ -1,14 +1,14 @@
-import './assets/main.scss'
+import '@/assets/main.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import App from './App.vue'
-import router from './router'
+import App from '@/App.vue'
+import router from '@/router'
 import { createVfm } from 'vue-final-modal'
 
 import { plugin, defaultConfig } from '@formkit/vue'
-import formKitConfig from './formkit.config'
+import formKitConfig from '@/formkit.config'
 
 const app = createApp(App)
 
