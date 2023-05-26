@@ -2,9 +2,9 @@
 import { VueFinalModal } from 'vue-final-modal'
 import table from '@/plugins/table'
 import { useToast } from 'vue-toast-notification'
-import useTableSecurityStore from '@/stores/tableSecurity'
 import { isAxiosError } from 'axios'
 import { ref, watch } from 'vue'
+import useLoader from '@/stores/loader'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -13,13 +13,12 @@ const emit = defineEmits<{
 const toast = useToast()
 const pinCode = ref('')
 const pinCodeBad = ref(false)
-const security = useTableSecurityStore()
+const loader = useLoader()
 
 watch(pinCode, async () => {
   if (pinCode.value.length === 4) {
     try {
-      security.loaderActive = true
-      security.loaderMessage = 'Connecting'
+      loader.showLoader('pinLogin', undefined, 10000)
       await table.get('/heap', {
         auth: {
           username: 'tranquil',
@@ -43,7 +42,7 @@ watch(pinCode, async () => {
       }
       pinCode.value = ''
     }
-    security.loaderActive = false
+    loader.hideLoader('pinLogin')
   }
 })
 </script>

@@ -4,10 +4,12 @@ import table from '@/plugins/table'
 import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 import TranquilWiFiSetupModal from '@/components/modals/TranquilWiFiSetupModal.vue'
+import useLoader from '@/stores/loader'
 
 const toast = useToast()
 
 export default defineStore('tableStatus', () => {
+  const loader = useLoader()
   const status = computed(() => {
     if (raw.value.pause === 0 && raw.value.file !== '') {
       return 'playing'
@@ -19,9 +21,6 @@ export default defineStore('tableStatus', () => {
     }
     return 'paused'
   })
-
-  const loaderActive = ref(false)
-  const loaderMessage = ref('')
 
   const currentPatternID = computed(() => {
     return (raw.value.file ?? '').replace('sd/', '').replace('/', '').replace('.thr', '')
@@ -61,17 +60,16 @@ export default defineStore('tableStatus', () => {
   }
 
   const playFile = async (fileName: string) => {
-    loaderActive.value = true
+    loader.showLoader('status')
     try {
-      loaderMessage.value = 'Homing'
+      loader.showLoader('status', 'Homing')
       await homeTable()
-      loaderMessage.value = ''
       await table.get(`/playFile/sd/${fileName}`)
     } catch (e) {
       console.log(e)
       toast.error('Could not home table!')
     }
-    loaderActive.value = false
+    loader.hideLoader('status')
   }
 
   const homeTable = () => {
@@ -80,7 +78,7 @@ export default defineStore('tableStatus', () => {
         resolve()
       }
       executeCommand('G28').then(() => {
-        loaderActive.value = true
+        loader.showLoader('status', 'Homing')
         let i = 0
         setInterval(() => {
           if (raw.value.Hmd === 1) {
@@ -116,9 +114,9 @@ export default defineStore('tableStatus', () => {
   }
 
   const executeCommand = async (command: string) => {
-    loaderActive.value = true
+    loader.showLoader('status')
     await table.get(`/exec/${command}`)
-    loaderActive.value = false
+    loader.hideLoader('status')
   }
 
   const _updateRaw = (data: any) => {
@@ -168,7 +166,7 @@ export default defineStore('tableStatus', () => {
         component: TranquilWiFiSetupModal,
 
         attrs: {
-          onSaved() {
+          onClose() {
             modal.close()
             toast.success('WiFi settings saved. Please reconnect or refresh as necessary.')
             _isWiFiSetupModalShowing.value = false
@@ -191,8 +189,6 @@ export default defineStore('tableStatus', () => {
     resetTable,
     executeCommand,
     playFile,
-    loaderActive,
-    loaderMessage,
     skipPattern,
     setShuffle,
     setRepeat

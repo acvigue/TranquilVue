@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
+import useLoader from '@/stores/loader'
 
 export default defineStore('tableWiFi', () => {
-  const loaderActive = ref(false)
-  const loaderMessage = ref('Saving')
+  const loader = useLoader()
 
   const connectionType = ref(-1)
   const ssid = ref('')
@@ -14,8 +14,8 @@ export default defineStore('tableWiFi', () => {
   const peapPassword = ref('')
   const peapIdentity = ref('')
 
-  const update = async () => {
-    loaderActive.value = true
+  const saveSettings = async () => {
+    loader.showLoader('wifi')
     const config = {
       WiFiMode: connectionType.value ?? 3,
       WiFiSSID: ssid.value,
@@ -26,12 +26,8 @@ export default defineStore('tableWiFi', () => {
       WiFiHostname: hostname.value ?? 'Tranquil'
     }
 
-    await table.post('/settings/wifi', JSON.stringify(config), {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    loaderActive.value = false
+    await table.post('/settings/wifi', config)
+    loader.hideLoader('wifi')
   }
 
   const _update = function (dto: any) {
@@ -53,8 +49,6 @@ export default defineStore('tableWiFi', () => {
   getWiFiConfig().then(() => {})
 
   return {
-    loaderActive,
-    loaderMessage,
     connectionType,
     ssid,
     password,
@@ -62,6 +56,6 @@ export default defineStore('tableWiFi', () => {
     peapIdentity,
     peapUsername,
     peapPassword,
-    update
+    saveSettings
   }
 })

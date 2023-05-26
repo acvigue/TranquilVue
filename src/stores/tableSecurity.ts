@@ -1,28 +1,24 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
+import useLoader from '@/stores/loader'
 
 export default defineStore('tableSecurity', () => {
-  const loaderActive = ref(false)
-  const loaderMessage = ref('')
+  const loader = useLoader()
 
   const pinEnabled = ref(false)
   const pinCode = ref('')
 
-  const postState = async () => {
-    loaderActive.value = true
+  const saveSettings = async () => {
+    loader.showLoader('security')
     const config = {
       pinEnabled: pinEnabled.value ? 1 : 0,
       pinCode: pinCode.value
     }
 
-    await table.post('/settings/security', JSON.stringify(config), {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    await table.post('/settings/security', config)
     window.tablePin = pinCode.value
-    loaderActive.value = false
+    loader.hideLoader('security')
   }
 
   const _update = function (dto: any) {
@@ -39,10 +35,8 @@ export default defineStore('tableSecurity', () => {
   getSecurityConfig().then(() => {})
 
   return {
-    loaderActive,
-    loaderMessage,
     pinCode,
     pinEnabled,
-    postState
+    saveSettings
   }
 })

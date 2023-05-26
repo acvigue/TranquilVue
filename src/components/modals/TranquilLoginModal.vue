@@ -7,7 +7,7 @@ import { isAxiosError } from 'axios'
 import type { FormKitNode } from '@formkit/core'
 
 const emit = defineEmits<{
-  (e: 'loggedin'): void
+  (e: 'close'): void
 }>()
 
 const toast = useToast()
@@ -27,7 +27,7 @@ const signInAction = async (fields: SignInFields, node: FormKitNode<unknown> | u
     //valid refresh token!
     window.localStorage.setItem('tranquilToken', refreshTokenResponse.data.token)
 
-    emit('loggedin')
+    emit('close')
   } catch (e) {
     if (isAxiosError(e)) {
       if (e.response && node) {

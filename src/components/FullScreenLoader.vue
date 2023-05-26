@@ -1,24 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
 interface FullScreenLoaderProps {
-  active: boolean
-  message: string
-  overModal?: boolean
+  message?: string
+  zIndex?: number
 }
 
-const props = defineProps<FullScreenLoaderProps>()
-const overmodal = ref(false)
-
-onMounted(() => {
-  overmodal.value = props.overModal ?? false
-})
+defineProps<FullScreenLoaderProps>()
 </script>
 
 <template>
   <div
-    v-if="active"
-    :class="{ 'z-[10000]': overmodal, 'z-[2000]': !overmodal }"
+    :style="{ 'z-index': zIndex ?? 2000 }"
     class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 flex flex-col justify-center items-center overflow-hidden"
   >
     <svg
@@ -37,6 +28,6 @@ onMounted(() => {
         fill="currentFill"
       />
     </svg>
-    <div class="mt-3">{{ message }}</div>
+    <div class="mt-3" v-if="message">{{ message }}</div>
   </div>
 </template>

@@ -128,7 +128,7 @@ function showLoginModal() {
       component: TranquilLoginModal,
 
       attrs: {
-        onLoggedin() {
+        onClose() {
           modal.close()
           toast.success('Signed in successfully')
           resolve()

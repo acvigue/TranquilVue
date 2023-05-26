@@ -2,6 +2,7 @@ import { computed, ref, toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import tranquilapi from '@/plugins/tranquilapi'
+import useLoader from '@/stores/loader'
 
 export interface Pattern {
   uuid: string //uuid
@@ -21,10 +22,9 @@ export interface Playlist {
 }
 
 export default defineStore('files', () => {
+  const loader = useLoader()
   const patterns = ref([] as Pattern[])
   const playlists = ref([] as Playlist[])
-  const loaderActive = ref(false)
-  const loaderMessage = ref('')
 
   const favoritePatterns = computed(() => {
     return patterns.value.filter((pattern) => pattern.isFavorite === true)
@@ -39,12 +39,11 @@ export default defineStore('files', () => {
   }
 
   const downloadPattern = async (pattern: Pattern) => {
-    loaderMessage.value = `Downloading ${pattern.name}`
-    loaderActive.value = true
+    loader.showLoader('files', `Downloading ${pattern.name}`)
 
     const patternData = (await tranquilapi.get(`/patterns/${pattern.uuid}/data`)).data
 
-    loaderMessage.value = `Sending pattern ${pattern.name}`
+    loader.showLoader('files', `Sending pattern ${pattern.name}`)
 
     await uploadFile(`${pattern.uuid}.thr`, patternData)
 
@@ -53,23 +52,21 @@ export default defineStore('files', () => {
       await saveManifest()
     } catch (e) {
       console.error(e)
-      loaderActive.value = false
+      loader.hideLoader('files')
       await table.get(`/fs/delete/sd/${pattern.uuid}.thr`)
     }
   }
 
   const deleteFile = async (path: string) => {
-    loaderMessage.value = `Removing`
-    loaderActive.value = true
+    loader.showLoader('files', 'Removing')
 
     await table.get(`/fs/delete/sd/${path}`)
 
-    loaderActive.value = false
+    loader.hideLoader('files')
   }
 
   const downloadPlaylist = async (playlist: Playlist) => {
-    loaderMessage.value = 'Fetching playlist'
-    loaderActive.value = true
+    loader.showLoader('files', 'Fetching playlist')
 
     const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data as Playlist
 
@@ -94,7 +91,7 @@ export default defineStore('files', () => {
     try {
       await saveManifest()
     } catch (e) {
-      loaderActive.value = false
+      loader.hideLoader('files')
       console.error(e)
       await table.get(`/fs/delete/sd/${playlist.uuid}.seq`)
     }
@@ -108,8 +105,7 @@ export default defineStore('files', () => {
   }
 
   const refreshFiles = async () => {
-    loaderMessage.value = 'Refreshing files'
-    loaderActive.value = true
+    loader.showLoader('files', 'Refreshing files')
     const response = await table.get(`/files/sd/manifest.json`)
 
     patterns.value = []
@@ -122,12 +118,11 @@ export default defineStore('files', () => {
       playlists.value.push(playlist)
     }
 
-    loaderActive.value = false
+    loader.hideLoader('files')
   }
 
   const saveManifest = async () => {
-    loaderMessage.value = 'Saving manifest'
-    loaderActive.value = true
+    loader.showLoader('files', 'Saving manifest')
 
     const manifest = {
       patterns: toRaw(patterns.value),
@@ -138,12 +133,10 @@ export default defineStore('files', () => {
 
     await uploadFile('manifest.json', content)
 
-    loaderActive.value = false
+    loader.hideLoader('files')
   }
 
   return {
-    loaderActive,
-    loaderMessage,
     patterns,
     playlists,
     favoritePatterns,

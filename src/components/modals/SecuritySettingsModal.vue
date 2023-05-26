@@ -21,7 +21,7 @@ const formHandler = async (
   try {
     security.pinCode = fields.pincode
     security.pinEnabled = fields.enabled
-    await security.postState()
+    await security.saveSettings()
     toast.success('Security settings updated')
   } catch (e) {
     if (isAxiosError(e)) {

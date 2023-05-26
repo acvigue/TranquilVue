@@ -6,9 +6,6 @@ import {
   AdjustmentsVerticalIcon
 } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
-import useFilesStore from '@/stores/files'
-
-const files = useFilesStore()
 </script>
 
 <template>
@@ -23,7 +20,6 @@ const files = useFilesStore()
       </router-link>
       <router-link
         to="/patterns"
-        :class="{ 'pointer-events-none': files.loaderActive }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >
@@ -33,7 +29,6 @@ const files = useFilesStore()
       </router-link>
       <router-link
         to="/playlists"
-        :class="{ 'pointer-events-none': files.loaderActive }"
         active-class="bg-gray-800 [&_*]:text-blue-600"
         class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group transition transform-gpu duration-300"
       >

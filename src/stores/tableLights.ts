@@ -1,10 +1,10 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
+import useLoader from '@/stores/loader'
 
 export default defineStore('tableLights', () => {
-  const loaderActive = ref(false)
-  const loaderMessage = ref('')
+  const loader = useLoader()
 
   const on = ref(false)
   const autoDimEnabled = ref(false)
@@ -18,7 +18,7 @@ export default defineStore('tableLights', () => {
   const lux = ref(-1)
 
   const postState = async () => {
-    loaderActive.value = true
+    loader.showLoader('lights')
     const config = {
       ledOn: on.value ? 1 : 0,
       ledBrightness: brightness.value,
@@ -35,12 +35,8 @@ export default defineStore('tableLights', () => {
       ledAngleOffset: angleOffset.value
     }
 
-    await table.post('/settings/led', JSON.stringify(config), {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    loaderActive.value = false
+    await table.post('/settings/led', config)
+    loader.hideLoader('lights')
   }
 
   const _update = function (dto: any) {
@@ -81,8 +77,6 @@ export default defineStore('tableLights', () => {
   )
 
   return {
-    loaderActive,
-    loaderMessage,
     on,
     autoDimEnabled,
     autoDimStrength,

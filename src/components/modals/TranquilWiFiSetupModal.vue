@@ -4,14 +4,14 @@ import { FormKit } from '@formkit/vue'
 import useTableWiFiStore from '@/stores/tableWiFi'
 
 const emit = defineEmits<{
-  (e: 'saved'): void
+  (e: 'close'): void
 }>()
 
 const tableWiFi = useTableWiFiStore()
 const connectAction = async () => {
   console.log(tableWiFi)
-  await tableWiFi.update().catch(() => {
-    emit('saved')
+  await tableWiFi.saveSettings().catch(() => {
+    emit('close')
   })
 }
 </script>
