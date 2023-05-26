@@ -77,7 +77,7 @@ export default defineStore('tableStatus', () => {
 
   const homeTable = () => {
     return new Promise<void>((resolve, reject) => {
-      if(raw.value.Hmd === 1) {
+      if (raw.value.Hmd === 1) {
         resolve()
       }
       executeCommand('G28').then(() => {
