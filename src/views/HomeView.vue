@@ -118,10 +118,20 @@ const currentPattern = computed(() => {
 })
 
 const gradientColorStops = computed(() => {
+  if (
+    tableLights.primaryColor[0] === 0 &&
+    tableLights.primaryColor[1] === 0 &&
+    tableLights.primaryColor[2] === 0 &&
+    tableLights.secondaryColor[0] === 0 &&
+    tableLights.secondaryColor[1] === 0 &&
+    tableLights.secondaryColor[2] === 0
+  ) {
+    return ''
+  }
   const primaryColor = `rgb(${tableLights.primaryColor.join(',')})`
   const secondaryColor = `rgb(${tableLights.secondaryColor.join(',')})`
 
-  return `background: conic-gradient(${primaryColor}, ${secondaryColor}, ${primaryColor});`
+  return `background: conic-gradient(${primaryColor}, ${secondaryColor}, ${primaryColor}) !important;`
 })
 
 const gradientColorStopsProgress = computed(() => {
@@ -130,7 +140,7 @@ const gradientColorStopsProgress = computed(() => {
 
   return `background: conic-gradient(rgba(0,0,0,0) 0deg, rgba(0,0,0,0) ${progressDeg}deg, rgba(31,44,55,1) ${
     progressDeg + 0.001
-  }deg);`
+  }deg) !important;`
 })
 
 setInterval(() => {
@@ -148,9 +158,9 @@ setInterval(() => {
       >
         <span class="text-lg font-semibold">Play Something</span>
         <div class="flex flex-row items-center justify-center w-full overflow-hidden">
-          <div :style="gradientColorStops" class="p-1 rounded-full relative">
+          <div :style="gradientColorStops" class="p-1 rounded-full bg-gray-700">
             <PatternPreview
-              class="w-64 h-64 rounded-full bg-gray-800 absolute z-20"
+              class="w-64 h-64 rounded-full bg-gray-800 z-20"
               lineColor="#ffffff"
               :key="files.patterns[randomPatternIndex]?.uuid ?? ''"
               :pattern="files.patterns[randomPatternIndex]"
@@ -170,7 +180,7 @@ setInterval(() => {
                 </div>
               </div>
             </PatternPreview>
-            <div class="w-64 h-64 rounded-full bg-gray-800 absolute z-10 top-0 mt-1"></div>
+            <div v-else class="w-64 h-64 rounded-full bg-gray-800 z-10"></div>
           </div>
         </div>
       </div>
@@ -206,7 +216,7 @@ setInterval(() => {
             <BackwardIcon />
           </button>
           <div :style="gradientColorStops" class="rounded-full">
-            <div :style="gradientColorStopsProgress" class="p-1 rounded-full">
+            <div :style="gradientColorStopsProgress" class="p-1 rounded-full bg-gray-700">
               <PatternPreview
                 class="w-64 h-64 rounded-full bg-gray-800"
                 lineColor="#ffffff"

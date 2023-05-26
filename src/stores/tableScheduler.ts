@@ -4,9 +4,9 @@ import table from '@/plugins/table'
 import useLoader from '@/stores/loader'
 
 interface SchedulerJob {
-  hour: number,
-  minute: number,
-  dow: number,
+  hour: number
+  minute: number
+  dow: number
   cmd: string
 }
 

@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import useLoader from '@/stores/loader'

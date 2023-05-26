@@ -14,9 +14,7 @@ export default defineStore('tableStatus', () => {
     if (raw.value.pause === 0 && raw.value.file !== '') {
       return 'playing'
     }
-    if (
-      ((raw.value.Qd <= 1 && raw.value.pause === 0) || raw.value.file === '')
-    ) {
+    if ((raw.value.Qd <= 1 && raw.value.pause === 0) || raw.value.file === '') {
       return 'idle'
     }
     return 'paused'
