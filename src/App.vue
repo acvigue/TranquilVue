@@ -31,22 +31,30 @@ files.refreshFiles()
   <AppFooter />
 
   <!-- Loader messages -->
-  <FullScreenLoader :active="files.loaderActive" :message="files.loaderMessage"></FullScreenLoader>
+  <FullScreenLoader
+    :active="files.loaderActive"
+    :message="files.loaderMessage"
+    :over-modal="true"
+  ></FullScreenLoader>
   <FullScreenLoader
     :active="tableStatus.loaderActive"
     :message="tableStatus.loaderMessage"
+    :over-modal="true"
   ></FullScreenLoader>
   <FullScreenLoader
     :active="tableLights.loaderActive"
     :message="tableLights.loaderMessage"
+    :over-modal="true"
   ></FullScreenLoader>
   <FullScreenLoader
     :active="tableWiFi.loaderActive"
     :message="tableWiFi.loaderMessage"
+    :over-modal="true"
   ></FullScreenLoader>
   <FullScreenLoader
     :active="tableSecurity.loaderActive"
     :message="tableSecurity.loaderMessage"
+    :over-modal="true"
   ></FullScreenLoader>
 
   <ModalsContainer />

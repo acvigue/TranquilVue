@@ -2,6 +2,7 @@
 import { VueFinalModal } from 'vue-final-modal'
 import table from '../plugins/table'
 import { useToast } from 'vue-toast-notification'
+import useTableSecurityStore from '../stores/tableSecurity'
 import { isAxiosError } from 'axios'
 import { ref, watch } from 'vue'
 import { FormKit } from '@formkit/vue'
@@ -12,10 +13,13 @@ const emit = defineEmits<{
 const toast = useToast()
 const pinCode = ref('')
 const pinCodeBad = ref(false)
+const security = useTableSecurityStore()
 
 watch(pinCode, async () => {
   if (pinCode.value.length === 4) {
     try {
+      security.loaderActive = true
+      security.loaderMessage = 'Connecting'
       await table.get('/heap', {
         auth: {
           username: 'tranquil',
@@ -40,20 +44,21 @@ watch(pinCode, async () => {
       }
       pinCode.value = ''
     }
+    security.loaderActive = false
   }
 })
 </script>
 
 <template>
   <VueFinalModal
-    class="flex justify-center items-center"
+    class="flex justify-center items-center !z-[5000]"
     :clickToClose="false"
     :escToClose="false"
     contentTransition="fade-y"
     overlayTransition="fade"
     :content-class="
       `p-4 w-[95vw] max-w-md bg-gray-900 border-[3px] border-gray-800 rounded-2xl ` +
-      (pinCodeBad ? 'animate-shake !border-red-800' : '')
+      (pinCodeBad ? 'animate-shake border-red-800' : '')
     "
   >
     <div class="flex flex-col gap-4">

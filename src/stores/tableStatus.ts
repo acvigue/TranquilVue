@@ -53,7 +53,8 @@ export default defineStore('tableStatus', () => {
     wifiIP: '',
     shuffleMode: false,
     repeatMode: false,
-    pause: 0
+    pause: 0,
+    Hmd: 0
   })
 
   const setPausedState = async (pausedState: boolean) => {
@@ -62,8 +63,37 @@ export default defineStore('tableStatus', () => {
 
   const playFile = async (fileName: string) => {
     loaderActive.value = true
-    await table.get(`/playFile/sd/${fileName}`)
+    try {
+      loaderMessage.value = 'Homing'
+      await homeTable()
+      loaderMessage.value = ''
+      await table.get(`/playFile/sd/${fileName}`)
+    } catch (e) {
+      console.log(e)
+      toast.error('Could not home table!')
+    }
     loaderActive.value = false
+  }
+
+  const homeTable = () => {
+    return new Promise<void>((resolve, reject) => {
+      if(raw.value.Hmd === 1) {
+        resolve()
+      }
+      executeCommand('G28').then(() => {
+        loaderActive.value = true
+        let i = 0
+        setInterval(() => {
+          if (raw.value.Hmd === 1) {
+            resolve()
+          }
+          if (i > 40) {
+            reject()
+          }
+          i++
+        }, 1000)
+      })
+    })
   }
 
   const stopMotion = async () => {
@@ -108,6 +138,7 @@ export default defineStore('tableStatus', () => {
     raw.value.shuffleMode = data.shuffleMode ?? false
     raw.value.repeatMode = data.repeatMode ?? false
     raw.value.pause = data.pause ?? 0
+    raw.value.Hmd = data.Hmd ?? 0
 
     //ap mode, start connection loop
     if (data.wifiConn === 'A') {

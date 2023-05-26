@@ -1,14 +1,25 @@
 <script setup lang="ts">
-defineProps({
-  active: Boolean,
-  message: String
+import { onMounted, ref } from 'vue';
+
+interface FullScreenLoaderProps {
+  active: boolean,
+  message: string,
+  overModal?: boolean
+}
+
+const props = defineProps<FullScreenLoaderProps>()
+const overmodal = ref(false);
+
+onMounted(() => {
+  overmodal.value = props.overModal ?? false
 })
 </script>
 
 <template>
   <div
     v-if="active"
-    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 z-[100] flex flex-col justify-center items-center overflow-hidden"
+    :class="{'z-[10000]': overmodal, 'z-[2000]': !overmodal}"
+    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 flex flex-col justify-center items-center overflow-hidden"
   >
     <svg
       aria-hidden="true"
