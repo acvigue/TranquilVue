@@ -13,8 +13,7 @@ export default defineStore('tableStatus', () => {
       return 'playing'
     }
     if (
-      (raw.value.pause === 0 && raw.value.Qd === 0) ||
-      (raw.value.file !== '' && raw.value.Qd < 3)
+      ((raw.value.Qd <= 1 && raw.value.pause === 0) || raw.value.file === '')
     ) {
       return 'idle'
     }
