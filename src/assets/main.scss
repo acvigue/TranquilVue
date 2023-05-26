@@ -30,6 +30,10 @@ body {
   transition: opacity 0.3s, transform 0.5s;
 }
 
+.v-toast--bottom {
+  z-index: 1000000 !important;
+}
+
 @layer components {
   input[type='range'] {
     @apply appearance-none;

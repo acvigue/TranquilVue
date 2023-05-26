@@ -154,6 +154,7 @@ setInterval(() => {
               lineColor="#ffffff"
               :key="files.patterns[randomPatternIndex]?.uuid ?? ''"
               :pattern="files.patterns[randomPatternIndex]"
+              v-if="files.patterns.length > 0"
             >
               <div
                 class="cursor-pointer relative w-full h-full rounded-full flex justify-center items-center group"
@@ -210,6 +211,7 @@ setInterval(() => {
                 class="w-64 h-64 rounded-full bg-gray-800"
                 lineColor="#ffffff"
                 :pattern="currentPattern"
+                v-if="files.patterns.length > 0"
               >
                 <div
                   class="relative w-full h-full rounded-full flex justify-center items-center group cursor-pointer"
@@ -230,6 +232,7 @@ setInterval(() => {
                   </div>
                 </div>
               </PatternPreview>
+              <div v-else class="relative w-64 h-64 rounded-full bg-gray-800"></div>
             </div>
           </div>
           <button

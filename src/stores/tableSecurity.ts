@@ -12,7 +12,7 @@ export default defineStore('tableSecurity', () => {
   const postState = async () => {
     loaderActive.value = true
     const config = {
-      pinEnabled: pinEnabled.value,
+      pinEnabled: pinEnabled.value ? 1 : 0,
       pinCode: pinCode.value
     }
 
@@ -28,7 +28,7 @@ export default defineStore('tableSecurity', () => {
   const _update = function (dto: any) {
     const data = dto.security
     pinCode.value = data.pinCode
-    pinEnabled.value = data.pinEnabled
+    pinEnabled.value = data.pinEnabled === 1
   }
 
   const getSecurityConfig = async () => {
@@ -38,14 +38,11 @@ export default defineStore('tableSecurity', () => {
 
   getSecurityConfig().then(() => {})
 
-  watch([pinCode, pinEnabled], async () => {
-    await postState()
-  })
-
   return {
     loaderActive,
     loaderMessage,
     pinCode,
-    pinEnabled
+    pinEnabled,
+    postState
   }
 })

@@ -1,8 +1,20 @@
 <script setup lang="ts">
+import SecuritySettingsModal from '@/components/modals/SecuritySettingsModal.vue'
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
+import { useModal } from 'vue-final-modal'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
-const openSecuritySettingsModal = async () => {}
+const openSecuritySettingsModal = async () => {
+  const { open, close } = useModal({
+    component: SecuritySettingsModal,
+    attrs: {
+      onClose: () => {
+        close()
+      }
+    }
+  })
+  await open()
+}
 </script>
 
 <template>

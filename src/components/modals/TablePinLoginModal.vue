@@ -28,7 +28,6 @@ watch(pinCode, async () => {
       })
 
       window.tablePin = pinCode.value
-
       emit('close')
     } catch (e) {
       if (isAxiosError(e)) {
