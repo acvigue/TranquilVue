@@ -2,7 +2,6 @@
 import { VueFinalModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 import useTableWireguardStore from '@/stores/tableWireguard'
-import useTableStatusStore from '@/stores/tableStatus'
 import { FormKit } from '@formkit/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 
@@ -12,7 +11,6 @@ const emit = defineEmits<{
 
 const toast = useToast()
 const wireguard = useTableWireguardStore()
-const tableStatus = useTableStatusStore()
 
 const formHandler = async () => {
   try {
@@ -43,8 +41,7 @@ const formHandler = async () => {
             WireGuard Settings
           </span>
         </div>
-        <div class="flex-1">
-        </div>
+        <div class="flex-1"></div>
       </div>
       <FormKit type="form" @submit="formHandler" submit-label="Save">
         <FormKit

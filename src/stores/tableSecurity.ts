@@ -2,6 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import useLoader from '@/stores/loader'
+import { useToast } from 'vue-toast-notification'
+
+const toast = useToast()
 
 export default defineStore('tableSecurity', () => {
   const loader = useLoader()
@@ -15,9 +18,12 @@ export default defineStore('tableSecurity', () => {
       pinEnabled: pinEnabled.value ? 1 : 0,
       pinCode: pinCode.value
     }
-
-    await table.post('/settings/security', config)
-    window.tablePin = pinCode.value
+    try {
+      await table.post('/settings/security', config)
+      window.tablePin = pinCode.value
+    } catch (e) {
+      toast.error('Error updating security settings')
+    }
     loader.hideLoader('security')
   }
 

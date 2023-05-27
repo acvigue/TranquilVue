@@ -2,6 +2,9 @@ import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import useLoader from '@/stores/loader'
+import { useToast } from 'vue-toast-notification'
+
+const toast = useToast()
 
 export default defineStore('tableLights', () => {
   const loader = useLoader()
@@ -34,8 +37,11 @@ export default defineStore('tableLights', () => {
       autoDimStrength: autoDimStrength.value,
       ledAngleOffset: angleOffset.value
     }
-
-    await table.post('/settings/led', config)
+    try {
+      await table.post('/settings/led', config)
+    } catch (e) {
+      toast.error('Error updating light settings')
+    }
     loader.hideLoader('lights')
   }
 
@@ -53,8 +59,12 @@ export default defineStore('tableLights', () => {
   }
 
   const getLedConfig = async () => {
-    const data = await table.get('/settings/led')
-    _update(data.data)
+    try {
+      const data = await table.get('/settings/led')
+      _update(data.data)
+    } catch (e) {
+      toast.error('Network Error')
+    }
   }
 
   getLedConfig().then(() => {})

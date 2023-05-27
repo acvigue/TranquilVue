@@ -1,7 +1,7 @@
 export default {
   // Global styles apply to _all_ inputs with matching section keys
   global: {
-    fieldset: 'border border-gray-400 rounded px-2 pb-1',
+    fieldset: 'border border-gray-700 rounded px-2 pb-1',
     help: 'text-xs text-gray-400',
     inner:
       'formkit-disabled:bg-gray-700 formkit-disabled:cursor-not-allowed formkit-disabled:pointer-events-none',
@@ -201,16 +201,16 @@ export default {
   repeater: {
     content: 'grow p-3 flex flex-col align-center',
     controlLabel: 'absolute opacity-0 pointer-events-none',
-    controls: 'flex flex-col items-center justify-center bg-gray-100 p-3',
-    downControl: 'hover:text-blue-600 disabled:hover:text-inherit disabled:opacity-25',
+    controls: 'flex flex-col items-center justify-center bg-gray-700 p-3 text-gray-200',
+    downControl: 'hover:text-blue-500 disabled:hover:text-inherit disabled:opacity-25',
     fieldset: 'py-4 px-5',
     help: 'mb-2 mt-1.5',
-    item: 'flex w-full mb-1 rounded border border-gray-200',
+    item: 'flex w-full mb-1 rounded border border-gray-600',
     moveDownIcon: 'block w-3 my-1',
     moveUpIcon: 'block w-3 my-1',
-    removeControl: 'hover:text-blue-600 disabled:hover:text-inherit disabled:opacity-25',
+    removeControl: 'hover:text-blue-500 disabled:hover:text-inherit disabled:opacity-25',
     removeIcon: 'block w-5 my-1',
-    upControl: 'hover:text-blue-600 disabled:hover:text-inherit disabled:opacity-25'
+    upControl: 'hover:text-blue-500 disabled:hover:text-inherit disabled:opacity-25'
   },
   slider: {
     outer: '',

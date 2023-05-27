@@ -9,7 +9,7 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-defineProps({canClose: Boolean})
+defineProps({ canClose: Boolean })
 
 const toast = useToast()
 const tableWiFi = useTableWiFiStore()
@@ -37,7 +37,11 @@ const formHandler = async () => {
     <div class="flex flex-col gap-4">
       <div class="flex justify-between">
         <div class="flex-1 flex justfiy-start items-center">
-          <button @click="emit('close')" class="hover:scale-[1.2] transform-gpu duration-300" v-if="canClose">
+          <button
+            @click="emit('close')"
+            class="hover:scale-[1.2] transform-gpu duration-300"
+            v-if="canClose"
+          >
             <XMarkIcon class="w-7 h-7" />
           </button>
         </div>
@@ -46,8 +50,7 @@ const formHandler = async () => {
             WiFi Settings
           </span>
         </div>
-        <div class="flex-1">
-        </div>
+        <div class="flex-1"></div>
       </div>
       <FormKit type="form" @submit="formHandler" submit-label="Save">
         <FormKit

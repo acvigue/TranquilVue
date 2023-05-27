@@ -5,7 +5,10 @@ import WiFiSettingsModal from '@/components/modals/WiFiSettingsModal.vue'
 import WireguardSettingsModal from '@/components/modals/WireguardSettingsModal.vue'
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { useModal } from 'vue-final-modal'
+import { useRouter } from 'vue-router'
 import 'vue-toast-notification/dist/theme-sugar.css'
+
+const router = useRouter()
 
 const openSecuritySettingsModal = async () => {
   const { open, close } = useModal({
@@ -87,6 +90,13 @@ const openLightsSettingsModal = async () => {
         class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
       >
         <span class="text-lg font-medium">Lights</span>
+        <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
+      </button>
+      <button
+        @click="router.push('/settings/schedule')"
+        class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
+      >
+        <span class="text-lg font-medium">Schedule</span>
         <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
       </button>
     </div>

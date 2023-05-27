@@ -2,6 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import useLoader from '@/stores/loader'
+import { useToast } from 'vue-toast-notification'
+
+const toast = useToast()
 
 export default defineStore('tableRobotSettings', () => {
   const tableName = ref('')
@@ -19,14 +22,22 @@ export default defineStore('tableRobotSettings', () => {
       robotConfig: tableConfig.value,
       name: tableName.value
     }
-    await table.post('/settings/robot', config)
+    try {
+      await table.post('/settings/robot', config)
+    } catch (e) {
+      toast.error('Error updating Robot settings')
+    }
     loader.hideLoader('robotSettings')
   }
 
   const getTableRobotSettings = async () => {
     loader.showLoader('robotSettings')
-    const resp = await table.get('/settings/robot')
-    _update(resp.data)
+    try {
+      const resp = await table.get('/settings/robot')
+      _update(resp.data)
+    } catch (e) {
+      toast.error('Error fetching Robot settings')
+    }
     loader.hideLoader('robotSettings')
   }
 

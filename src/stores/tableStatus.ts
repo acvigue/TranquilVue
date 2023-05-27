@@ -65,7 +65,6 @@ export default defineStore('tableStatus', () => {
       await homeTable()
       await table.get(`/playFile/sd/${fileName}`)
     } catch (e) {
-      console.log(e)
       toast.error('Could not home table!')
     }
     loader.hideLoader('status')
@@ -146,7 +145,8 @@ export default defineStore('tableStatus', () => {
     }
   }
 
-  const _sse = new EventSource(`events`)
+  const baseURL = table.defaults.baseURL ?? ''
+  const _sse = new EventSource(`${baseURL}events`)
 
   const _parseStatusEvent = (evt: Event) => {
     const messageEvent = evt as MessageEvent

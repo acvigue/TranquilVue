@@ -2,6 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import useLoader from '@/stores/loader'
+import { useToast } from 'vue-toast-notification'
+
+const toast = useToast()
 
 export default defineStore('tableWiFi', () => {
   const loader = useLoader()
@@ -25,8 +28,11 @@ export default defineStore('tableWiFi', () => {
       WiFiPEAPPassword: peapPassword.value,
       WiFiHostname: hostname.value ?? 'Tranquil'
     }
-
-    await table.post('/settings/wifi', config)
+    try {
+      await table.post('/settings/wifi', config)
+    } catch (e) {
+      toast.error('Error updating WiFi settings')
+    }
     loader.hideLoader('wifi')
   }
 
@@ -43,8 +49,12 @@ export default defineStore('tableWiFi', () => {
 
   const getWiFiConfig = async () => {
     loader.showLoader('wifi')
-    const data = await table.get('/settings/wifi')
-    _update(data.data)
+    try {
+      const data = await table.get('/settings/wifi')
+      _update(data.data)
+    } catch (e) {
+      toast.error('Error fetching WiFi settings')
+    }
     loader.hideLoader('wifi')
   }
 

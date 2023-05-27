@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import tranquilapi from '@/plugins/tranquilapi'
 import useLoader from '@/stores/loader'
+import { useToast } from 'vue-toast-notification'
 
 export interface Pattern {
   uuid: string //uuid
@@ -20,6 +21,8 @@ export interface Playlist {
   featured_pattern: string
   date: string
 }
+
+const toast = useToast()
 
 export default defineStore('files', () => {
   const loader = useLoader()
@@ -106,16 +109,20 @@ export default defineStore('files', () => {
 
   const refreshFiles = async () => {
     loader.showLoader('files', 'Refreshing files')
-    const response = await table.get(`/files/sd/manifest.json`)
+    try {
+      const response = await table.get(`/files/sd/manifest.json`)
 
-    patterns.value = []
-    playlists.value = []
+      patterns.value = []
+      playlists.value = []
 
-    for (const pattern of response.data.patterns) {
-      patterns.value.push(pattern)
-    }
-    for (const playlist of response.data.playlists) {
-      playlists.value.push(playlist)
+      for (const pattern of response.data.patterns) {
+        patterns.value.push(pattern)
+      }
+      for (const playlist of response.data.playlists) {
+        playlists.value.push(playlist)
+      }
+    } catch (e) {
+      toast.error('Error fetching file manifest')
     }
 
     loader.hideLoader('files')
@@ -135,6 +142,8 @@ export default defineStore('files', () => {
 
     loader.hideLoader('files')
   }
+
+  refreshFiles().then(() => {})
 
   return {
     patterns,

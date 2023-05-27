@@ -2,6 +2,9 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import table from '@/plugins/table'
 import useLoader from '@/stores/loader'
+import { useToast } from 'vue-toast-notification'
+
+const toast = useToast()
 
 export default defineStore('tableWireguard', () => {
   const loader = useLoader()
@@ -25,21 +28,29 @@ export default defineStore('tableWireguard', () => {
       localIP: localIP.value
     }
 
-    await table.post('/settings/wireguard', config)
+    try {
+      await table.post('/settings/wireguard', config)
+    } catch (e) {
+      toast.error('Error updating WireGuard settings')
+    }
     loader.hideLoader('wireguard')
   }
 
   const getWireguardConfig = async () => {
     loader.showLoader('wireguard')
-    const resp = await table.get('/settings/wireguard')
-    const data = resp.data.wireGuard
-    enabled.value = data.enabled === 1
-    endpointPort.value = data.endpointPort ?? 51820
-    endpointAddress.value = data.endpointAddress ?? ''
-    privateKey.value = data.privateKey ?? ''
-    publicKey.value = data.publicKey ?? ''
-    psk.value = data.psk ?? ''
-    localIP.value = data.localIP ?? ''
+    try {
+      const resp = await table.get('/settings/wireguard')
+      const data = resp.data.wireGuard
+      enabled.value = data.enabled === 1
+      endpointPort.value = data.endpointPort ?? 51820
+      endpointAddress.value = data.endpointAddress ?? ''
+      privateKey.value = data.privateKey ?? ''
+      publicKey.value = data.publicKey ?? ''
+      psk.value = data.psk ?? ''
+      localIP.value = data.localIP ?? ''
+    } catch (e) {
+      toast.error('Error fetching WireGuard settings')
+    }
     loader.hideLoader('wireguard')
   }
 

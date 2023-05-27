@@ -1,6 +1,5 @@
 import axios, { type AxiosError } from 'axios'
 import { useModal } from 'vue-final-modal'
-import { useToast } from 'vue-toast-notification'
 
 import TablePinLoginModal from '@/components/modals/TablePinLoginModal.vue'
 declare global {
@@ -9,11 +8,8 @@ declare global {
     tablePin?: string
   }
 }
-
-const toast = useToast()
-
 const http = axios.create({
-  baseURL: import.meta.env.PROD ? '/' : 'http://tranquil.local'
+  baseURL: import.meta.env.PROD ? '/' : 'https://deskbot.vigue.me/'
 })
 
 http.interceptors.response.use(

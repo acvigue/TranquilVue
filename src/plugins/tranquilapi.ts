@@ -43,7 +43,7 @@ http.interceptors.response.use(
           token: tranquilToken
         })
       } catch (e) {
-        toast.error(`Couldn't save token`)
+        toast.error('Error updating stored token')
       }
 
       window.localStorage.setItem('tranquilToken', tranquilToken!)
@@ -75,7 +75,7 @@ http.interceptors.request.use(
       try {
         settings = await table.get('/settings/tranquil')
       } catch (e) {
-        toast.error(`Couldn't connect to robot backend!`)
+        toast.error('Error fetching stored token')
         throw new axios.Cancel()
       }
 
@@ -90,7 +90,7 @@ http.interceptors.request.use(
             token: tranquilToken
           })
         } catch (e) {
-          toast.error(`Couldn't save token`)
+          toast.error('Error updating stored token')
         }
       }
 
