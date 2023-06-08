@@ -41,7 +41,17 @@ export default defineStore('tableScheduler', () => {
         }
       }
 
-      const time = `${job.hour}:${job.minute}`
+      const formattedHour = job.hour.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false
+      })
+
+      const formattedMinute = job.minute.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false
+      })
+
+      const time = `${formattedHour}:${formattedMinute}`
       const jobOut = {
         dow: dow,
         time: time,

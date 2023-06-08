@@ -21,7 +21,7 @@ export default {
   // Family styles apply to all inputs that share a common family
   'family:box': {
     decorator:
-      'block relative h-5 w-5 mr-2 rounded from-transparent ring-1 ring-gray-400 peer-checked:ring-blue-600 text-transparent peer-checked:text-blue-600 peer-checked:bg-blue-600',
+      'block relative h-5 w-5 mr-2 rounded from-transparent ring-1 ring-gray-400 peer-checked:ring-blue-600 text-transparent peer-checked:text-gray-200 peer-checked:bg-blue-600',
     decoratorIcon:
       'flex p-[3px] w-full h-full absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2',
     help: 'mb-2 mt-1.5',
