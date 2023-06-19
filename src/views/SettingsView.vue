@@ -130,7 +130,7 @@ const openLightsSettingsModal = async () => {
             class="flex flex-grow flex-col justify-center items-center p-4 bg-gray-600 hover:bg-gray-500 rounded-xl transform-gpu duration-300"
           >
             <StopIcon class="w-6 h-6"></StopIcon>
-            <span class="text-lg font-medium">Halt</span>
+            <span class="text-lg font-medium">E-Stop</span>
           </button>
         </div>
       </div>
