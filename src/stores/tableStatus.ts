@@ -96,7 +96,10 @@ export default defineStore('tableStatus', () => {
   }
 
   const resetTable = async () => {
+    loader.showLoader('reset')
     await table.get(`/reset`)
+    loader.hideLoader('reset')
+    toast.success('Table reset')
   }
 
   const skipPattern = async (dir: number) => {
@@ -115,6 +118,7 @@ export default defineStore('tableStatus', () => {
     loader.showLoader('status')
     await table.get(`/exec/${command}`)
     loader.hideLoader('status')
+    toast.success(`${command}: executed`)
   }
 
   const _updateRaw = (data: any) => {

@@ -3,12 +3,19 @@ import AdvancedLightsSettingsModal from '@/components/modals/AdvancedLightsSetti
 import SecuritySettingsModal from '@/components/modals/SecuritySettingsModal.vue'
 import WiFiSettingsModal from '@/components/modals/WiFiSettingsModal.vue'
 import WireguardSettingsModal from '@/components/modals/WireguardSettingsModal.vue'
-import { ArrowRightIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowRightIcon,
+  HomeIcon,
+  StopIcon,
+  ShieldExclamationIcon
+} from '@heroicons/vue/24/outline'
 import { useModal } from 'vue-final-modal'
 import { useRouter } from 'vue-router'
+import useTable from '@/stores/tableStatus'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
 const router = useRouter()
+const table = useTable()
 
 const openSecuritySettingsModal = async () => {
   const { open, close } = useModal({
@@ -99,6 +106,34 @@ const openLightsSettingsModal = async () => {
         <span class="text-lg font-medium">Schedule</span>
         <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
       </button>
+      <div
+        class="flex flex-col w-full justify-center items-center p-4 bg-gray-700 rounded-xl gap-2"
+      >
+        <span class="text-lg font-medium">Commands</span>
+        <div class="flex w-full justify-evenly items-center gap-4">
+          <button
+            @click="table.executeCommand('G28')"
+            class="flex flex-grow flex-col justify-center items-center p-4 bg-gray-600 hover:bg-gray-500 rounded-xl transform-gpu duration-300"
+          >
+            <HomeIcon class="w-6 h-6"></HomeIcon>
+            <span class="text-lg font-medium">Home</span>
+          </button>
+          <button
+            @click="table.resetTable()"
+            class="flex flex-grow flex-col justify-center items-center p-4 bg-gray-600 hover:bg-gray-500 rounded-xl transform-gpu duration-300"
+          >
+            <ShieldExclamationIcon class="w-6 h-6"></ShieldExclamationIcon>
+            <span class="text-lg font-medium">Reset</span>
+          </button>
+          <button
+            @click="table.executeCommand('stop')"
+            class="flex flex-grow flex-col justify-center items-center p-4 bg-gray-600 hover:bg-gray-500 rounded-xl transform-gpu duration-300"
+          >
+            <StopIcon class="w-6 h-6"></StopIcon>
+            <span class="text-lg font-medium">Halt</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
