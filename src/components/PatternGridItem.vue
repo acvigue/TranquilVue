@@ -25,9 +25,9 @@ const isPatternDownloaded = computed(() => {
     :class="{ 'border-orange-500': !isPatternDownloaded }"
     class="group flex flex-col items-center border border-gray-500 p-4 rounded-xl bg-gray-700 gap-3 hover:bg-gray-600 active:scale-90 transition transform-gpu duration-300 relative"
   >
-    <HeartIcon class="absolute z-20 top-3 right-3 text-red-400 w-4 md:w-8" v-if="item.isFavorite" />
+    <HeartIcon class="absolute z-20 top-3 right-3 text-red-400 w-4 md:w-7" v-if="item.isFavorite" />
     <ArrowDownTrayIcon
-      class="absolute z-20 top-3 right-3 text-orange-400 w-4 md:w-8"
+      class="absolute z-20 top-3 right-3 text-orange-400 w-3 md:w-6"
       v-if="!isPatternDownloaded"
     />
     <PatternPreview
