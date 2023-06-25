@@ -47,6 +47,7 @@ export default defineStore('tableStatus', () => {
     XYZ: [0, 0, 0],
     tod: '',
     wifiIP: '',
+    wifiConn: '',
     shuffleMode: false,
     repeatMode: false,
     pause: 0,
@@ -74,20 +75,21 @@ export default defineStore('tableStatus', () => {
     return new Promise<void>((resolve, reject) => {
       if (raw.value.Hmd === 1) {
         resolve()
+      } else {
+        executeCommand('G28').then(() => {
+          loader.showLoader('status', 'Homing')
+          let i = 0
+          setInterval(() => {
+            if (raw.value.Hmd === 1) {
+              resolve()
+            }
+            if (i > 40) {
+              reject()
+            }
+            i++
+          }, 1000)
+        })
       }
-      executeCommand('G28').then(() => {
-        loader.showLoader('status', 'Homing')
-        let i = 0
-        setInterval(() => {
-          if (raw.value.Hmd === 1) {
-            resolve()
-          }
-          if (i > 40) {
-            reject()
-          }
-          i++
-        }, 1000)
-      })
     })
   }
 
@@ -134,6 +136,7 @@ export default defineStore('tableStatus', () => {
     raw.value.XYZ = data.XYZ ?? [0, 0, 0]
     raw.value.tod = data.tod ?? ''
     raw.value.wifiIP = data.wifiIP ?? ''
+    raw.value.wifiConn = data.wifiConn ?? 'A'
     raw.value.shuffleMode = data.shuffleMode ?? false
     raw.value.repeatMode = data.repeatMode ?? false
     raw.value.pause = data.pause ?? 0
@@ -141,7 +144,7 @@ export default defineStore('tableStatus', () => {
     raw.value.wgConn = data.wgConn ?? false
 
     //ap mode, start connection loop
-    if (data.wifiConn === 'A') {
+    if (raw.value.wifiConn === 'A') {
       if (!_isWiFiSetupModalShowing.value) {
         showWiFiSetupModal()
         _isWiFiSetupModalShowing.value = true

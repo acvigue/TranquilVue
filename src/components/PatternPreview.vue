@@ -4,8 +4,10 @@ import { type Pattern } from '@/stores/files'
 import tranquilapi from '@/plugins/tranquilapi'
 import { lineRadial, curveBasis } from 'd3'
 import useTableWiFiStore from '@/stores/tableWiFi'
+import useTableStatusStore from '@/stores/tableStatus'
 
 const tableWiFi = useTableWiFiStore()
+const tableStatus = useTableStatusStore()
 
 interface PatternPreviewProps {
   lineColor: string
@@ -23,7 +25,7 @@ let patternData: [number, number][] = []
 let patternID = ''
 
 onMounted(async () => {
-  if (tableWiFi.connectionType !== 3) {
+  if (tableWiFi.connectionType !== 3 && tableStatus.raw.wifiConn != 'A') {
     context.value = canvasElement.value?.getContext('2d') || undefined
     await render()
   }
