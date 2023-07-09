@@ -72,24 +72,31 @@ export default defineStore('tableStatus', () => {
   }
 
   const homeTable = () => {
+    loader.showLoader('status')
     return new Promise<void>((resolve, reject) => {
-      if (raw.value.Hmd === 1) {
-        resolve()
-      } else {
-        executeCommand('G28').then(() => {
-          loader.showLoader('status', 'Homing')
-          let i = 0
-          setInterval(() => {
-            if (raw.value.Hmd === 1) {
-              resolve()
-            }
-            if (i > 40) {
-              reject()
-            }
-            i++
-          }, 1000)
-        })
-      }
+      table.get('/status').then((initialResp) => {
+        _updateRaw(initialResp.data)
+        if (raw.value.Hmd === 1) {
+          resolve()
+        } else {
+          executeCommand('G28').then(() => {
+            loader.showLoader('status', 'Homing')
+            let i = 0
+            setInterval(() => {
+              table.get('/status').then((resp) => {
+                _updateRaw(resp.data)
+                if (raw.value.Hmd === 1) {
+                  resolve()
+                }
+                if (i > 40) {
+                  reject()
+                }
+                i++
+              })
+            }, 5000)
+          })
+        }
+      })
     })
   }
 
@@ -162,6 +169,9 @@ export default defineStore('tableStatus', () => {
   }
 
   _sse.addEventListener('status', _parseStatusEvent)
+  _sse.addEventListener('error', () => {
+    console.log('An error occurred while attempting to connect.')
+  })
 
   table.get('/status').then((resp) => {
     _updateRaw(resp.data)

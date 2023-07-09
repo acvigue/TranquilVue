@@ -9,7 +9,7 @@ declare global {
   }
 }
 const http = axios.create({
-  baseURL: import.meta.env.PROD ? '/' : 'https://deskbot.vigue.me/'
+  baseURL: import.meta.env.PROD ? '/' : 'http://tranquil.local/'
 })
 
 http.interceptors.response.use(
