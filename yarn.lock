@@ -154,12 +154,19 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.41.0.tgz#080321c3b68253522f7646b55b577dd99d2950b3"
   integrity sha512-LxcyMGxwmTh2lY9FwHPGWOHmYFCZvbrFCBZL4FzSSsxsRPuhrYUg/49/0KDfW8tnIEaEHtfmn6+NPN+1DqaNmA==
 
-"@formkit/core@0.17.2", "@formkit/core@^0.17.2":
+"@formkit/core@0.17.2":
   version "0.17.2"
   resolved "https://registry.yarnpkg.com/@formkit/core/-/core-0.17.2.tgz#17231851440c5bb9e4f1aca6bb543979d1af5504"
   integrity sha512-aP4kbrtjd/07CDbxRIwFyEim+J/kBzBqfbf83+nPY3vcoymI5whNuZOvuYAFaY72QcQX+7Ozbeaf9IVIzCp0TQ==
   dependencies:
     "@formkit/utils" "0.17.2"
+
+"@formkit/core@^0.17.2":
+  version "0.17.4"
+  resolved "https://registry.yarnpkg.com/@formkit/core/-/core-0.17.4.tgz#d2c302bd5dc96ef894d9d20749ca6391d014c7e6"
+  integrity sha512-KH1Xj2cuKyRjLjk/bssxZ2uzXw3SiYpvYFud205zrWaslkButCmZbMI1BTUZ1Eywhsyiqdq1/Z0J9T8SNcAv8Q==
+  dependencies:
+    "@formkit/utils" "0.17.4"
 
 "@formkit/dev@0.17.2":
   version "0.17.2"
@@ -221,6 +228,11 @@
   version "0.17.2"
   resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-0.17.2.tgz#bb89ac20e3bbb3da2ce28786794e9fbb431d761d"
   integrity sha512-vLMPg4R0I4cpznFD1agm76S3dIzY6s8frAZADCtUsSLv8PHDRL/+F2ummClRqfjWeICK8qHFE/GFTRANQd4NOw==
+
+"@formkit/utils@0.17.4":
+  version "0.17.4"
+  resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-0.17.4.tgz#3af8cd52c69e0b9a4ea2926e8bd0b2517b9ce953"
+  integrity sha512-5xt4gJFqoRFR+/MklUlSeH6aJAebmVK8Fk/Y5wAE136fnx9i52HrXfsuQ6TNYOPiTvDTvtM/SVtvRjSu3qDBzw==
 
 "@formkit/validation@0.17.2":
   version "0.17.2"
