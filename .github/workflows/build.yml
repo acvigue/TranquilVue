@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  build:
+    name: Build TranquilVue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Node.js
+        uses: actions/setup-node@v3
+      - name: Install dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+      - name: Upload bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: formatted-files
+          path: dist
