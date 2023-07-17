@@ -160,22 +160,35 @@ export default defineStore('tableStatus', () => {
   }
 
   const baseURL = table.defaults.baseURL ?? ''
-  const _sse = new EventSource(`${baseURL}events`)
 
-  const _parseStatusEvent = (evt: Event) => {
-    const messageEvent = evt as MessageEvent
-    const data: any = JSON.parse(messageEvent.data)
-    _updateRaw(data)
+  function connect() {
+    loader.showLoader('ws', 'Establishing event loop')
+    const ws = new WebSocket(`${baseURL}socket`.replace('http', 'ws'))
+    ws.onopen = async function () {
+      console.log("Socket opened.")
+      loader.hideLoader('ws')
+    }
+
+    ws.onmessage = async function (e) {
+      const msg = await(e.data as Blob).text()
+      _updateRaw(JSON.parse(msg))
+    }
+
+    ws.onclose = async function (e) {
+      loader.showLoader('ws', 'Establishing event loop')
+      console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason)
+      setTimeout(function () {
+        connect()
+      }, 1000)
+    }
+
+    ws.onerror = async function (err) {
+      console.error('Socket encountered error: ', err, 'Closing socket')
+      ws.close()
+    }
   }
 
-  _sse.addEventListener('status', _parseStatusEvent)
-  _sse.addEventListener('error', () => {
-    console.log('An error occurred while attempting to connect.')
-  })
-
-  table.get('/status').then((resp) => {
-    _updateRaw(resp.data)
-  })
+  connect()
 
   const showWiFiSetupModal = function (): Promise<void> {
     return new Promise((resolve) => {
