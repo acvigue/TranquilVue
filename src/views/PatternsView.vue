@@ -137,7 +137,7 @@ const sortModalOptions = [
           :pageSize="10"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
         >
-          <template v-slot:default="{ item, style }: { item: Pattern, style: StyleValue }">
+          <template v-slot:default="{ item, style }: { item: Pattern; style: StyleValue }">
             <PatternGridItem :item="item" :style="style" @click="showPatternModal(item)" />
           </template>
           <template v-slot:placeholder="{ style }: { style: StyleValue }">

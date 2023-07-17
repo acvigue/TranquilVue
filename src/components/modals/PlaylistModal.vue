@@ -189,7 +189,7 @@ const emit = defineEmits<{
           ghost-class="!bg-gray-600"
           item-key="uuid"
         >
-          <template #item="{ element: pattern, index }: { element: Pattern, index: number }">
+          <template #item="{ element: pattern, index }: { element: Pattern; index: number }">
             <div
               class="rounded-lg py-2 px-5 w-full bg-gray-700 flex justify-between items-center"
               :class="{ 'animate-wiggle': isEditing }"

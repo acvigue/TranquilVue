@@ -27,7 +27,9 @@ body {
 
 .fade-y-enter-active,
 .fade-y-leave-active {
-  transition: opacity 0.3s, transform 0.5s;
+  transition:
+    opacity 0.3s,
+    transform 0.5s;
 }
 
 .v-toast--bottom {

@@ -143,7 +143,7 @@ const sortModalOptions = [
           :pageSize="2"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
         >
-          <template v-slot:default="{ item, style }: { item: Playlist, style: StyleValue }">
+          <template v-slot:default="{ item, style }: { item: Playlist; style: StyleValue }">
             <PlaylistGridItem :item="item" :style="style" @click="showPlaylistModal(item)" />
           </template>
           <template v-slot:placeholder="{ style }: { style: StyleValue }">

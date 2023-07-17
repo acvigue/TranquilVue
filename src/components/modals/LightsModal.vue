@@ -135,7 +135,11 @@ function rgbToHex(color: number[]) {
             name="effect"
             label="Light Effect"
             v-model="lights.effectID"
-            @input="(_x: any, node: FormKitNode) => { lights.effectID = node.value as number }"
+            @input="
+              (_x: any, node: FormKitNode) => {
+                lights.effectID = node.value as number
+              }
+            "
             :options="effects"
           />
         </div>
