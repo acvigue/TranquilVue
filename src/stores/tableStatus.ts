@@ -159,11 +159,18 @@ export default defineStore('tableStatus', () => {
     }
   }
 
-  const baseURL = table.defaults.baseURL ?? '/'
+  let baseURL = table.defaults.baseURL!;
+  if(baseURL == "/") {
+    baseURL = `${window.location.origin.replace("http","ws")}/`;
+  } else {
+    baseURL = table.defaults.baseURL!.replace("http", "ws");
+  }
+  const socketURL = `${baseURL}socket`;
+  console.log(socketURL);
 
   function connect() {
     loader.showLoader('ws', 'Establishing event loop')
-    const ws = new WebSocket(`${baseURL}socket`.replace('http', 'ws'))
+    const ws = new WebSocket(socketURL)
     ws.onopen = async function () {
       console.log("Socket opened.")
       loader.hideLoader('ws')
