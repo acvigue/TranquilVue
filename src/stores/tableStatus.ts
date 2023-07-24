@@ -159,7 +159,7 @@ export default defineStore('tableStatus', () => {
     }
   }
 
-  const baseURL = table.defaults.baseURL ?? ''
+  const baseURL = table.defaults.baseURL ?? '/'
 
   function connect() {
     loader.showLoader('ws', 'Establishing event loop')
