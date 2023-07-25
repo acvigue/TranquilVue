@@ -8,7 +8,6 @@ A modern Vue 3 / TypeScript web app to control custom kinetic sand drawing robot
 
 ### Works with
 - [TranquilFirmware](https://github.com/acvigue/TranquilFirmware) - Firmware
-- [TranquilAPI](https://github.com/acvigue/TranquilAPI) - Online API
 
 ### Uses
 - TailwindCSS
