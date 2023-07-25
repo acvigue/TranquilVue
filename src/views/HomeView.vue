@@ -162,6 +162,7 @@ setInterval(() => {
             <PatternPreview
               class="w-64 h-64 rounded-full bg-gray-800 z-20"
               lineColor="#ffffff"
+              mode="thumb"
               :key="files.patterns[randomPatternIndex]?.uuid ?? ''"
               :pattern="files.patterns[randomPatternIndex]"
               v-if="files.patterns.length > 0"
@@ -203,6 +204,7 @@ setInterval(() => {
             <PatternPreview
               class="w-full h-full rounded-full bg-gray-800"
               lineColor="#ffffff"
+              mode="thumb"
               :pattern="previousPatternInPlaylist"
             >
             </PatternPreview>
@@ -218,6 +220,7 @@ setInterval(() => {
           <div :style="gradientColorStops" class="rounded-full">
             <div :style="gradientColorStopsProgress" class="p-1 rounded-full bg-gray-700">
               <PatternPreview
+                mode="render"
                 class="w-64 h-64 rounded-full bg-gray-800"
                 lineColor="#ffffff"
                 :pattern="currentPattern"
@@ -261,6 +264,7 @@ setInterval(() => {
             <PatternPreview
               class="w-full h-full rounded-full bg-gray-800"
               lineColor="#ffffff"
+              mode="thumb"
               :pattern="nextPatternInPlaylist"
             />
           </div>

@@ -12,6 +12,7 @@ const tableStatus = useTableStatusStore()
 interface PatternPreviewProps {
   lineColor: string
   pattern?: Pattern
+  mode: 'thumb' | 'render'
 }
 
 const props = defineProps<PatternPreviewProps>()
@@ -20,14 +21,25 @@ const props = defineProps<PatternPreviewProps>()
 const canvasElement: Ref<HTMLCanvasElement | undefined> = ref()
 const context: Ref<CanvasRenderingContext2D | undefined> = ref()
 const isLoaded = ref(false)
+const thumbSrc = ref('')
 
 let patternData: [number, number][] = []
 let patternID = ''
 
 onMounted(async () => {
   if (tableWiFi.connectionType !== 3 && tableStatus.raw.wifiConn != 'A') {
-    context.value = canvasElement.value?.getContext('2d') || undefined
-    await render()
+    if (props.mode == 'render') {
+      context.value = canvasElement.value?.getContext('2d') || undefined
+      await render()
+    } else {
+      try {
+        let tranquilToken = window.localStorage.getItem('tranquilToken')
+        thumbSrc.value = `${tranquilapi.defaults.baseURL}/patterns/${props.pattern?.uuid}/thumb.png?auth_token=${tranquilToken}`
+      } catch (e) {
+        console.error(e)
+      }
+      isLoaded.value = true
+    }
   }
 })
 
@@ -168,7 +180,16 @@ watch(props, async () => {
       ref="canvasElement"
       width="600"
       height="600"
+      v-if="mode === 'render'"
     ></canvas>
+    <img
+      :src="thumbSrc"
+      :class="{ hidden: !isLoaded }"
+      class="absolute w-full h-full rounded-full"
+      width="600"
+      height="600"
+      v-else
+    />
     <div class="absolute w-full h-full z-10">
       <slot></slot>
     </div>

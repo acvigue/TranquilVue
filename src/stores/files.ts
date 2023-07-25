@@ -6,9 +6,14 @@ import useLoader from '@/stores/loader'
 import { useToast } from 'vue-toast-notification'
 
 export interface Pattern {
-  uuid: string //uuid
+  //provided by API
+  uuid: string
   name: string
   date: string
+  popularity: number;
+  creator: string;
+
+  //provided by table
   isFavorite?: boolean
   dateAdded?: string
 }
