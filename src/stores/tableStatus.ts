@@ -127,7 +127,6 @@ export default defineStore('tableStatus', () => {
     loader.showLoader('status')
     await table.get(`/exec/${command}`)
     loader.hideLoader('status')
-    toast.success(`${command}: executed`)
   }
 
   const _updateRaw = (data: any) => {
