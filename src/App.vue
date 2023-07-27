@@ -22,10 +22,9 @@ const loader = useLoader()
 
   <!-- Loader messages -->
   <FullScreenLoader
-    :message="loader.loaderMessages[loaderID].message"
-    :z-index="loader.loaderMessages[loaderID].zIndex"
-    v-for="loaderID in loader.activeLoaders"
-    :key="loaderID"
+    :message="loader.loaderMessages[loader.activeLoaders[0]].message"
+    :z-index="loader.loaderMessages[loader.activeLoaders[0]].zIndex"
+    v-if="loader.activeLoaders.length !== 0"
   ></FullScreenLoader>
 
   <ModalsContainer />
