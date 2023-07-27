@@ -3610,9 +3610,9 @@ vue-eslint-parser@^9.1.1, vue-eslint-parser@^9.3.0:
     semver "^7.3.6"
 
 vue-final-modal@^4.4.4:
-  version "4.4.4"
-  resolved "https://registry.yarnpkg.com/vue-final-modal/-/vue-final-modal-4.4.4.tgz#c9cf7601b5f8c3234605dec640094f6a6f070c27"
-  integrity sha512-XtVIO51tetVg46bxeMA5PDz6xGhcwVtYUgEvTfPHxeJKo5Lak79iqsn6L/Lf1l3CCg/EeVZi7ZxDFjOOmgfUVQ==
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/vue-final-modal/-/vue-final-modal-4.4.5.tgz#d0d89b902a4d10ea54db95e2ad5d118c6e0da844"
+  integrity sha512-5O1twpVcOuvxc8fJppNYtdZ4M0GGeoSMcHZTFUoie3BmtzSx3EE6Lvz8YgnpQbDkxVMmRKEjhsSBywqqWfoQVw==
   dependencies:
     "@vueuse/core" "^9.13.0"
     "@vueuse/integrations" "^9.13.0"
