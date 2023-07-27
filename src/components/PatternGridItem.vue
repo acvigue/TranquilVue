@@ -38,7 +38,7 @@ const isPatternDownloaded = computed(() => {
       lineColor="#ffffff"
     />
     <span
-      class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis overflow-hidden break-words"
+      class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis break-words"
     >
       {{ item.name }}</span
     >

@@ -36,11 +36,7 @@ const formHandler = async () => {
             <XMarkIcon class="w-7 h-7" />
           </button>
         </div>
-        <div>
-          <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">
-            Security Settings
-          </span>
-        </div>
+        <span class="text-lg font-medium"> Security Settings </span>
         <div class="flex-1"></div>
       </div>
       <FormKit type="form" @submit="formHandler" submit-label="Save">

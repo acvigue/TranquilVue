@@ -27,11 +27,7 @@ const emit = defineEmits<{
             <XMarkIcon class="w-7 h-7" />
           </button>
         </div>
-        <div>
-          <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">
-            Are you sure?
-          </span>
-        </div>
+        <span class="text-lg font-medium"> Are you sure? </span>
         <div class="flex-1"></div>
       </div>
       <span class="text-md text-medium"

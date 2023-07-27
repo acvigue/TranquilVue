@@ -50,13 +50,7 @@ const signInAction = async (fields: SignInFields, node: FormKitNode<unknown> | u
     content-class="p-4 w-[95vw] max-w-xl bg-gray-900 border-[3px] border-gray-800 rounded-2xl z-[10000]"
   >
     <div class="flex flex-col gap-4">
-      <div class="flex justify-center">
-        <div>
-          <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">
-            Sign in to continue
-          </span>
-        </div>
-      </div>
+      <span class="text-lg font-medium w-full text-center"> Sign in to continue </span>
       <FormKit type="form" @submit="signInAction" submit-label="Sign In">
         <FormKit type="text" name="email" id="email" label="Email" validation="email|required" />
         <FormKit

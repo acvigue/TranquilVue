@@ -10,7 +10,7 @@ defineProps<FullScreenLoaderProps>()
 <template>
   <div
     :style="{ 'z-index': zIndex ?? 6000 }"
-    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 flex flex-col justify-center items-center overflow-hidden"
+    class="fixed overscroll-none w-screen h-screen bg-opacity-60 bg-gray-900 left-0 top-0 flex flex-col justify-center items-center"
   >
     <svg
       aria-hidden="true"

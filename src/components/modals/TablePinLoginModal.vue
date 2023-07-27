@@ -67,14 +67,12 @@ watch(pinCode, async () => {
   >
     <div class="flex flex-col gap-4">
       <div class="flex justify-center">
-        <div>
-          <span
-            class="text-lg font-medium overflow-hidden line-clamp-1 break-words"
-            :class="{ 'text-red-600': pinCodeBad, '!text-green-600': pinCodeGood }"
-          >
-            Enter PIN
-          </span>
-        </div>
+        <span
+          class="text-lg font-medium"
+          :class="{ 'text-red-600': pinCodeBad, '!text-green-600': pinCodeGood }"
+        >
+          Enter PIN
+        </span>
       </div>
       <div class="w-full flex items-center justify-center gap-5 mb-2">
         <div

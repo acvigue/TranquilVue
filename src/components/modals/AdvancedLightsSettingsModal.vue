@@ -27,7 +27,7 @@ const lights = useTableLightsStore()
           </button>
         </div>
         <div>
-          <span class="text-xl font-medium overflow-hidden line-clamp-1 break-words"
+          <span class="text-xl font-medium line-clamp-1 break-words"
             >Lights (Advanced)</span
           >
         </div>

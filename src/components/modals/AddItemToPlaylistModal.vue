@@ -37,7 +37,7 @@ const emit = defineEmits<{
           </button>
         </div>
         <div>
-          <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">
+          <span class="text-lg font-medium line-clamp-1 break-words">
             Add to Playlist
           </span>
         </div>

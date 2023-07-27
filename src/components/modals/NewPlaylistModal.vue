@@ -43,11 +43,7 @@ const emit = defineEmits<{
             <XMarkIcon class="w-7 h-7" />
           </button>
         </div>
-        <div>
-          <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">
-            New Playlist
-          </span>
-        </div>
+        <span class="text-lg font-medium"> New Playlist </span>
         <div class="flex-1"></div>
       </div>
       <FormKit type="form" @submit="formHandler" submit-label="Create">
