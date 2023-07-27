@@ -34,6 +34,10 @@ onMounted(async () => {
     } else {
       try {
         let tranquilToken = window.localStorage.getItem('tranquilToken')
+        if (tranquilToken == null) {
+          await tranquilapi.get('/')
+          tranquilToken = window.localStorage.getItem('tranquilToken')
+        }
         thumbSrc.value = `${tranquilapi.defaults.baseURL}/patterns/${props.pattern?.uuid}/thumb.png?auth_token=${tranquilToken}`
       } catch (e) {
         console.error(e)
