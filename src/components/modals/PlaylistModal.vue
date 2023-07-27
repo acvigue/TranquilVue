@@ -34,9 +34,9 @@ let patterns = ref([] as Pattern[])
 onMounted(async () => {
   try {
     const allPatterns = (await tranquilapi.get('/patterns')).data as Pattern[]
-    patterns.value = props.playlist.patterns.map(
-      (uuid) => allPatterns.find((p) => p.uuid === uuid)!
-    )
+    patterns.value = props.playlist.patterns
+      .map((uuid) => allPatterns.find((p) => p.uuid === uuid)!)
+      .filter((v) => v !== undefined)
   } catch (e) {
     toast.error(`Couldn't get hosted patterns`)
     return
@@ -118,104 +118,117 @@ const emit = defineEmits<{
     contentTransition="fade-y"
     overlayTransition="fade"
     class="flex justify-center items-end"
-    content-class="w-full h-[90vh] p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl overflow-scroll"
+    content-class="absolute inset-0"
   >
-    <div class="flex flex-col justify-between h-full pb-16">
-      <div class="flex justify-between pb-20">
-        <div class="flex-1">
-          <button @click="emit('close')" class="hover:scale-[1.2] transform-gpu duration-300">
-            <XMarkIcon class="w-7 h-7" />
-          </button>
-        </div>
-        <div>
-          <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">{{
-            playlist.name
-          }}</span>
-        </div>
-        <div class="flex-1" />
-      </div>
-      <div class="flex items-center flex-col align-center w-full gap-3">
-        <PatternPreview
-          :pattern="{ uuid: playlist.featured_pattern, name: '', date: '', creator: '', popularity: 0 }"
-          mode="render"
-          class="md:h-80 md:w-80 w-[60vw] h-[60vw] rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
-          lineColor="#ffffff"
-        />
-        <div class="flex items-center flex-col align-center w-full gap-3 mt-6 mb-5">
-          <div class="flex justify-evenly w-full">
-            <button
-              v-if="isPlaylistDownloaded"
-              :disabled="isCurrentlyPlayingThisPlaylist || isEditing"
-              @click="playThisPlaylist"
-              class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
-            >
-              <PlayIcon class="w-7 h-7" />
-            </button>
-            <button
-              v-if="isPlaylistDownloaded && !isEditing"
-              @click="isEditing = true"
-              class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
-            >
-              <PencilIcon class="w-7 h-7" />
-            </button>
-            <button
-              v-if="isPlaylistDownloaded && isEditing"
-              @click="savePlaylistEdits"
-              class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
-            >
-              <CheckIcon class="w-7 h-7" />
-            </button>
-            <button
-              v-if="isPlaylistDownloaded"
-              :disabled="isEditing"
-              @click="deleteThisPlaylist"
-              class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
-            >
-              <TrashIcon class="w-7 h-7" />
-            </button>
-            <button
-              v-if="!isPlaylistDownloaded"
-              @click="downloadThisPlaylist"
-              class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
-            >
-              <ArrowDownTrayIcon class="w-7 h-7" />
+    <div class="absolute inset-0 h-full overflow-auto" @click.self="() => emit('close')">
+      <div
+        class="flex flex-col justify-between mt-12 p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl"
+      >
+        <div class="flex justify-between pb-20">
+          <div class="flex-1">
+            <button @click="emit('close')" class="hover:scale-[1.2] transform-gpu duration-300">
+              <XMarkIcon class="w-7 h-7" />
             </button>
           </div>
+          <div>
+            <span class="text-lg font-medium overflow-hidden line-clamp-1 break-words">{{
+              playlist.name
+            }}</span>
+          </div>
+          <div class="flex-1" />
         </div>
-
-        <draggable
-          v-model="patterns"
-          :disabled="!isEditing"
-          class="w-full flex flex-col gap-4 mb-4"
-          ghost-class="!bg-gray-600"
-          item-key="uuid"
-        >
-          <template #item="{ element: pattern, index }: { element: Pattern; index: number }">
-            <div
-              class="rounded-lg py-2 px-5 w-full bg-gray-700 flex justify-between items-center"
-              :class="{ 'animate-wiggle': isEditing }"
-              :style="{ 'animation-delay': `${-0.2 * index}s` }"
-            >
-              <div class="flex items-center gap-8">
-                <PatternPreview
-                  :pattern="pattern"
-                  mode="thumb"
-                  lineColor="#ffffff"
-                  class="md:h-20 md:w-20 w-10 h-10 rounded-full border-gray-600 border bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
-                />
-                <span class="text-md font-medium">{{ pattern.name }}</span>
-              </div>
-              <div v-if="isEditing">
-                <button
-                  @click="patterns.splice(index, 1)"
-                  class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
-                >
-                  <TrashIcon class="w-7 h-7" />
-                </button>
-              </div>
+        <div class="flex items-center flex-col align-center w-full gap-3">
+          <PatternPreview
+            :pattern="{
+              uuid: playlist.featured_pattern,
+              name: '',
+              date: '',
+              creator: '',
+              popularity: 0
+            }"
+            mode="thumb"
+            class="md:h-80 md:w-80 w-[60vw] h-[60vw] rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
+            lineColor="#ffffff"
+          />
+          <div class="flex items-center flex-col align-center w-full gap-3 mt-6 mb-5">
+            <div class="flex justify-evenly w-full">
+              <button
+                v-if="isPlaylistDownloaded"
+                :disabled="isCurrentlyPlayingThisPlaylist || isEditing"
+                @click="playThisPlaylist"
+                class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+              >
+                <PlayIcon class="w-7 h-7" />
+              </button>
+              <button
+                v-if="isPlaylistDownloaded && !isEditing"
+                @click="isEditing = true"
+                class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+              >
+                <PencilIcon class="w-7 h-7" />
+              </button>
+              <button
+                v-if="isPlaylistDownloaded && isEditing"
+                @click="savePlaylistEdits"
+                class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+              >
+                <CheckIcon class="w-7 h-7" />
+              </button>
+              <button
+                v-if="isPlaylistDownloaded"
+                :disabled="isEditing"
+                @click="deleteThisPlaylist"
+                class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+              >
+                <TrashIcon class="w-7 h-7" />
+              </button>
+              <button
+                v-if="!isPlaylistDownloaded"
+                @click="downloadThisPlaylist"
+                class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+              >
+                <ArrowDownTrayIcon class="w-7 h-7" />
+              </button>
             </div>
-          </template>
-        </draggable>
+          </div>
+
+          <draggable
+            v-model="patterns"
+            :disabled="!isEditing"
+            class="w-full flex flex-col gap-4 mb-4"
+            ghost-class="!bg-gray-600"
+            item-key="uuid"
+          >
+            <template #item="{ element: pattern, index }: { element: Pattern; index: number }">
+              <div
+                class="rounded-lg py-2 px-5 w-full bg-gray-700 flex justify-between items-center"
+                :class="{ 'animate-wiggle': isEditing }"
+                :style="{ 'animation-delay': `${-0.2 * index}s` }"
+              >
+                <div class="flex items-center gap-8">
+                  <PatternPreview
+                    :pattern="pattern"
+                    mode="thumb"
+                    lineColor="#ffffff"
+                    class="md:h-32 md:w-32 w-10 h-10 rounded-full border-gray-600 border-[2px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
+                  />
+                  <div class="flex flex-col">
+                    <span class="text-md font-medium">{{ pattern.name }}</span>
+                    <span class="text-sm font-medium text-gray-400">by {{ pattern.creator }}</span>
+                  </div>
+                </div>
+                <div v-if="isEditing">
+                  <button
+                    @click="patterns.splice(index, 1)"
+                    class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
+                  >
+                    <TrashIcon class="w-7 h-7" />
+                  </button>
+                </div>
+              </div>
+            </template>
+          </draggable>
+        </div>
       </div>
     </div>
   </VueFinalModal>

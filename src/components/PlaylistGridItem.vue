@@ -34,9 +34,7 @@ const isPlaylistDownloaded = computed(() => {
       class="h-36 w-36 md:h-44 md:w-44 rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
       lineColor="#ffffff"
     />
-    <span
-      class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis break-words"
-    >
+    <span class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis break-words">
       {{ item.name }}</span
     >
   </button>

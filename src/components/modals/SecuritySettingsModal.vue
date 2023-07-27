@@ -2,7 +2,6 @@
 import { useToast } from 'vue-toast-notification'
 import useTableSecurityStore from '@/stores/tableSecurity'
 import { FormKit } from '@formkit/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ModalTemplate from './helpers/ModalTemplate.vue'
 import ModalHeader from './helpers/ModalHeader.vue'
 
@@ -25,7 +24,11 @@ const formHandler = async () => {
 
 <template>
   <ModalTemplate :z="5000" @close="emit('close')">
-    <ModalHeader title="Security Settings" @close="emit('close')" v-model:toggle="security.pinEnabled"/>
+    <ModalHeader
+      title="Security Settings"
+      @close="emit('close')"
+      v-model:toggle="security.pinEnabled"
+    />
     <FormKit type="form" @submit="formHandler" submit-label="Save">
       <FormKit
         type="text"

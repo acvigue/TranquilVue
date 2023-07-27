@@ -16,7 +16,7 @@ const emit = defineEmits<{
 
 <template>
   <ModalTemplate border-color="red" @close="emit('close')">
-    <ModalHeader title="Are you sure?" @close="emit('close')"/>
+    <ModalHeader title="Are you sure?" @close="emit('close')" />
     <div class="flex flex-col gap-8">
       <span class="text-md font-medium w-full text-center">
         Deleting '{{ itemName.trim() }}' cannot be undone

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { FormKit } from '@formkit/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { watch } from 'vue';
-import { ref } from 'vue';
+import { watch } from 'vue'
+import { ref } from 'vue'
 
 interface ModalHeaderProps {
   title: string
@@ -17,11 +17,14 @@ const emit = defineEmits<{
 const props = withDefaults(defineProps<ModalHeaderProps>(), {
   toggle: undefined
 })
-const toggleModel = ref(false)
+const toggleModel = ref(props.toggle ?? false)
 
-watch(() => props.toggle, () => {
-  toggleModel.value = props.toggle
-})
+watch(
+  () => props.toggle,
+  () => {
+    toggleModel.value = props.toggle
+  }
+)
 </script>
 
 <template>

@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { VueFinalModal } from 'vue-final-modal'
 import useFilesStore, { type Playlist } from '@/stores/files'
 import { FormKit } from '@formkit/vue'
 import { v4 as uuidv4 } from 'uuid'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toast-notification'
 import ModalTemplate from './helpers/ModalTemplate.vue'
 import ModalHeader from './helpers/ModalHeader.vue'
@@ -33,9 +31,9 @@ const emit = defineEmits<{
 
 <template>
   <ModalTemplate @close="emit('close')">
-    <ModalHeader title="New Playlist" @close="emit('close')"/>
+    <ModalHeader title="New Playlist" @close="emit('close')" />
     <FormKit type="form" @submit="formHandler" submit-label="Create">
-        <FormKit type="text" name="name" id="name" label="Playlist Name" validation="required" />
-      </FormKit>
+      <FormKit type="text" name="name" id="name" label="Playlist Name" validation="required" />
+    </FormKit>
   </ModalTemplate>
 </template>

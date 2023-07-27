@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { VueFinalModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 import useTableWireguardStore from '@/stores/tableWireguard'
 import { FormKit } from '@formkit/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ModalTemplate from './helpers/ModalTemplate.vue'
 import ModalHeader from './helpers/ModalHeader.vue'
 
@@ -26,7 +24,7 @@ const formHandler = async () => {
 
 <template>
   <ModalTemplate @close="emit('close')">
-    <ModalHeader title="WireGuard" v-model:toggle="wireguard.enabled" @close="emit('close')"/>
+    <ModalHeader title="WireGuard" v-model:toggle="wireguard.enabled" @close="emit('close')" />
     <FormKit type="form" @submit="formHandler" submit-label="Save">
       <FormKit
         type="text"

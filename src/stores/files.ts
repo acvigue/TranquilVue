@@ -10,8 +10,8 @@ export interface Pattern {
   uuid: string
   name: string
   date: string
-  popularity: number;
-  creator: string;
+  popularity: number
+  creator: string
 
   //provided by table
   isFavorite?: boolean

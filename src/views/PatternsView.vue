@@ -46,8 +46,12 @@ const itemGetter = computed(() => {
   }
 
   if (sortType.value === 0) {
-    rawItems = rawItems.sort((a, b) => a.name.localeCompare(b.name))
+    rawItems = rawItems.sort((a, b) => {
+      return b.popularity - a.popularity
+    })
   } else if (sortType.value === 1) {
+    rawItems = rawItems.sort((a, b) => a.name.localeCompare(b.name))
+  } else if (sortType.value === 2) {
     rawItems = rawItems.sort((a, b) => {
       return new Date(b.date).getDate() - new Date(a.date).getDate()
     })
@@ -96,18 +100,20 @@ const showPatternModal = async (pattern: Pattern) => {
 //2 => favorites
 const viewType = ref(0)
 
-//0 => name
-//1 => date created descending
-//2 => date added descending
+//0 => popularity
+//1 => name
+//2 => date created descending
+//3 => date added descending
 const sortType = ref(0)
 const sortModalOpen = ref(false)
 const sortReverse = ref(false)
 const sortNotDownloaded = ref(false)
 
 const sortModalOptions = [
-  { label: 'Name', value: 0 },
-  { label: 'Creation Date', value: 1 },
-  { label: 'Download Date', value: 2 }
+  { label: 'Popularity', value: 0 },
+  { label: 'Name', value: 1 },
+  { label: 'Creation Date', value: 2 },
+  { label: 'Download Date', value: 3 }
 ]
 </script>
 
@@ -128,7 +134,7 @@ const sortModalOptions = [
     </div>
     <Transition name="fade" mode="out-in">
       <div
-        class="w-full pb-20"
+        class="w-full"
         :key="viewType + sortType + (sortReverse ? 1 : 0) + (sortNotDownloaded ? 1 : 0)"
       >
         <ScrollGrid

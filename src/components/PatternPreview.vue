@@ -13,6 +13,7 @@ interface PatternPreviewProps {
   lineColor: string
   pattern?: Pattern
   mode: 'thumb' | 'render'
+  progress?: number
 }
 
 const props = defineProps<PatternPreviewProps>()
@@ -24,6 +25,7 @@ const isLoaded = ref(false)
 const thumbSrc = ref('')
 
 let patternData: [number, number][] = []
+let uninterpolatedData: [number, number][] = []
 let patternID = ''
 
 onMounted(async () => {
@@ -69,25 +71,28 @@ const getPatternData = async () => {
   }
 
   let patternDataResponse
-  try {
-    patternDataResponse = await tranquilapi.get(`/patterns/${props.pattern.uuid}/data`)
-  } catch (e) {
-    throw new Error(`Pattern preview generation failed for ${props.pattern.name}`)
-  }
-
-  const patternDataRaw = patternDataResponse.data
-  const uninterpolatedData: [number, number][] = []
-  for (const patternDataLine of (patternDataRaw as string).split('\n')) {
-    if (patternDataLine.charAt(0) === '#') {
-      continue
+  if (uninterpolatedData.length === 0 || patternID != props.pattern.uuid) {
+    try {
+      patternDataResponse = await tranquilapi.get(`/patterns/${props.pattern.uuid}/data`)
+      patternID = props.pattern.uuid
+    } catch (e) {
+      throw new Error(`Pattern preview generation failed for ${props.pattern.name}`)
     }
 
-    const patternCoordinates = patternDataLine.split(' ')
-    const theta = parseFloat(patternCoordinates[0])
-    const rho = parseFloat(patternCoordinates[1])
-    uninterpolatedData.push([theta, rho])
+    const patternDataRaw = patternDataResponse.data
+    for (const patternDataLine of (patternDataRaw as string).split('\n')) {
+      if (patternDataLine.charAt(0) === '#') {
+        continue
+      }
+
+      const patternCoordinates = patternDataLine.split(' ')
+      const theta = parseFloat(patternCoordinates[0])
+      const rho = parseFloat(patternCoordinates[1])
+      uninterpolatedData.push([theta, rho])
+    }
   }
 
+  patternData = []
   patternData.push(uninterpolatedData[0])
   let previousPoint = uninterpolatedData[0]
   for (const uninterpolatedPoint of uninterpolatedData) {
@@ -116,15 +121,15 @@ const render = async () => {
     return
   }
 
-  if (patternID != props.pattern.uuid) {
-    patternData = []
-    try {
-      await getPatternData()
-    } catch (e) {
-      isLoaded.value = true
-      return
-    }
-    patternID = props.pattern.uuid
+  try {
+    await getPatternData()
+  } catch (e) {
+    isLoaded.value = true
+    return
+  }
+
+  if (props.progress) {
+    patternData = patternData.slice(0, Math.floor(patternData.length * props.progress))
   }
 
   context.value.strokeStyle = props.lineColor
@@ -150,7 +155,6 @@ const render = async () => {
 }
 
 watch(props, async () => {
-  console.log('watcher')
   await render()
 })
 </script>

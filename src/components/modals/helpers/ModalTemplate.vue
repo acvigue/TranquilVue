@@ -2,7 +2,7 @@
 import { VueFinalModal } from 'vue-final-modal'
 
 interface ModalTemplateProps {
-  borderColor?: 'red' | 'gray' | 'green',
+  borderColor?: 'red' | 'gray' | 'green'
   z?: 5000 | 10000
 }
 
@@ -15,7 +15,7 @@ defineProps<ModalTemplateProps>()
   <VueFinalModal
     :class="{
       '!z-[5000]': z === 5000,
-      '!z-[10000]': z === 10000,
+      '!z-[10000]': z === 10000
     }"
     contentTransition="fade-y"
     overlayTransition="fade"

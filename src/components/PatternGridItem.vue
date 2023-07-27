@@ -27,7 +27,7 @@ const isPatternDownloaded = computed(() => {
   >
     <HeartIcon class="absolute z-20 top-3 right-3 text-red-400 w-4 md:w-7" v-if="item.isFavorite" />
     <ArrowDownTrayIcon
-      class="absolute z-20 top-3 right-3 text-orange-400 w-3 md:w-6"
+      class="absolute z-20 top-3 right-3 text-orange-400 w-5 md:w-5"
       v-if="!isPatternDownloaded"
     />
     <PatternPreview
@@ -37,9 +37,7 @@ const isPatternDownloaded = computed(() => {
       class="h-36 w-36 md:h-44 md:w-44 rounded-full border-gray-500 border-[3px] bg-gray-800 group-hover:scale-105 transition transform-gpu duration-300"
       lineColor="#ffffff"
     />
-    <span
-      class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis break-words"
-    >
+    <span class="w-[90%] text-center text-md font-medium line-clamp-1 text-ellipsis break-words">
       {{ item.name }}</span
     >
   </button>

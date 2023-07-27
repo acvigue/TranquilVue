@@ -16,7 +16,7 @@ const emit = defineEmits<{
 
 <template>
   <ModalTemplate @close="emit('close')">
-    <ModalHeader title="Wait!" @close="emit('close')"/>
+    <ModalHeader title="Wait!" @close="emit('close')" />
     <span class="text-md text-medium"
       >'{{ currentlyPlayingItemName }}' is already playing. Continuing will stop playback.</span
     >

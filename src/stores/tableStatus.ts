@@ -20,6 +20,10 @@ export default defineStore('tableStatus', () => {
     return 'paused'
   })
 
+  const patternProgress = computed(() => {
+    return raw.value.filePos / raw.value.fileLen
+  })
+
   const currentPatternID = computed(() => {
     return (raw.value.file ?? '').replace('sd/', '').replace('/', '').replace('.thr', '')
   })
@@ -158,25 +162,25 @@ export default defineStore('tableStatus', () => {
     }
   }
 
-  let baseURL = table.defaults.baseURL!;
-  if(baseURL == "/") {
-    baseURL = `${window.location.origin.replace("http","ws")}/`;
+  let baseURL = table.defaults.baseURL!
+  if (baseURL == '/') {
+    baseURL = `${window.location.origin.replace('http', 'ws')}/`
   } else {
-    baseURL = table.defaults.baseURL!.replace("http", "ws");
+    baseURL = table.defaults.baseURL!.replace('http', 'ws')
   }
-  const socketURL = `${baseURL}socket`;
-  console.log(socketURL);
+  const socketURL = `${baseURL}socket`
+  console.log(socketURL)
 
   function connect() {
     loader.showLoader('ws', 'Establishing event loop')
     const ws = new WebSocket(socketURL)
     ws.onopen = async function () {
-      console.log("Socket opened.")
+      console.log('Socket opened.')
       loader.hideLoader('ws')
     }
 
     ws.onmessage = async function (e) {
-      const msg = await(e.data as Blob).text()
+      const msg = await (e.data as Blob).text()
       _updateRaw(JSON.parse(msg))
     }
 
@@ -220,6 +224,7 @@ export default defineStore('tableStatus', () => {
     currentPatternID,
     currentPlaylistID,
     isPlaylist,
+    patternProgress,
     setPausedState,
     stopMotion,
     resetTable,

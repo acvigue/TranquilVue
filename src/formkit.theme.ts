@@ -56,7 +56,7 @@ export default {
     placeholder: 'p-2.5 text-gray-400',
     selector: 'flex w-full justify-between items-center [&u]',
     selectedIcon: 'block absolute top-1/2 left-2 w-3 -translate-y-1/2',
-    selectIcon: 'flex box-content w-4 px-2 self-stretch grow-0 shrink-0'
+    selectIcon: 'flex box-content w-4 px-2 self-stretch grow-0 shrink-0 [&>*]:w-4'
   },
   'family:text': {
     inner:

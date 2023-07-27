@@ -12,9 +12,9 @@ const loader = useLoader()
 </script>
 
 <template>
-  <RouterView v-slot="{ Component, route }" class="h-[calc(100dvh-3.5rem)]">
+  <RouterView v-slot="{ Component, route }">
     <Transition name="fade" mode="out-in">
-      <component :is="Component" :key="route.path" />
+      <component :is="Component" :key="route.path" class="mb-20" />
     </Transition>
   </RouterView>
 

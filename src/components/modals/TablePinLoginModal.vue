@@ -5,7 +5,6 @@ import { useToast } from 'vue-toast-notification'
 import { isAxiosError } from 'axios'
 import { ref, watch } from 'vue'
 import useLoader from '@/stores/loader'
-import ModalTemplate from './helpers/ModalTemplate.vue'
 
 const emit = defineEmits<{
   (e: 'close'): void

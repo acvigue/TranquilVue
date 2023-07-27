@@ -16,7 +16,7 @@ const emit = defineEmits<{
 
 async function checkForUpdate() {
   loader.showLoader('update')
-  await table.get("/update")
+  await table.get('/update')
   loader.hideLoader('update')
   toast.info('Update queued')
 }

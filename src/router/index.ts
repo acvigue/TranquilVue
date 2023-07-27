@@ -23,11 +23,6 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: () => import('@/views/SettingsView.vue')
-    },
-    {
-      path: '/settings/schedule',
-      name: 'schedule settings',
-      component: () => import('@/views/ScheduleSettingsView.vue')
     }
   ]
 })

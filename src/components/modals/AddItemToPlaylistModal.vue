@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { type Pattern, default as useFilesStore } from '@/stores/files'
 import { FormKit } from '@formkit/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ModalHeader from './helpers/ModalHeader.vue'
 import ModalTemplate from './helpers/ModalTemplate.vue'
 

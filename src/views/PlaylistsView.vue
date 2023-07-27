@@ -135,7 +135,7 @@ const sortModalOptions = [
       </button>
     </div>
     <Transition name="fade" mode="out-in">
-      <div class="w-full pb-20" :key="viewType + sortType + newModalOpen + (sortReverse ? 1 : 0)">
+      <div class="w-full" :key="viewType + sortType + newModalOpen + (sortReverse ? 1 : 0)">
         <!-- downloaded -->
         <ScrollGrid
           :length="playlistsScrollLength"
@@ -166,7 +166,7 @@ const sortModalOptions = [
         type="dropdown"
         :options="sortModalOptions"
         v-model="sortType"
-        label="Sort patterns by"
+        label="Sort playlists by"
       />
       <FormKit type="toggle" v-model="sortReverse" label="Reverse" />
       <div class="flex justify-end">

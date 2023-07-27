@@ -45,9 +45,7 @@ const formHandler = async () => {
             <XMarkIcon class="w-7 h-7" />
           </button>
         </div>
-        <span class="text-lg font-medium">
-          WiFi Settings
-        </span>
+        <span class="text-lg font-medium"> WiFi Settings </span>
         <div class="flex-1"></div>
       </div>
       <FormKit type="form" @submit="formHandler" submit-label="Save">

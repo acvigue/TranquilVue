@@ -35,17 +35,3 @@ const lights = useTableLightsStore()
     />
   </ModalTemplate>
 </template>
-
-<style>
-.vue-swatches__container {
-  @apply border-[2px] border-gray-400;
-}
-
-.vue-swatches {
-  @apply !flex !justify-center !items-center;
-}
-
-.vue-swatches__trigger__wrapper {
-  @apply border-[2px] border-gray-400 rounded-xl;
-}
-</style>
