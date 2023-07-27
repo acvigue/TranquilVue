@@ -13,6 +13,7 @@ import { useModal } from 'vue-final-modal'
 import { useRouter } from 'vue-router'
 import useTable from '@/stores/tableStatus'
 import 'vue-toast-notification/dist/theme-sugar.css'
+import AboutModal from '@/components/modals/AboutModal.vue'
 
 const router = useRouter()
 const table = useTable()
@@ -20,6 +21,18 @@ const table = useTable()
 const openSecuritySettingsModal = async () => {
   const { open, close } = useModal({
     component: SecuritySettingsModal,
+    attrs: {
+      onClose: () => {
+        close()
+      }
+    }
+  })
+  await open()
+}
+
+const openAboutModal = async () => {
+  const { open, close } = useModal({
+    component: AboutModal,
     attrs: {
       onClose: () => {
         close()
@@ -71,6 +84,13 @@ const openLightsSettingsModal = async () => {
   <div class="mx-[5vw] flex flex-col gap-5 justify-start items-center pt-5">
     <span class="font-semibold text-2xl text-center">Settings</span>
     <div class="flex flex-col w-full justify-evenly gap-4 px-4">
+      <button
+        @click="openAboutModal"
+        class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
+      >
+        <span class="text-lg font-medium">About</span>
+        <ArrowRightIcon class="w-6 h-6"></ArrowRightIcon>
+      </button>
       <button
         @click="openSecuritySettingsModal"
         class="flex w-full justify-between items-center p-4 bg-gray-700 hover:bg-gray-600 rounded-xl transform-gpu duration-300"
