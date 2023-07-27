@@ -5,6 +5,8 @@ import { FormKit } from '@formkit/vue'
 import { v4 as uuidv4 } from 'uuid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { useToast } from 'vue-toast-notification'
+import ModalTemplate from './helpers/ModalTemplate.vue'
+import ModalHeader from './helpers/ModalHeader.vue'
 
 const files = useFilesStore()
 const toast = useToast()
@@ -30,25 +32,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <VueFinalModal
-    class="flex justify-center items-center"
-    contentTransition="fade-y"
-    overlayTransition="fade"
-    content-class="p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl w-[90vw] max-w-md"
-  >
-    <div class="flex flex-col gap-8">
-      <div class="flex justify-between">
-        <div class="flex-1">
-          <button @click="emit('close')" class="hover:scale-[1.2] transform-gpu duration-300">
-            <XMarkIcon class="w-7 h-7" />
-          </button>
-        </div>
-        <span class="text-lg font-medium"> New Playlist </span>
-        <div class="flex-1"></div>
-      </div>
-      <FormKit type="form" @submit="formHandler" submit-label="Create">
+  <ModalTemplate @close="emit('close')">
+    <ModalHeader title="New Playlist" @close="emit('close')"/>
+    <FormKit type="form" @submit="formHandler" submit-label="Create">
         <FormKit type="text" name="name" id="name" label="Playlist Name" validation="required" />
       </FormKit>
-    </div>
-  </VueFinalModal>
+  </ModalTemplate>
 </template>

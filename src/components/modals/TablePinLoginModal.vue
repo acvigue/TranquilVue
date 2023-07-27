@@ -5,6 +5,7 @@ import { useToast } from 'vue-toast-notification'
 import { isAxiosError } from 'axios'
 import { ref, watch } from 'vue'
 import useLoader from '@/stores/loader'
+import ModalTemplate from './helpers/ModalTemplate.vue'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -69,7 +70,7 @@ watch(pinCode, async () => {
       <div class="flex justify-center">
         <span
           class="text-lg font-medium"
-          :class="{ 'text-red-600': pinCodeBad, '!text-green-600': pinCodeGood }"
+          :class="{ 'text-red-500': pinCodeBad, '!text-green-600': pinCodeGood }"
         >
           Enter PIN
         </span>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { VueFinalModal } from 'vue-final-modal'
+import ModalTemplate from './helpers/ModalTemplate.vue'
+import ModalHeader from './helpers/ModalHeader.vue'
 
 interface DeleteConfirmationModalProps {
   itemName: string
@@ -14,15 +15,12 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <VueFinalModal
-    class="flex justify-center items-center"
-    contentTransition="fade-y"
-    overlayTransition="fade"
-    content-class="p-4 bg-gray-900 border-[3px] border-red-800 rounded-2xl"
-  >
+  <ModalTemplate border-color="red" @close="emit('close')">
+    <ModalHeader title="Are you sure?" @close="emit('close')"/>
     <div class="flex flex-col gap-8">
-      <span class="text-lg font-medium w-full text-center"> Are you sure? </span>
-      <span class="text-md text-medium">Deleting '{{ itemName }}' cannot be undone</span>
+      <span class="text-md font-medium w-full text-center">
+        Deleting '{{ itemName.trim() }}' cannot be undone
+      </span>
       <div class="flex justify-end gap-4">
         <button
           @click="emit('close')"
@@ -38,5 +36,5 @@ const emit = defineEmits<{
         </button>
       </div>
     </div>
-  </VueFinalModal>
+  </ModalTemplate>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { FormKit } from '@formkit/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { watch } from 'vue';
+import { ref } from 'vue';
 
 interface ModalHeaderProps {
   title: string
@@ -12,7 +14,14 @@ const emit = defineEmits<{
   (e: 'update:toggle'): void
 }>()
 
-defineProps<ModalHeaderProps>()
+const props = withDefaults(defineProps<ModalHeaderProps>(), {
+  toggle: undefined
+})
+const toggleModel = ref(false)
+
+watch(() => props.toggle, () => {
+  toggleModel.value = props.toggle
+})
 </script>
 
 <template>
@@ -23,13 +32,18 @@ defineProps<ModalHeaderProps>()
       </button>
     </div>
     <span class="text-xl font-medium"> {{ title }}</span>
-    <div class="flex-1 flex justify-end items-center" v-if="toggle">
+    <div class="flex-1 flex justify-end items-center" v-if="toggle !== undefined">
       <FormKit
         type="toggle"
         outer-class="!mb-0"
         wrapper-class="!mb-0 justify-end"
-        :value="toggle"
-        v-on:input="(newValue: boolean) => $emit('update:toggle', newValue)"
+        v-model="toggleModel"
+        @input="
+          (newValue: boolean) => {
+            toggleModel = newValue
+            $emit('update:toggle', newValue)
+          }
+        "
         off-value-label="OFF"
         on-value-label="ON"
       />

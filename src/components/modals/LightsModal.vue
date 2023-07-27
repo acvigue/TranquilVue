@@ -67,8 +67,8 @@ function rgbToHex(color: number[]) {
 </script>
 
 <template>
-  <ModalTemplate>
-    <ModalHeader title="Lights" v-model:toggle="lights.on" v-on:close="emit('close')" />
+  <ModalTemplate @close="emit('close')">
+    <ModalHeader title="Lights" v-model:toggle="lights.on" @close="emit('close')" />
 
     <!-- Brightness -->
     <div class="flex flex-col w-full gap-4 p-4 bg-gray-700 rounded-xl">

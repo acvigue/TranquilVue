@@ -17,6 +17,7 @@ import useTableStatusStore from '@/stores/tableStatus'
 import { computed } from 'vue'
 import { useToast } from 'vue-toast-notification'
 import useFilesStore from '@/stores/files'
+import dayjs from 'dayjs'
 
 interface PatternModalProps {
   pattern: Pattern
@@ -156,6 +157,7 @@ const isCurrentlyPlayingThisPattern = computed(() => {
           lineColor="#ffffff"
         />
         <span class="pt-4 font-medium">by {{ pattern.creator }}</span>
+        <span class="text-gray-400 text-sm">{{ dayjs(pattern.date).format('MM/DD/YYYY') }}</span>
       </div>
       <div class="flex justify-evenly" v-if="isPatternDownloaded">
         <button
@@ -167,6 +169,7 @@ const isCurrentlyPlayingThisPattern = computed(() => {
         </button>
         <button
           @click="openAddToPlaylistModal"
+          :disabled="files.playlists.length === 0"
           class="hover:scale-[1.2] transform-gpu duration-300 disabled:scale-100 disabled:text-gray-500"
         >
           <PlusIcon class="w-7 h-7" />
