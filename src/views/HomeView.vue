@@ -156,7 +156,6 @@ setInterval(() => {
       <div
         class="flex flex-col from-red-50 via-slate-50 items-center flex-grow justify-center gap-4 absolute mb-auto mt-auto top-0 bottom-0 w-full"
       >
-        <span class="text-lg font-semibold">Play Something</span>
         <div class="flex flex-row items-center justify-center w-full overflow-hidden">
           <div :style="gradientColorStops" class="p-1 rounded-full bg-gray-700">
             <PatternPreview

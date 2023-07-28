@@ -17,10 +17,11 @@ const tableWiFi = useTableWiFiStore()
 const formHandler = async () => {
   try {
     await tableWiFi.saveSettings()
+    toast.success('WiFi settings updated')
   } catch (e) {
-    console.log('caught wifi error')
+    toast.error('Error updating WiFi settings')
   }
-  toast.success('WiFi settings saved')
+
   emit('close')
 }
 </script>

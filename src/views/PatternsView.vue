@@ -139,6 +139,7 @@ const sortModalOptions = [
       >
         <ScrollGrid
           :length="patternsScrollLength"
+          v-if="patternsScrollLength !== 0"
           :pageProvider="patternsScrollPageProvider"
           :pageSize="10"
           class="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6"
@@ -153,6 +154,14 @@ const sortModalOptions = [
             <PatternGridItemPlaceholder />
           </template>
         </ScrollGrid>
+        <div v-else class="w-full flex justify-center">
+          <div
+            class="rounded-md border-2 border-gray-700 p-4 flex flex-col items-center max-w-sm gap-8"
+          >
+            <span class="font-medium text-lg">Oops</span>
+            <span class="text-md">No patterns are downloaded to this device yet!</span>
+          </div>
+        </div>
       </div>
     </Transition>
     <VueFinalModal

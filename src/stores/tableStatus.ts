@@ -169,13 +169,11 @@ export default defineStore('tableStatus', () => {
     baseURL = table.defaults.baseURL!.replace('http', 'ws')
   }
   const socketURL = `${baseURL}socket`
-  console.log(socketURL)
 
   function connect() {
     loader.showLoader('ws', 'Establishing event loop')
     const ws = new WebSocket(socketURL)
     ws.onopen = async function () {
-      console.log('Socket opened.')
       loader.hideLoader('ws')
     }
 
@@ -185,15 +183,15 @@ export default defineStore('tableStatus', () => {
     }
 
     ws.onclose = async function (e) {
-      loader.showLoader('ws', 'Establishing event loop')
-      console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason)
+      toast.warning('Socket disconnected')
+      loader.showLoader('ws', 'Re-establishing event loop')
       setTimeout(function () {
         connect()
       }, 1000)
     }
 
     ws.onerror = async function (err) {
-      console.error('Socket encountered error: ', err, 'Closing socket')
+      toast.error('Socket errored')
       ws.close()
     }
   }

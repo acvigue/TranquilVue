@@ -16,7 +16,7 @@ const emit = defineEmits<{
 const effects = [
   { label: 'Solid', value: 0 },
   { label: 'Rainbow', value: 1 },
-  { label: 'Motion Tracked', value: 2 },
+  { label: 'Motion Tracked', value: 2 }
 ]
 
 const lights = useTableLightsStore()
