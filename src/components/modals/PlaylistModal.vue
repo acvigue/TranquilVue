@@ -56,7 +56,7 @@ const downloadThisPlaylist = async () => {
     await files.downloadPlaylist(props.playlist)
     toast.success(`Downloaded ${props.playlist.name}`)
   } catch (e) {
-    console.log(e)
+    console.error(e)
     toast.error('Error downloading playlist!')
   }
 }

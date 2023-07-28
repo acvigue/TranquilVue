@@ -117,7 +117,6 @@ const getPatternData = async () => {
 
 const render = async () => {
   if (!context.value || !props.pattern) {
-    console.log('no pattern')
     return
   }
 

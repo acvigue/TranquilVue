@@ -51,7 +51,7 @@ export default defineStore('files', () => {
 
     const patternData = (await tranquilapi.get(`/patterns/${pattern.uuid}/data`)).data
 
-    loader.showLoader('files', `Sending pattern ${pattern.name}`)
+    loader.showLoader('files', `Saving ${pattern.name}`)
 
     await uploadFile(`${pattern.uuid}.thr`, patternData)
 
@@ -79,12 +79,10 @@ export default defineStore('files', () => {
     const playlistData = (await tranquilapi.get(`playlists/${playlist.uuid}`)).data as Playlist
 
     for (const patternUUID of playlistData.patterns) {
-      const pattern = getPattern(patternUUID)
+      loader.showLoader('files', 'Fetching pattern')
+      const pattern = (await tranquilapi.get(`/patterns/${patternUUID}`)).data as Pattern
       if (patterns.value.find((p) => p.uuid === pattern.uuid) === undefined) {
-        console.log(`${pattern.name} is not downloaded..`)
         await downloadPattern(pattern)
-      } else {
-        console.log(`${pattern.name} is already downloaded!`)
       }
     }
 
@@ -109,6 +107,7 @@ export default defineStore('files', () => {
     const formData = new FormData()
     const manifestBlob = new Blob([content], { type: 'text/plain' })
     formData.append('file', manifestBlob, `sd/${fileName}`)
+
     await table.post('/fs/upload', formData)
   }
 

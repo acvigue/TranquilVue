@@ -88,9 +88,7 @@ export default defineStore('tableScheduler', () => {
     try {
       const resp = await table.get('/settings/scheduler')
       jobs.value = _jobsToFormKit(resp.data.scheduler.jobs)
-      console.log(jobs.value)
     } catch (e) {
-      console.log(e)
       toast.error('Error fetching scheduler settings')
     }
     loader.hideLoader('scheduler')
