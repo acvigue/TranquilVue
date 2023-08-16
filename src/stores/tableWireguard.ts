@@ -9,7 +9,7 @@ const toast = useToast()
 export default defineStore('tableWireguard', () => {
   const loader = useLoader()
   const enabled = ref(false)
-  const endpointPort = ref(51820)
+  const endpointPort = ref('51820')
   const endpointAddress = ref('')
   const privateKey = ref('')
   const publicKey = ref('')
@@ -20,7 +20,7 @@ export default defineStore('tableWireguard', () => {
     loader.showLoader('wireguard')
     const config = {
       enabled: enabled.value ? 1 : 0,
-      endpointPort: endpointPort.value,
+      endpointPort: parseInt(endpointPort.value),
       endpointAddress: endpointAddress.value,
       privateKey: privateKey.value,
       publicKey: publicKey.value,
@@ -42,7 +42,7 @@ export default defineStore('tableWireguard', () => {
       const resp = await table.get('/settings/wireguard')
       const data = resp.data.wireGuard
       enabled.value = data.enabled === 1
-      endpointPort.value = data.endpointPort ?? 51820
+      endpointPort.value = data.endpointPort.toString()
       endpointAddress.value = data.endpointAddress ?? ''
       privateKey.value = data.privateKey ?? ''
       publicKey.value = data.publicKey ?? ''

@@ -42,8 +42,8 @@ watch(
         wrapper-class="!mb-0 justify-end"
         v-model="toggleModel"
         @input="
-          (newValue: boolean) => {
-            toggleModel = newValue
+          (newValue?: boolean) => {
+            toggleModel = newValue ?? false
             $emit('update:toggle', newValue)
           }
         "
