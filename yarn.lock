@@ -205,9 +205,9 @@
     "@formkit/utils" "0.19.3"
 
 "@formkit/pro@^0.115.1":
-  version "0.115.1"
-  resolved "https://registry.yarnpkg.com/@formkit/pro/-/pro-0.115.1.tgz#d34a673413424f4f9bcb94ee77bcb029aac84017"
-  integrity sha512-sahm+QkgIOh8EeftijHOft8DIszRMmnSxu4C34epJnIMGWUzbiIC9KpImugLg6X1v08vAnYNLm5ZGOSLcebI8w==
+  version "0.115.2"
+  resolved "https://registry.yarnpkg.com/@formkit/pro/-/pro-0.115.2.tgz#7f13218f5982e8aea40d736013c5f30304b8f912"
+  integrity sha512-rNgjA35MFJja7j1a4pBJUFP3ovM0THaSJgbbVL4rGJGPkpldI89h+G8oRo7FVZ8te78iEAxbc5QsnvoxoFXSPQ==
   dependencies:
     "@formkit/core" "^0.19.0"
     "@formkit/inputs" "^0.19.0"
