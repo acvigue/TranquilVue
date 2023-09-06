@@ -122,7 +122,7 @@ const isCurrentlyPlayingThisPattern = computed(() => {
     contentTransition="fade-y"
     overlayTransition="fade"
     class="flex justify-center items-end"
-    content-class="w-full h-[90vh] p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl overflow-scroll"
+    content-class="w-full h-[90vh] p-4 bg-gray-900 border-[3px] border-gray-800 rounded-2xl"
   >
     <div class="flex flex-col justify-between h-full pb-20">
       <div class="flex justify-between">
