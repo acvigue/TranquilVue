@@ -171,6 +171,13 @@
   dependencies:
     "@formkit/utils" "1.0.0"
 
+"@formkit/core@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@formkit/core/-/core-1.1.0.tgz#27d2b33e38b6fd075004f3ac5e60b816ce5bfd17"
+  integrity sha512-p3fbSVYI/93mndlIKU+Rc/ZqR9mzQ55B8HLvDAj53Aooo5GVDGeRYI78+rbB0Uy4nuu/Drivr8+x1+uiWTuOdw==
+  dependencies:
+    "@formkit/utils" "1.1.0"
+
 "@formkit/dev@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@formkit/dev/-/dev-1.0.0.tgz#1dfe1b71b1cd5669b9207f72773bbb00f723cb31"
@@ -188,13 +195,21 @@
     "@formkit/utils" "1.0.0"
     "@formkit/validation" "1.0.0"
 
-"@formkit/inputs@1.0.0", "@formkit/inputs@^1.0.0":
+"@formkit/inputs@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@formkit/inputs/-/inputs-1.0.0.tgz#21612e4b211c7e39b5caeedc0581acb024f4cc23"
   integrity sha512-fP8kBshH3SD19mei6nAqTq6LTHI4/C1eAP4BYMHBuLwKYMq4SrfPKTCrTNefz+DF3yRaUzUqRg5TgBGgt6wtTw==
   dependencies:
     "@formkit/core" "1.0.0"
     "@formkit/utils" "1.0.0"
+
+"@formkit/inputs@^1.0.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@formkit/inputs/-/inputs-1.1.0.tgz#947a11287d9c975b19aabb48077800b41cd17c24"
+  integrity sha512-R55gIS0dATpL6q1mAN5egXU1hruPADWunwfR9Ff42p/iMLEoKg/UxeUP6Lm8rUiZmqa5b6DD3deo6l68afNDAQ==
+  dependencies:
+    "@formkit/core" "1.1.0"
+    "@formkit/utils" "1.1.0"
 
 "@formkit/observer@1.0.0":
   version "1.0.0"
@@ -205,9 +220,9 @@
     "@formkit/utils" "1.0.0"
 
 "@formkit/pro@^0.115.3":
-  version "0.115.3"
-  resolved "https://registry.yarnpkg.com/@formkit/pro/-/pro-0.115.3.tgz#7b0d5b85704fb84339927f1412a4da30b8d27fe8"
-  integrity sha512-qFCkgDTXkKzCP8ulkOPMwH4vXtFLd+VSvyJvG2DagxdMxpNux9XCX2mUiIPnyDAl87ShOxektACZ1BSuuwZ5mg==
+  version "0.115.10"
+  resolved "https://registry.yarnpkg.com/@formkit/pro/-/pro-0.115.10.tgz#7fec7297d03b26fbc3e3222386f3881cadb5b982"
+  integrity sha512-ecMFnNmU9kL+C3d1X12GwVKG7wJUwEiP/yBEfiDwBDimaJc+u3nuyMfXJ1C6/nWTVI1vA19COmEz3J4o2Zro7g==
   dependencies:
     "@formkit/core" "^1.0.0"
     "@formkit/inputs" "^1.0.0"
@@ -232,6 +247,11 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-1.0.0.tgz#41515e58ec111ab06f7ebb568a6356ec2525a847"
   integrity sha512-5T8PbHOajP/eJuoEeLgxA0g25nyVUZKfy2V2mW8idoph+9PT0nZUoIP+KA/PJ2mmexqtuykMT0A5knW8MiXqsw==
+
+"@formkit/utils@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-1.1.0.tgz#eeee97828660deb5753b07370c3e5248e63b4b13"
+  integrity sha512-pxYqS+50yGj2NuUZtuayRP8CFKslzd+fbM/PaS5I3UmhQ8oJcj651KNLN2k5XGXSLYIll+VlaCCr4ny0HOd2Mw==
 
 "@formkit/validation@1.0.0":
   version "1.0.0"
