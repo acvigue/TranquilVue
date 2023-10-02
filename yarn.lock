@@ -199,10 +199,10 @@
     "@formkit/core" "1.2.1"
     "@formkit/utils" "1.2.1"
 
-"@formkit/pro@^0.116.0":
-  version "0.116.0"
-  resolved "https://registry.yarnpkg.com/@formkit/pro/-/pro-0.116.0.tgz#71321c62def31abdc3b5e55c35c943231cafa505"
-  integrity sha512-ahtRHp28eqM4PEuyOO2Xf7VAfbAd68r6aXMMqfz7t4hfAj68GfJyGJdm6NGDlIlz56559L2oIfXD2Nsz6ngkyA==
+"@formkit/pro@^0.117.0":
+  version "0.117.0"
+  resolved "https://registry.yarnpkg.com/@formkit/pro/-/pro-0.117.0.tgz#da6f27c7aa4b6168bcf2f3d10ce31258079a2215"
+  integrity sha512-LO/TdAKQM95JbdvpHMUz60OIwRtRFVL5t3Q9xsAX13oOn2lWOyJKhKlqBvaNiFL5HogwOuKZ62i3uRp3KPh/hw==
   dependencies:
     "@formkit/core" "^1.2.1"
     "@formkit/inputs" "^1.2.1"
