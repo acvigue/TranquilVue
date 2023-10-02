@@ -12,10 +12,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@formkit/core": "^1.0.0",
-    "@formkit/pro": "^0.115.3",
-    "@formkit/themes": "^1.0.0",
-    "@formkit/vue": "^1.0.0",
+    "@formkit/core": "^1.2.1",
+    "@formkit/pro": "^0.116.0",
+    "@formkit/themes": "^1.2.1",
+    "@formkit/vue": "^1.2.1",
     "@heroicons/vue": "^2.0.18",
     "axios": "^1.4.0",
     "d3": "^7.8.4",
@@ -58,6 +58,6 @@
     "vite": "^4.3.9",
     "vite-plugin-compression": "^0.5.1",
     "vite-svg-loader": "^4.0.0",
-    "vue-tsc": "^1.6.4"
+    "vue-tsc": "^1.8.15"
   }
 }

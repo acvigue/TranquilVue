@@ -11,7 +11,7 @@ interface ModalHeaderProps {
 
 const emit = defineEmits<{
   (e: 'close'): void
-  (e: 'update:toggle'): void
+  (e: 'update:toggle', value: boolean): void
 }>()
 
 const props = withDefaults(defineProps<ModalHeaderProps>(), {
@@ -44,7 +44,7 @@ watch(
         @input="
           (newValue?: boolean) => {
             toggleModel = newValue ?? false
-            $emit('update:toggle', newValue)
+            $emit('update:toggle', toggleModel)
           }
         "
         off-value-label="OFF"
