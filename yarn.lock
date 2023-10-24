@@ -164,14 +164,14 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.51.0.tgz#6d419c240cfb2b66da37df230f7e7eef801c32fa"
   integrity sha512-HxjQ8Qn+4SI3/AFv6sOrDB+g6PpUTDwSJiQqOrnneEk8L71161srI9gjzzZvYVbzHiVg/BvcH95+cK/zfIt4pg==
 
-"@formkit/core@1.2.1", "@formkit/core@^1.2.1":
+"@formkit/core@1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@formkit/core/-/core-1.2.1.tgz#789b48f3ce517bb1e7b82b6013b57a4e800a4277"
   integrity sha512-0sbtvYg1NzESYTOymUPjHYbNENeomBaN3UFsPgpQHZD6bkl+uH7wk0EZWFcdtpVXzd288DZIxQu5cLNj7u1+tg==
   dependencies:
     "@formkit/utils" "1.2.1"
 
-"@formkit/core@1.2.2":
+"@formkit/core@1.2.2", "@formkit/core@^1.2.1":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@formkit/core/-/core-1.2.2.tgz#4461b416a678b32ccc37e2f2268615460850ad6a"
   integrity sha512-aJoZW7ZWXdwVBdw2acv62aPaecZ44PnK9eyp/hdMrMxT9xW3I84MytCdII8DYpxLmloaE+NoUANZIvlkTRGlHg==
