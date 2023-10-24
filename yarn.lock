@@ -236,19 +236,12 @@
     "@formkit/utils" "1.2.2"
     "@formkit/validation" "1.2.2"
 
-"@formkit/themes@1.2.2":
+"@formkit/themes@1.2.2", "@formkit/themes@^1.2.1":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@formkit/themes/-/themes-1.2.2.tgz#9a4e7f6a6c9efbddc035cd8ea72a377f276dcb22"
   integrity sha512-YxNmReXkvuF9OP6wAHVyJvTZ+hd+zRfOyTjie75fQ1EkWCjcn2jk+DCY4U+IkgOnq6A/vcKjP5vyuQqsglUgAA==
   dependencies:
     "@formkit/core" "1.2.2"
-
-"@formkit/themes@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@formkit/themes/-/themes-1.2.1.tgz#a2d3cdddae1d9dcb8a2aa50898acdd37a23b9cf2"
-  integrity sha512-k48z8zitVJLASKeprKHG4vM82HM9TxRVhLjN/5kFgnMFqwxccNR8bArNCaPIfBjJfJmXLTpuQPDbaxXNrgqWUg==
-  dependencies:
-    "@formkit/core" "1.2.1"
 
 "@formkit/utils@1.2.1":
   version "1.2.1"
