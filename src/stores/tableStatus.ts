@@ -5,11 +5,13 @@ import { useModal } from 'vue-final-modal'
 import { useToast } from 'vue-toast-notification'
 import WiFiSettingsModal from '@/components/modals/WiFiSettingsModal.vue'
 import useLoader from '@/stores/loader'
+import useFiles from './files'
 
 const toast = useToast()
 
 export default defineStore('tableStatus', () => {
   const loader = useLoader()
+  const files = useFiles()
   const status = computed(() => {
     if (raw.value.pause === 0 && raw.value.file !== '') {
       return 'playing'
@@ -134,6 +136,10 @@ export default defineStore('tableStatus', () => {
   }
 
   const _updateRaw = (data: any) => {
+    if (data.uploadProgress) {
+      files.setUploadProgress(data.uploadProgress);
+      return;
+    }
     raw.value.Qd = data.Qd ?? 0
     raw.value.playlist = data.playlist ?? false
     raw.value.file = data.file ?? ''
@@ -182,7 +188,7 @@ export default defineStore('tableStatus', () => {
       _updateRaw(JSON.parse(msg))
     }
 
-    ws.onclose = async function (e) {
+    ws.onclose = async function () {
       toast.warning('Socket disconnected')
       loader.showLoader('ws', 'Re-establishing event loop')
       setTimeout(function () {
@@ -190,7 +196,7 @@ export default defineStore('tableStatus', () => {
       }, 1000)
     }
 
-    ws.onerror = async function (err) {
+    ws.onerror = async function () {
       toast.error('Socket errored')
       ws.close()
     }

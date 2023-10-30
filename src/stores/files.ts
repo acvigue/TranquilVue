@@ -38,6 +38,10 @@ export default defineStore('files', () => {
     return patterns.value.filter((pattern) => pattern.isFavorite === true)
   })
 
+  const setUploadProgress = (progress: number) => {
+    loader.showLoader('files', `${progress}%`)
+  }
+
   const getPlaylist = (uuid: string): Playlist => {
     return playlists.value.find((playlist) => playlist.uuid === uuid)!
   }
@@ -147,7 +151,7 @@ export default defineStore('files', () => {
     loader.hideLoader('files')
   }
 
-  refreshFiles().then(() => {})
+  refreshFiles().then(() => { })
 
   return {
     patterns,
@@ -160,6 +164,7 @@ export default defineStore('files', () => {
     getPlaylist,
     saveManifest,
     deleteFile,
-    uploadFile
+    uploadFile,
+    setUploadProgress
   }
 })
