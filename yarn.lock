@@ -193,6 +193,13 @@
   dependencies:
     "@formkit/utils" "1.2.1"
 
+"@formkit/core@1.6.7":
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/@formkit/core/-/core-1.6.7.tgz#78bb83e9b8aa31e725fed5950edeffa65667e5d8"
+  integrity sha512-wEoWK7crcCPRV5KJfEGLjjIS+qwbuD8I5Ur0zTtKRQrdO4oRL6kVoubxQOpgnq1l8sWfcRY8Wpf22Wna2LD20Q==
+  dependencies:
+    "@formkit/utils" "1.6.7"
+
 "@formkit/dev@1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@formkit/dev/-/dev-1.2.1.tgz#1dd9f2dea7b8981c62a7ca182af244a222d41520"
@@ -250,10 +257,22 @@
   dependencies:
     "@formkit/core" "1.2.1"
 
+"@formkit/themes@1.6.7":
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/@formkit/themes/-/themes-1.6.7.tgz#17f6e23d5924a8123a56a480db8ea8e984999629"
+  integrity sha512-TIiWr4TMAFUg1pQz2E4GErfAhBv2Q2VbWlk6pqXPWI8UyPTjmcinEnCSIWDCX6FPPqiYShBnh8123nTO7pyvjA==
+  dependencies:
+    "@formkit/core" "1.6.7"
+
 "@formkit/utils@1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-1.2.1.tgz#097a913e7208284e28793cbd497cfb32e5892835"
   integrity sha512-PHu/VR3nQHr1Lt6wb+J9pbUfVWdqqX6Qdq0NSjmUEtkNzvQlvRPXHpWePHiPgNR60G7zLoPHfnoCclfOMetTOQ==
+
+"@formkit/utils@1.6.7":
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/@formkit/utils/-/utils-1.6.7.tgz#11dcfa28b5d8e949752525aae068a9bb12b19b63"
+  integrity sha512-aU3CDLzCkC5Dnx6iS3swbsIbys7E+2VOaLWFRnS7wk7kFa8EnENi67qc2E2KFE05RT4UCEAIYMAQY6wvek29gA==
 
 "@formkit/validation@1.2.1":
   version "1.2.1"
